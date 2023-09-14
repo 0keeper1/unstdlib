@@ -2,7 +2,7 @@
 #include <stddef.h>
 #include <string.h>
 
-char *tolowerstrcopy(const char *strArg) {
+char *tolowerstrcopy(const char *const strArg) {
   size_t strLength = strlen(strArg);
   char *allocationPtr = (char *)calloc(strLength + 1, sizeof(char));
 
