@@ -1,6 +1,6 @@
 #include "unstdstring.h"
 
-char *tolowerstr(char (*strArg)[]) {
+char *tolowerstr(char (*const strArg)[]) {
   for (size_t i = 0; (*strArg)[i]; i++) {(*strArg)[i] = tolower((*strArg)[i]);}
   return *strArg;
 }
@@ -21,7 +21,7 @@ char *tolowerstrcopy(const char *const strArg) {
   allocationPtr[strLength] = '\0';
   return allocationPtr;
 }
-char *toupperstr(char (*strArg)[]) {
+char *toupperstr(char (*const strArg)[]) {
   for (size_t i = 0; (*strArg)[i]; i++) {
     (*strArg)[i] = toupper((*strArg)[i]);
   }
