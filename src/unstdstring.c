@@ -1,6 +1,4 @@
 #include "unstdstring.h"
-#include <stddef.h>
-#include <string.h>
 
 char *tolowerstrcopy(const char *const strArg) {
   size_t strLength = strlen(strArg);
