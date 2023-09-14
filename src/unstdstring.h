@@ -4,6 +4,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-char *tolowerstrcopy(const char *strArg);
+char *tolowerstrcopy(const char *const strArg);
 bool endswith(const char *const stringArg, const char checkOnArg);
 bool endswithignorecase(const char *const stringArg, const char checkOnArg);
