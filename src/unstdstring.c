@@ -113,3 +113,20 @@ bool unstd_isasciicontrolcharacter(const unsigned char bufferArg) {
     return bufferArg >= 0 && bufferArg <= 31 || bufferArg == 127 ? true : false;
 }
 
+/**
+ *
+ * @param bufferArg should be an ascii character
+ * @return whether a character is an ASCII control characters or not
+ */
+bool unstd_isasciiprintablecharacter(const unsigned char bufferArg) {
+    return bufferArg >= 32 && bufferArg <= 126 ? true : false;
+}
+
+/**
+ *
+ * @param bufferArg should be an ascii character
+ * @return whether a character is an ASCII control characters or not
+ */
+bool unstd_isasciiextendedcharacter(const unsigned char bufferArg) {
+    return bufferArg >= 128 && bufferArg <= 255 ? true : false;
+}

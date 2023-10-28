@@ -20,3 +20,5 @@ char *unstd_toupperstrcopy(const char *const bufferArg);
 void unstd_toupperstrarray(char (*const bufferArg)[]);
 
 bool unstd_isasciicontrolcharacter(const unsigned char bufferArg);
+bool unstd_isasciiprintablecharacter(const unsigned char bufferArg);
+bool unstd_isasciiextendedcharacter(const unsigned char bufferArg);

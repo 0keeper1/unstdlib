@@ -4,88 +4,261 @@
 #include <assert.h>
 
 // Headers
-#include "unstdstring.h"
+#include "../../../src/unstdstring.h"
+
+//! [strcmp]
+void test_unstd_strcmp(void) {
+    // [Succeeds]
+    assert(unstd_strcmp("0", "0"));
+    assert(unstd_strcmp("\0", "\0"));
+    assert(unstd_strcmp("\x1\n", "\x1\n"));
+    assert(unstd_strcmp("\x33", "\x33"));
+    assert(unstd_strcmp("\n\n\n\r\r\r", "\n\n\n\r\r\r"));
+
+    // [Fails]
+    assert(!unstd_strcmp("\0", "0"));
+    assert(!unstd_strcmp(0, 0));
+    assert(!unstd_strcmp("32", "0"));
+    assert(!unstd_strcmp("\n\n\n\r\r\r\b", "\n\n\n\r\r\r"));
+    assert(!unstd_strcmp(NULL, NULL));
+
+    notify("[+]", "`unstd_strcmp()` passed");
+}
 
 //! [endswith]
 void test_unstd_endswith(void) {
-    char *testStr = "Hello !";
+    char *test_buffer = "Hello, world!";
 
-    assert(unstd_endswith(testStr, '!') ? '+' : '-' == '+');
-    assert(unstd_endswith(testStr, 'a') ? '+' : '-' == '-');
-    assert(unstd_endswith(testStr, ' ') ? '+' : '-' == '-');
-    assert(unstd_endswith(testStr, '\42') ? '+' : '-' == '-');
-    assert(unstd_endswith(testStr, '\n') ? '+' : '-' == '-');
-    assert(unstd_endswith(testStr, '\r') ? '+' : '-' == '-');
-    assert(unstd_endswith(testStr, '$') ? '+' : '-' == '-');
-    assert(unstd_endswith(testStr, 0xff) ? '+' : '-' == '-');
-    assert(unstd_endswith(testStr, -2) ? '+' : '-' == '-');
-    assert(unstd_endswith(testStr, 0) ? '+' : '-' == '-');
-    assert(unstd_endswith(testStr, '\0') ? '+' : '-' == '-');
+    // [Succeeds]
+    assert(unstd_endswith(test_buffer, '!'));
+
+    // [Fails]
+    assert(!unstd_endswith(test_buffer, 'a'));
+    assert(!unstd_endswith(test_buffer, ' '));
+    assert(!unstd_endswith(test_buffer, '\42'));
+    assert(!unstd_endswith(test_buffer, '\n'));
+    assert(!unstd_endswith(test_buffer, '\r'));
+    assert(!unstd_endswith(test_buffer, '$'));
+    assert(!unstd_endswith(test_buffer, 0xff));
+    assert(!unstd_endswith(test_buffer, -2));
+    assert(!unstd_endswith(test_buffer, 0));
+    assert(!unstd_endswith(test_buffer, '\0'));
+
     notify("[+]", "`unstd_endswith()` passed");
 }
 
 //! [endswithignorecase]
 void test_unstd_endswithignorecase(void) {
-    char *testStr = "Hello World";
+    char *test_buffer = "Hello, world";
 
-    assert(unstd_endswithignorecase(testStr, 'd') ? '+' : '-' == '-');
-    assert(unstd_endswithignorecase(testStr, 'D') ? '+' : '-' == '+');
-    assert(unstd_endswithignorecase(testStr, ' ') ? '+' : '-' == '-');
-    assert(unstd_endswithignorecase(testStr, '\42') ? '+' : '-' == '-');
-    assert(unstd_endswithignorecase(testStr, '\n') ? '+' : '-' == '-');
-    assert(unstd_endswithignorecase(testStr, '\r') ? '+' : '-' == '-');
-    assert(unstd_endswithignorecase(testStr, '$') ? '+' : '-' == '-');
-    assert(unstd_endswithignorecase(testStr, 0xff) ? '+' : '-' == '-');
-    assert(unstd_endswithignorecase(testStr, -2) ? '+' : '-' == '-');
-    assert(unstd_endswithignorecase(testStr, 0) ? '+' : '-' == '-');
-    assert(unstd_endswithignorecase(testStr, '\0') ? '+' : '-' == '-');
-}
+    // [Succeeds]
+    assert(unstd_endswithignorecase(test_buffer, 'd'));
+    assert(unstd_endswithignorecase(test_buffer, 'D'));
 
-//! [tolowerstrcopy]
-void test_unstd_tolowerstrcopy(void) {
-    const char *input = "Hello, World!";
-    char *result = unstd_tolowerstrcopy(input);
-    printf("[%.100s]\n", result);
-    free(result);
+    // [Fails]
+    assert(!unstd_endswithignorecase(test_buffer, ' '));
+    assert(!unstd_endswithignorecase(test_buffer, '\42'));
+    assert(!unstd_endswithignorecase(test_buffer, '\n'));
+    assert(!unstd_endswithignorecase(test_buffer, '\r'));
+    assert(!unstd_endswithignorecase(test_buffer, '$'));
+    assert(!unstd_endswithignorecase(test_buffer, 0xff));
+    assert(!unstd_endswithignorecase(test_buffer, -2));
+    assert(!unstd_endswithignorecase(test_buffer, 0));
+    assert(!unstd_endswithignorecase(test_buffer, '\0'));
 
-    printf("[%.100s]\n", unstd_tolowerstrcopy("HEEElooo!!!"));
+    notify("[+]", "`unstd_endswithignorecase()` passed");
 }
 
 //! [tolowerstr]
 void test_unstd_tolowerstr(void) {
-    char input[] = "Hello, World!";
-    unstd_tolowerstr(&input);
-    printf("[%.100s]\n", input);
-    char input2[] = "Hello, WorldwW@RFE222!";
-    printf("[%.100s]\n", unstd_tolowerstr(&input2));
+    // heap-allocated test
+    char *test_buffer_heap_allocated = (char *) malloc(32);
+    char *const test_buffer_heap_allocated_copy = (char *) malloc(32);
+
+    strcpy(test_buffer_heap_allocated_copy, test_buffer_heap_allocated);
+    strcpy(test_buffer_heap_allocated, "Hello, world!");
+
+    unstd_tolowerstr(test_buffer_heap_allocated);
+
+    // [Succeeds]
+    assert(!unstd_strcmp(test_buffer_heap_allocated_copy, test_buffer_heap_allocated));
+    free(test_buffer_heap_allocated);
+
+    // c-array test
+    char test_buffer_c_array[] = "Hello, world!";
+    char test_buffer_c_array_copy[sizeof(test_buffer_c_array)] = {'\0'};
+
+    strcpy(test_buffer_c_array_copy, test_buffer_c_array);
+
+    unstd_tolowerstr(test_buffer_c_array);
+
+    // [Succeeds]
+    assert(!unstd_strcmp(test_buffer_c_array_copy, test_buffer_c_array));
+
+    notify("[+]", "`unstd_tolowerstr()` passed");
 }
 
-//! [toupperstrcopy]
-void test_unstd_toupperstrcopy(void) {
-    const char *input = "Hello, World! toupperstrcopy";
-    char *result = unstd_toupperstrcopy(input);
-    printf("[%.100s]\n", result);
-    free(result);
+//! [tolowerstrcopy]
+void test_unstd_tolowerstrcopy(void) {
+    // heap-allocated test
+    char *test_buffer_heap_allocated = (char *) malloc(32);
+    char *test_buffer_heap_allocated_result = NULL;
 
-    printf("[%.100s]\n", unstd_toupperstrcopy("HEEElooo!!! toupperstrcopy"));
+    strcpy(test_buffer_heap_allocated, "Hello, world!");
+
+    test_buffer_heap_allocated_result = unstd_tolowerstrcopy(test_buffer_heap_allocated);
+
+    // [Succeeds]
+    assert(!unstd_strcmp(test_buffer_heap_allocated_result, test_buffer_heap_allocated));
+    free(test_buffer_heap_allocated);
+
+
+    // c-array test
+    char test_buffer_c_array[] = "Hello, world!";
+    char test_buffer_c_array_result[sizeof(test_buffer_c_array)] = {'\0'};
+
+    char *test_buffer_c_array_result_temp = unstd_tolowerstrcopy(test_buffer_c_array);
+    strcpy(test_buffer_c_array_result, test_buffer_c_array_result_temp);
+    free(test_buffer_c_array_result_temp);
+
+    // [Succeeds]
+    assert(!unstd_strcmp(test_buffer_c_array_result, test_buffer_c_array));
+
+    // constant test
+    const char *test_buffer_constant = "Hello, World!";
+    char *test_buffer_constant_result = unstd_tolowerstrcopy(test_buffer_constant);
+
+    // [Succeeds]
+    assert(!unstd_strcmp(test_buffer_heap_allocated_result, test_buffer_constant));
+    free(test_buffer_constant_result);
+
+    notify("[+]", "`unstd_tolowerstrcopy()` passed");
 }
+
+//! [tolowerstrarray]
+void test_unstd_tolowerstrarray(void) {
+    char test_buffer_c_array[] = "Hello, world!";
+    char test_buffer_c_array_copy[sizeof(test_buffer_c_array)] = {'\0'};
+
+    strcpy(test_buffer_c_array_copy, test_buffer_c_array);
+
+    unstd_tolowerstrarray(&test_buffer_c_array);
+
+    // [Succeeds]
+    assert(!unstd_strcmp(test_buffer_c_array_copy, test_buffer_c_array));
+
+    notify("[+]", "`unstd_tolowerstrarray()` passed");
+}
+
 
 //! [toupperstr]
 void test_unstd_toupperstr(void) {
-    char input[] = "Hello, World!";
-    unstd_toupperstr(&input);
-    printf("[%.100s]\n", input);
-    char input2[] = "Hello, WorldwW@RFE222!";
-    printf("[%.100s]\n", unstd_toupperstr(&input2));
+    // heap-allocated test
+    char *test_buffer_heap_allocated = (char *) malloc(32);
+    char *const test_buffer_heap_allocated_copy = (char *) malloc(32);
+
+    strcpy(test_buffer_heap_allocated_copy, test_buffer_heap_allocated);
+    strcpy(test_buffer_heap_allocated, "Hello, world!");
+
+    unstd_toupperstr(test_buffer_heap_allocated);
+
+    // [Succeeds]
+    assert(!unstd_strcmp(test_buffer_heap_allocated_copy, test_buffer_heap_allocated));
+    free(test_buffer_heap_allocated);
+
+    // c-array test
+    char test_buffer_c_array[] = "Hello, world!";
+    char test_buffer_c_array_copy[sizeof(test_buffer_c_array)] = {'\0'};
+
+    strcpy(test_buffer_c_array_copy, test_buffer_c_array);
+
+    unstd_toupperstr(test_buffer_c_array);
+
+    // [Succeeds]
+    assert(!unstd_strcmp(test_buffer_c_array_copy, test_buffer_c_array));
+
+    notify("[+]", "`unstd_toupperstr()` passed");
 }
 
+
+//! [toupperstrcopy]
+void test_unstd_toupperstrcopy(void) {
+    // heap-allocated test
+    char *test_buffer_heap_allocated = (char *) malloc(32);
+    char *test_buffer_heap_allocated_result = NULL;
+
+    strcpy(test_buffer_heap_allocated, "Hello, world!");
+
+    test_buffer_heap_allocated_result = unstd_toupperstrcopy(test_buffer_heap_allocated);
+
+    // [Succeeds]
+    assert(!unstd_strcmp(test_buffer_heap_allocated_result, test_buffer_heap_allocated));
+    free(test_buffer_heap_allocated);
+
+
+    // c-array test
+    char test_buffer_c_array[] = "Hello, world!";
+    char test_buffer_c_array_result[sizeof(test_buffer_c_array)] = {'\0'};
+
+    char *test_buffer_c_array_result_temp = unstd_toupperstrcopy(test_buffer_c_array);
+    strcpy(test_buffer_c_array_result, test_buffer_c_array_result_temp);
+    free(test_buffer_c_array_result_temp);
+
+    // [Succeeds]
+    assert(!unstd_strcmp(test_buffer_c_array_result, test_buffer_c_array));
+
+    // constant test
+    const char *test_buffer_constant = "Hello, World!";
+    char *test_buffer_constant_result = unstd_toupperstrcopy(test_buffer_constant);
+
+    // [Succeeds]
+    assert(!unstd_strcmp(test_buffer_heap_allocated_result, test_buffer_constant));
+    free(test_buffer_constant_result);
+
+    notify("[+]", "`unstd_toupperstrcopy()` passed");
+}
+
+//! [toupperstrarray]
+void test_unstd_toupperstrarray(void) {
+    char test_buffer_c_array[] = "Hello, world!";
+    char test_buffer_c_array_copy[sizeof(test_buffer_c_array)] = {'\0'};
+
+    strcpy(test_buffer_c_array_copy, test_buffer_c_array);
+
+    unstd_toupperstrarray(&test_buffer_c_array);
+
+    // [Succeeds]
+    assert(!unstd_strcmp(test_buffer_c_array_copy, test_buffer_c_array));
+
+    notify("[+]", "`unstd_toupperstrarray()` passed");
+}
+
+
+void test_unstd_isasciicontrolcharacter(void) {
+    for (unsigned char ascii_buffer = 0x0; ascii_buffer <= 0x1F; ascii_buffer++) {
+        assert(unstd_isasciicontrolcharacter(ascii_buffer));
+    }
+    assert(unstd_isasciicontrolcharacter(0x7F));
+
+    notify("[+]", "`unstd_isasciicontrolcharacter()` passed");
+}
+
+
 void test_unstdstring(void) {
+    test_unstd_strcmp();
+
     test_unstd_endswith();
     test_unstd_endswithignorecase();
 
-    // test_endswithignorecase(); [+]
-    // test_tolowerstrcopy(); [+]
-    // test_tolowerstr(); [+]
-//  test_toupperstr();
-//  test_toupperstrcopy();
+    test_unstd_tolowerstr();
+    test_unstd_tolowerstrcopy();
+    test_unstd_tolowerstrarray();
+
+    test_unstd_toupperstr();
+    test_unstd_toupperstrcopy();
+    test_unstd_toupperstrarray();
+
+    test_unstd_isasciicontrolcharacter();
+
+    notify("[+]", "`unstdstring` passed");
 }

@@ -1,0 +1,6 @@
+# ninja log v5
+0	26	1698478996871825717	CMakeFiles/..dir/src/unstdstring.c.o	358f6018fd37bec7
+0	47	1698480447715149452	CMakeFiles/test_all.dir/test/test_unstdlib.c.o	6366a8cd609d5a7c
+0	24	1698480447693148888	CMakeFiles/test_all.dir/src/unstdstring.c.o	526d32da22b16076
+27	54	1698478996899826248	lib..a	c9af5504f9bab7b2
+47	61	1698480447729149810	test_all	19840742a8ae21b0
