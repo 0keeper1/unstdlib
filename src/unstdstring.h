@@ -3,11 +3,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 
-char *tolowerstr(char (*const strArg)[]);
-char *tolowerstrcopy(const char *const strArg);
-char *toupperstr(char (*const strArg)[]);
-char *toupperstrcopy(const char *const strArg);
 
-bool endswith(const char *const stringArg, const char checkOnArg);
-bool endswithignorecase(const char *const stringArg, const char checkOnArg);
+bool unstd_strcmp(const char *const fBufferArg, const char *const sBufferArg);
+
+bool unstd_endswith(const char *const stringArg, const char checkOnArg);
+bool unstd_endswithignorecase(const char *const stringArg, const char checkOnArg);
+
+void unstd_tolowerstr(char *const bufferArg);
+char *unstd_tolowerstrcopy(const char *const bufferArg);
+void unstd_tolowerstrarray(char (*const bufferArg)[]);
+
+void unstd_toupperstr(char *const bufferArg);
+char *unstd_toupperstrcopy(const char *const bufferArg);
+void unstd_toupperstrarray(char (*const bufferArg)[]);
+
+bool unstd_isasciicontrolcharacter(const unsigned char bufferArg);
