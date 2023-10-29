@@ -235,6 +235,7 @@ void test_unstd_toupperstrarray(void) {
 
 //! [isasciicontrolchar]
 void test_unstd_isasciicontrolchar(void) {
+    // [Succeeds]
     for (unsigned char ascii_buffer = 0x0; ascii_buffer <= 0x1F; ascii_buffer++) {
         assert(unstd_isasciicontrolchar(ascii_buffer));
     }
@@ -245,6 +246,7 @@ void test_unstd_isasciicontrolchar(void) {
 
 //! [isasciiprintablechar]
 void test_unstd_isasciiprintablechar(void) {
+    // [Succeeds]
     for (unsigned char ascii_buffer = 0x20; ascii_buffer <= 0x7E; ascii_buffer++) {
         assert(unstd_isasciiprintablechar(ascii_buffer));
     }
@@ -254,6 +256,7 @@ void test_unstd_isasciiprintablechar(void) {
 
 //! [isasciiextendedchar]
 void test_unstd_isasciiextendedchar(void) {
+    // [Succeeds]
     for (unsigned char ascii_buffer = 0x80; ascii_buffer >= 0x80 && ascii_buffer <= 0xFF; ascii_buffer++) {
         assert(unstd_isasciiextendedchar(ascii_buffer));
     }
@@ -263,6 +266,7 @@ void test_unstd_isasciiextendedchar(void) {
 
 //! [isalphabeticchar]
 void test_unstd_isalphabeticchar(void) {
+    // [Succeeds]
     // [A-Z]
     for (unsigned char char_buffer = 'A'; char_buffer <= (unsigned char) 'Z'; char_buffer++) {
         assert(unstd_isalphabeticchar(char_buffer));
@@ -273,11 +277,15 @@ void test_unstd_isalphabeticchar(void) {
         assert(unstd_isalphabeticchar(char_buffer));
     }
 
+    // [Fails]
+    assert(!unstd_isalphabeticchar('0'));
+
     notify("[+]", "`unstd_isalphabeticchar()` passed");
 }
 
 //! [isalphanumericchar]
 void test_unstd_isalphanumericchar(void) {
+    // [Succeeds]
     // [A-Z]
     for (unsigned char char_buffer = 'A'; char_buffer <= (unsigned char) 'Z'; char_buffer++) {
         assert(unstd_isalphanumericchar(char_buffer));
@@ -293,9 +301,25 @@ void test_unstd_isalphanumericchar(void) {
         assert(unstd_isalphanumericchar(char_buffer));
     }
 
+    // [Fails]
+    assert(!unstd_isalphanumericchar('-'));
+
     notify("[+]", "`unstd_isalphanumericchar()` passed");
 }
 
+//! [isdigitchar]
+void test_unstd_isdigitchar(void) {
+    // [Succeeds]
+    // [0-9]
+    for (unsigned char char_buffer = '0'; char_buffer <= (unsigned char) '9'; char_buffer++) {
+        assert(unstd_isdigitchar(char_buffer));
+    }
+
+    // [Fails]
+    assert(!unstd_isdigitchar('a'));
+
+    notify("[+]", "`unstd_isdigitchar()` passed");
+}
 
 void test_unstdstring(void) {
     test_unstd_strcmp();
@@ -317,6 +341,7 @@ void test_unstdstring(void) {
 
     test_unstd_isalphabeticchar();
     test_unstd_isalphanumericchar();
+    test_unstd_isdigitchar();
 
     notify("[+]", "`unstdstring` passed");
 }
