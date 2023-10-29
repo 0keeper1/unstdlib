@@ -233,7 +233,7 @@ void test_unstd_toupperstrarray(void) {
     notify("[+]", "`unstd_toupperstrarray()` passed");
 }
 
-
+//! [isasciicontrolcharacter]
 void test_unstd_isasciicontrolcharacter(void) {
     for (unsigned char ascii_buffer = 0x0; ascii_buffer <= 0x1F; ascii_buffer++) {
         assert(unstd_isasciicontrolcharacter(ascii_buffer));
@@ -241,6 +241,24 @@ void test_unstd_isasciicontrolcharacter(void) {
     assert(unstd_isasciicontrolcharacter(0x7F));
 
     notify("[+]", "`unstd_isasciicontrolcharacter()` passed");
+}
+
+//! [isasciiprintablecharacter]
+void test_unstd_isasciiprintablecharacter(void) {
+    for (unsigned char ascii_buffer = 0x20; ascii_buffer <= 0x7E; ascii_buffer++) {
+        assert(unstd_isasciiprintablecharacter(ascii_buffer));
+    }
+
+    notify("[+]", "`unstd_isasciiprintablecharacter()` passed");
+}
+
+//! [isasciiextendedcharacter]
+void test_unstd_isasciiextendedcharacter(void) {
+    for (unsigned char ascii_buffer = 0x80; ascii_buffer >= 0x80 && ascii_buffer <= 0xFF; ascii_buffer++) {
+        assert(unstd_isasciiextendedcharacter(ascii_buffer));
+    }
+
+    notify("[+]", "`unstd_isasciiextendedcharacter()` passed");
 }
 
 
@@ -259,6 +277,8 @@ void test_unstdstring(void) {
     test_unstd_toupperstrarray();
 
     test_unstd_isasciicontrolcharacter();
+    test_unstd_isasciiprintablecharacter();
+    test_unstd_isasciiextendedcharacter();
 
     notify("[+]", "`unstdstring` passed");
 }
