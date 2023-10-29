@@ -261,6 +261,21 @@ void test_unstd_isasciiextendedchar(void) {
     notify("[+]", "`unstd_isasciiextendedchar()` passed");
 }
 
+//! [isalphabeticchar]
+void test_unstd_isalphabeticchar(void) {
+    // [A-Z]
+    for (unsigned char char_buffer = 'A'; char_buffer <= (unsigned char) 'Z'; char_buffer++) {
+        assert(unstd_isalphabeticchar(char_buffer));
+    }
+
+    // [a-z]
+    for (unsigned char char_buffer = 'a'; char_buffer <= (unsigned char) 'z'; char_buffer++) {
+        assert(unstd_isalphabeticchar(char_buffer));
+    }
+
+    notify("[+]", "`unstd_isalphabeticchar()` passed");
+}
+
 
 void test_unstdstring(void) {
     test_unstd_strcmp();
@@ -279,6 +294,8 @@ void test_unstdstring(void) {
     test_unstd_isasciicontrolchar();
     test_unstd_isasciiprintablechar();
     test_unstd_isasciiextendedchar();
+
+    test_unstd_isalphabeticchar();
 
     notify("[+]", "`unstdstring` passed");
 }
