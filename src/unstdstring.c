@@ -149,3 +149,12 @@ bool unstd_isalphabeticchar(const unsigned char bufferArg) {
 bool unstd_isalphanumericchar(const unsigned char bufferArg) {
     return unstd_isalphabeticchar(bufferArg) || bufferArg >= '0' && bufferArg <= '9';
 }
+
+/**
+ *
+ * @param bufferArg should be a character
+ * @return whether a character is within the range A-Z, a-z, 0-9 or not
+ */
+bool unstd_isdigitchar(const unsigned char bufferArg) {
+    return bufferArg >= '0' && bufferArg <= '9';
+}

@@ -25,3 +25,4 @@ bool unstd_isasciiextendedchar(const unsigned char bufferArg);
 
 bool unstd_isalphabeticchar(const unsigned char bufferArg);
 bool unstd_isalphanumericchar(const unsigned char bufferArg);
+bool unstd_isdigitchar(const unsigned char bufferArg);
