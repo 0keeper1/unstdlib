@@ -17,7 +17,7 @@ bool unstd_strcmp(const char *const fBufferArg, const char *const sBufferArg) {
  * @param checkOnArg the character which the function performs the operation on
  * @return a boolean indicating the state of operation
  */
-bool unstd_endswith(const char *const bufferArg, const char checkOnArg) {
+bool unstd_endswithchar(const char *const bufferArg, const char checkOnArg) {
     return bufferArg[strlen(bufferArg) - 1] == checkOnArg ? true : false;
 }
 
@@ -27,7 +27,7 @@ bool unstd_endswith(const char *const bufferArg, const char checkOnArg) {
  * @param checkOnArg the character which the function performs the operation on
  * @return a boolean indicating the state of operation
  */
-bool unstd_endswithignorecase(const char *const bufferArg, const char checkOnArg) {
+bool unstd_endswithcharignorecase(const char *const bufferArg, const char checkOnArg) {
     return tolower(bufferArg[strlen(bufferArg) - 1]) == tolower(checkOnArg) ? true : false;
 }
 
@@ -107,26 +107,26 @@ void unstd_toupperstrarray(char (*const bufferArg)[]) {
 /**
  *
  * @param bufferArg should be an ascii character
- * @return whether a character is an ASCII control characters or not
+ * @return whether a character is an ASCII control character or not
  */
-bool unstd_isasciicontrolcharacter(const unsigned char bufferArg) {
+bool unstd_isasciicontrolchar(const unsigned char bufferArg) {
     return bufferArg >= 0 && bufferArg <= 31 || bufferArg == 127 ? true : false;
 }
 
 /**
  *
  * @param bufferArg should be an ascii character
- * @return whether a character is an ASCII control characters or not
+ * @return whether a character is an ASCII printable character or not
  */
-bool unstd_isasciiprintablecharacter(const unsigned char bufferArg) {
+bool unstd_isasciiprintablechar(const unsigned char bufferArg) {
     return bufferArg >= 32 && bufferArg <= 126 ? true : false;
 }
 
 /**
  *
  * @param bufferArg should be an ascii character
- * @return whether a character is an ASCII control characters or not
+ * @return whether a character is an ASCII extended character or not
  */
-bool unstd_isasciiextendedcharacter(const unsigned char bufferArg) {
+bool unstd_isasciiextendedchar(const unsigned char bufferArg) {
     return bufferArg >= 128 && bufferArg <= 255 ? true : false;
 }

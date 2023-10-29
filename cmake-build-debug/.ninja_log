@@ -1,0 +1,13 @@
+# ninja log v5
+0	27	1698566895382898552	CMakeFiles/..dir/src/unstdstring.c.o	358f6018fd37bec7
+27	64	1698566895418941918	lib..a	c9af5504f9bab7b2
+0	49	1698566895405926258	CMakeFiles/test_unstdstring.dir/test/test_headers/unstdstring/test_unstdstring.c.o	a470e8de34b4929c
+64	77	1698566895432958783	test_unstdstring	2aa705cf5f056c86
+0	46	1698567724215922816	CMakeFiles/..dir/src/unstdstring.c.o	358f6018fd37bec7
+46	85	1698567724254914850	lib..a	c9af5504f9bab7b2
+1	88	1698567724257914237	CMakeFiles/test_unstdstring.dir/test/test_headers/unstdstring/test_unstdstring.c.o	a470e8de34b4929c
+88	113	1698567724282909130	test_unstdstring	2aa705cf5f056c86
+0	45	1698568424855763022	CMakeFiles/..dir/src/unstdstring.c.o	358f6018fd37bec7
+45	87	1698568424896777068	lib..a	c9af5504f9bab7b2
+1	90	1698568424900778438	CMakeFiles/test_unstdstring.dir/test/test_headers/unstdstring/test_unstdstring.c.o	a470e8de34b4929c
+90	113	1698568424922785975	test_unstdstring	2aa705cf5f056c86
