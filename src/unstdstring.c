@@ -18,7 +18,7 @@ bool unstd_strcmp(const char *const fBufferArg, const char *const sBufferArg) {
  * @return a boolean indicating the state of operation
  */
 bool unstd_endswithchar(const char *const bufferArg, const char checkOnArg) {
-    return bufferArg[strlen(bufferArg) - 1] == checkOnArg ? true : false;
+    return bufferArg[strlen(bufferArg) - 1] == checkOnArg;
 }
 
 /**
@@ -28,7 +28,7 @@ bool unstd_endswithchar(const char *const bufferArg, const char checkOnArg) {
  * @return a boolean indicating the state of operation
  */
 bool unstd_endswithcharignorecase(const char *const bufferArg, const char checkOnArg) {
-    return tolower(bufferArg[strlen(bufferArg) - 1]) == tolower(checkOnArg) ? true : false;
+    return tolower(bufferArg[strlen(bufferArg) - 1]) == tolower(checkOnArg);
 }
 
 /**
@@ -110,7 +110,7 @@ void unstd_toupperstrarray(char (*const bufferArg)[]) {
  * @return whether a character is an ASCII control character or not
  */
 bool unstd_isasciicontrolchar(const unsigned char bufferArg) {
-    return bufferArg >= 0 && bufferArg <= 31 || bufferArg == 127 ? true : false;
+    return bufferArg >= 0 && bufferArg <= 31 || bufferArg == 127;
 }
 
 /**
@@ -119,7 +119,7 @@ bool unstd_isasciicontrolchar(const unsigned char bufferArg) {
  * @return whether a character is an ASCII printable character or not
  */
 bool unstd_isasciiprintablechar(const unsigned char bufferArg) {
-    return bufferArg >= 32 && bufferArg <= 126 ? true : false;
+    return bufferArg >= 32 && bufferArg <= 126;
 }
 
 /**
@@ -128,7 +128,7 @@ bool unstd_isasciiprintablechar(const unsigned char bufferArg) {
  * @return whether a character is an ASCII extended character or not
  */
 bool unstd_isasciiextendedchar(const unsigned char bufferArg) {
-    return bufferArg >= 128 && bufferArg <= 255 ? true : false;
+    return bufferArg >= 128 && bufferArg <= 255;
 }
 
 
@@ -138,7 +138,7 @@ bool unstd_isasciiextendedchar(const unsigned char bufferArg) {
  * @return whether a character is within the range A-Z, a-z or not
  */
 bool unstd_isalphabeticchar(const unsigned char bufferArg) {
-    return bufferArg >= 'a' && bufferArg <= 'z' || bufferArg >= 'A' && bufferArg <= 'Z' ? true : false;
+    return bufferArg >= 'a' && bufferArg <= 'z' || bufferArg >= 'A' && bufferArg <= 'Z';
 }
 
 /**
@@ -147,5 +147,5 @@ bool unstd_isalphabeticchar(const unsigned char bufferArg) {
  * @return whether a character is within the range A-Z, a-z, 0-9 or not
  */
 bool unstd_isalphanumericchar(const unsigned char bufferArg) {
-    return unstd_isalphabeticchar(bufferArg) || bufferArg >= '0' && bufferArg <= '9' ? true : false;
+    return unstd_isalphabeticchar(bufferArg) || bufferArg >= '0' && bufferArg <= '9';
 }
