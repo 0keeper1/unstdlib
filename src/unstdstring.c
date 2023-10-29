@@ -130,3 +130,13 @@ bool unstd_isasciiprintablechar(const unsigned char bufferArg) {
 bool unstd_isasciiextendedchar(const unsigned char bufferArg) {
     return bufferArg >= 128 && bufferArg <= 255 ? true : false;
 }
+
+
+/**
+ *
+ * @param bufferArg should be a character
+ * @return whether a character is within the range A-Z, a-z or not
+ */
+bool unstd_isalphabeticchar(const unsigned char bufferArg) {
+    return bufferArg >= 'a' && bufferArg <= 'z' || bufferArg >= 'A' && bufferArg <= 'Z' ? true : false;
+}
