@@ -432,6 +432,25 @@ void test_unstd_ishexchar(void) {
     notify("[+]", "`unstd_ishexchar()` passed");
 }
 
+//! [iswhitespace]
+void test_unstd_iswhitespace(void) {
+    // [Succeeds]
+    assert(unstd_iswhitespace(' '));
+    assert(unstd_iswhitespace('\t'));
+    assert(unstd_iswhitespace('\r'));
+    assert(unstd_iswhitespace('\n'));
+    assert(unstd_iswhitespace(10));
+    assert(unstd_iswhitespace(11));
+    assert(unstd_iswhitespace(12));
+    assert(unstd_iswhitespace(13));
+
+    // [Fails]
+    assert(!unstd_iswhitespace('\b'));
+    assert(!unstd_iswhitespace('a'));
+    assert(!unstd_iswhitespace('\2'));
+
+    notify("[+]", "`unstd_iswhitespace()` passed");
+}
 
 
 void test_unstdstring(void) {
@@ -468,6 +487,7 @@ void test_unstdstring(void) {
     test_unstd_isalphanumericchar();
     test_unstd_isdigitchar();
     test_unstd_ishexchar();
+    test_unstd_iswhitespace();
 
     notify("[+]", "`unstdstring` passed");
 }
