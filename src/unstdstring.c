@@ -162,3 +162,7 @@ bool unstd_isdigitchar(const unsigned char bufferArg) {
     return bufferArg >= '0' && bufferArg <= '9';
 }
 
+
+bool unstd_ishexchar(const unsigned char bufferArg) {
+    return unstd_isdigitchar(bufferArg) || bufferArg >= 'a' && bufferArg <= 'f' || bufferArg >= 'A' && bufferArg <= 'F';
+}

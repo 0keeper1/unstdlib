@@ -140,20 +140,27 @@ bool unstd_isasciiextendedchar(const unsigned char bufferArg);
 /**
  *
  * @param bufferArg should be a character
- * @return whether a character is within the range A-Z, a-z or not
+ * @return whether a character is within the ranges A-Z, a-z or not
  */
 bool unstd_isalphabeticchar(const unsigned char bufferArg);
 
 /**
  *
  * @param bufferArg should be a character
- * @return whether a character is within the range A-Z, a-z, 0-9 or not
+ * @return whether a character is within the ranges A-Z, a-z, 0-9 or not
  */
 bool unstd_isalphanumericchar(const unsigned char bufferArg);
 
 /**
 *
 * @param bufferArg should be a character
-* @return whether a character is within the range A-Z, a-z, 0-9 or not
+* @return whether a character is within the range 0-9 or not
 */
 bool unstd_isdigitchar(const unsigned char bufferArg);
+
+/**
+*
+* @param bufferArg should be a character
+* @return whether a character is within the ranges A-f, a-f, 0-9 or not
+*/
+bool unstd_ishexchar(const unsigned char bufferArg);
