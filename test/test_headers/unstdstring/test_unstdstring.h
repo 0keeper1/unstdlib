@@ -6,6 +6,19 @@
 // Headers
 #include "../../../src/unstdstring.h"
 
+//! [charcmp]
+void test_unstd_charcmp(void) {
+    // [Succeeds]
+    assert(unstd_charcmp('0', '0'));
+    assert(unstd_charcmp(2, 2));
+    assert(unstd_charcmp('`', '`'));
+
+    // [Fails]
+    assert(!unstd_charcmp(' ', '2'));
+
+    notify("[+]", "`unstd_charcmp()` passed");
+}
+
 //! [strcmp]
 void test_unstd_strcmp(void) {
     // [Succeeds]
@@ -390,6 +403,7 @@ void test_unstd_isdigitchar(void) {
 
 void test_unstdstring(void) {
     //! [compare]
+    test_unstd_charcmp();
     test_unstd_strcmp();
     test_unstd_strcmpignorecase();
 
