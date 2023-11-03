@@ -16,7 +16,7 @@ void test_unstd_strcmp(void) {
     assert(unstd_strcmp("\n\n\n\r\r\r", "\n\n\n\r\r\r"));
 
     // [Fails]
-    assert(!unstd_strcmp("\0", "0"));
+    assert(!unstd_strcmp("\10", "0"));
     assert(!unstd_strcmp(0, 0));
     assert(!unstd_strcmp("32", "0"));
     assert(!unstd_strcmp("\n\n\n\r\r\r\b", "\n\n\n\r\r\r"));
@@ -25,8 +25,75 @@ void test_unstd_strcmp(void) {
     notify("[+]", "`unstd_strcmp()` passed");
 }
 
-//! [endswith]
-void test_unstd_endswith(void) {
+//! [strcmpignorecase]
+void test_unstd_strcmpignorecase(void) {
+    // [Succeeds]
+    assert(unstd_strcmpignorecase("0", "0"));
+    assert(unstd_strcmpignorecase("\0", "\0"));
+    assert(unstd_strcmpignorecase("\x1\n", "\x1\n"));
+    assert(unstd_strcmpignorecase("\x33", "\x33"));
+    assert(unstd_strcmpignorecase("\n\n\n\r\r\r", "\n\n\n\r\r\r"));
+    assert(unstd_strcmpignorecase("\n\n\n\r\r\r", "\n\n\n\r\r\r"));
+    assert(unstd_strcmpignorecase("Hello World", "hello world"));
+
+    // [Fails]
+    assert(!unstd_strcmpignorecase("\0", "0"));
+    assert(!unstd_strcmpignorecase(0, 0));
+    assert(!unstd_strcmpignorecase("32", "0"));
+    assert(!unstd_strcmpignorecase("\n\n\n\r\r\r\b", "\n\n\n\r\r\r"));
+    assert(!unstd_strcmpignorecase(NULL, NULL));
+    assert(!unstd_strcmpignorecase("Hello World!", "hello world"));
+
+
+    notify("[+]", "`unstd_strcmpignorecase()` passed");
+}
+
+//! [startswithchar]
+void test_unstd_startswithchar(void) {
+    char *test_buffer = "Hello, world!";
+
+    // [Succeeds]
+    assert(unstd_startswithchar(test_buffer, 'H'));
+
+    // [Fails]
+    assert(!unstd_startswithchar(test_buffer, 'a'));
+    assert(!unstd_startswithchar(test_buffer, ' '));
+    assert(!unstd_startswithchar(test_buffer, '\42'));
+    assert(!unstd_startswithchar(test_buffer, '\n'));
+    assert(!unstd_startswithchar(test_buffer, '\r'));
+    assert(!unstd_startswithchar(test_buffer, '$'));
+    assert(!unstd_startswithchar(test_buffer, 0xff));
+    assert(!unstd_startswithchar(test_buffer, -2));
+    assert(!unstd_startswithchar(test_buffer, 0));
+    assert(!unstd_startswithchar(test_buffer, '\0'));
+
+    notify("[+]", "`unstd_startswithchar()` passed");
+}
+
+//! [startswithcharignorecase]
+void test_unstd_startswithcharignorecase(void) {
+    char *test_buffer = "Hello, world";
+
+    // [Succeeds]
+    assert(unstd_startswithcharignorecase(test_buffer, 'h'));
+    assert(unstd_startswithcharignorecase(test_buffer, 'H'));
+
+    // [Fails]
+    assert(!unstd_startswithcharignorecase(test_buffer, ' '));
+    assert(!unstd_startswithcharignorecase(test_buffer, '\42'));
+    assert(!unstd_startswithcharignorecase(test_buffer, '\n'));
+    assert(!unstd_startswithcharignorecase(test_buffer, '\r'));
+    assert(!unstd_startswithcharignorecase(test_buffer, '$'));
+    assert(!unstd_startswithcharignorecase(test_buffer, 0xff));
+    assert(!unstd_startswithcharignorecase(test_buffer, -2));
+    assert(!unstd_startswithcharignorecase(test_buffer, 0));
+    assert(!unstd_startswithcharignorecase(test_buffer, '\0'));
+
+    notify("[+]", "`unstd_startswithcharignorecase()` passed");
+}
+
+//! [endswithchar]
+void test_unstd_endswithchar(void) {
     char *test_buffer = "Hello, world!";
 
     // [Succeeds]
@@ -47,8 +114,8 @@ void test_unstd_endswith(void) {
     notify("[+]", "`unstd_endswithchar()` passed");
 }
 
-//! [endswithignorecase]
-void test_unstd_endswithignorecase(void) {
+//! [endswithcharignorecase]
+void test_unstd_endswithcharignorecase(void) {
     char *test_buffer = "Hello, world";
 
     // [Succeeds]
@@ -322,19 +389,30 @@ void test_unstd_isdigitchar(void) {
 }
 
 void test_unstdstring(void) {
+    //! [compare]
     test_unstd_strcmp();
+    test_unstd_strcmpignorecase();
 
-    test_unstd_endswith();
-    test_unstd_endswithignorecase();
+    //! [startswith]
+    test_unstd_startswithchar();
+    test_unstd_startswithcharignorecase();
 
+    //! [endswith]
+    test_unstd_endswithchar();
+    test_unstd_endswithcharignorecase();
+
+    //! [tolower]
     test_unstd_tolowerstr();
     test_unstd_tolowerstrcopy();
     test_unstd_tolowerstrarray();
 
+    //! [toupper]
     test_unstd_toupperstr();
     test_unstd_toupperstrcopy();
     test_unstd_toupperstrarray();
 
+    //! [is]
+    //! [isascii]
     test_unstd_isasciicontrolchar();
     test_unstd_isasciiprintablechar();
     test_unstd_isasciiextendedchar();
