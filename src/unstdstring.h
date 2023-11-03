@@ -6,7 +6,7 @@
 #include <stdarg.h>
 
 
-//! [cmp]
+//! [compare]
 /**
  *
  * @param fBufferArg a pointer to a null-terminated buffer
@@ -14,6 +14,32 @@
  * @return true if both buffers are identical to each other otherwise false
  */
 bool unstd_strcmp(const char *const fBufferArg, const char *const sBufferArg);
+
+/**
+ *
+ * @param fBufferArg a pointer to a null-terminated buffer
+ * @param sBufferArg a pointer to a null-terminated buffer
+ * @return ;true if both buffers are identical to each other otherwise false
+ */
+bool unstd_strcmpignorecase(const char *const fBufferArg, const char *const sBufferArg);
+
+
+//! [startswith]
+/**
+*
+* @param bufferArg a pointer to a null-terminated buffer
+* @param checkOnArg the character which the function performs the operation on
+* @return a boolean indicating the state of operation
+*/
+bool unstd_startswithchar(const char *const bufferArg, const char checkOnArg);
+
+/**
+ *
+ * @param bufferArg should be a pointer to a null-terminated heap-allocated / c-array buffer
+ * @param checkOnArg the character which the function performs the operation on
+ * @return a pointer to the first character of the modified buffer
+ */
+bool unstd_startswithcharignorecase(const char *const bufferArg, const char checkOnArg);
 
 
 //! [endswith]
@@ -28,6 +54,7 @@ bool unstd_endswithchar(const char *const bufferArg, const char checkOnArg);
 /**
  *
  * @param bufferArg should be a pointer to a null-terminated heap-allocated / c-array buffer
+ * @param checkOnArg the character which the function performs the operation on
  * @return a pointer to the first character of the modified buffer
  */
 bool unstd_endswithcharignorecase(const char *const bufferArg, const char checkOnArg);

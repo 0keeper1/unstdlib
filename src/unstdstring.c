@@ -6,12 +6,68 @@ bool unstd_strcmp(const char *const fBufferArg, const char *const sBufferArg) {
 }
 
 
+bool unstd_strcmpignorecase(const char *const fBufferArg, const char *const sBufferArg) {
+    if (fBufferArg == NULL && sBufferArg == NULL) {
+        return false;
+    }
+
+    char *lowered_fBufferArg = unstd_tolowerstrcopy(fBufferArg);
+    char *lowered_sBufferArg = unstd_tolowerstrcopy(sBufferArg);
+    bool strcmp_result = unstd_strcmp(lowered_fBufferArg, lowered_sBufferArg);
+    free(lowered_sBufferArg);
+    free(lowered_fBufferArg);
+    return strcmp_result;
+}
+
+
+bool unstd_startswithchar(const char *const bufferArg, const char checkOnArg) {
+    if (bufferArg == NULL) {
+        return false;
+    }
+
+    if (strlen(bufferArg) < 1) {
+        return false;
+    }
+
+    return *bufferArg == checkOnArg;
+}
+
+
+bool unstd_startswithcharignorecase(const char *const bufferArg, const char checkOnArg) {
+    if (bufferArg == NULL) {
+        return false;
+    }
+
+    if (strlen(bufferArg) < 1) {
+        return false;
+    }
+
+    return tolower(*bufferArg) == tolower(checkOnArg);
+}
+
+
 bool unstd_endswithchar(const char *const bufferArg, const char checkOnArg) {
+    if (bufferArg == NULL) {
+        return false;
+    }
+
+    if (strlen(bufferArg) < 1) {
+        return false;
+    }
+
     return bufferArg[strlen(bufferArg) - 1] == checkOnArg;
 }
 
 
 bool unstd_endswithcharignorecase(const char *const bufferArg, const char checkOnArg) {
+    if (bufferArg == NULL) {
+        return false;
+    }
+
+    if (strlen(bufferArg) < 1) {
+        return false;
+    }
+
     return tolower(bufferArg[strlen(bufferArg) - 1]) == tolower(checkOnArg);
 }
 
@@ -22,6 +78,10 @@ void unstd_tolowerstr(char *const bufferArg) {
 
 
 char *unstd_tolowerstrcopy(const char *const bufferArg) {
+    if (bufferArg == NULL) {
+        return NULL;
+    }
+
     char *allocationPtr = (char *) calloc(strlen(bufferArg) + 1, sizeof(char));
     if (allocationPtr == NULL) {
         return NULL;
@@ -46,8 +106,11 @@ void unstd_toupperstr(char *const bufferArg) {
 
 
 char *unstd_toupperstrcopy(const char *const bufferArg) {
-    size_t strLength = strlen(bufferArg);
-    char *allocationPtr = (char *) calloc(strLength + 1, sizeof(char));
+    if (bufferArg == NULL) {
+        return NULL;
+    }
+
+    char *allocationPtr = (char *) calloc(strlen(bufferArg) + 1, sizeof(char));
     if (allocationPtr == NULL) {
         return NULL;
     }
@@ -93,3 +156,4 @@ bool unstd_isalphanumericchar(const unsigned char bufferArg) {
 bool unstd_isdigitchar(const unsigned char bufferArg) {
     return bufferArg >= '0' && bufferArg <= '9';
 }
+
