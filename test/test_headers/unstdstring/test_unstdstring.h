@@ -397,9 +397,42 @@ void test_unstd_isdigitchar(void) {
 
     // [Fails]
     assert(!unstd_isdigitchar('a'));
+    assert(!unstd_isdigitchar(2));
+    assert(!unstd_isdigitchar(0));
+    assert(!unstd_isdigitchar(255));
 
     notify("[+]", "`unstd_isdigitchar()` passed");
 }
+
+//! [ishexchar]
+void test_unstd_ishexchar(void) {
+    // [Succeeds]
+    // [A-F]
+    for (unsigned char char_buffer = 'A'; char_buffer <= (unsigned char) 'F'; char_buffer++) {
+//        printf("%c\n", char_buffer);
+        assert(unstd_ishexchar(char_buffer));
+    }
+
+    // [a-f]
+    for (unsigned char char_buffer = 'a'; char_buffer <= (unsigned char) 'f'; char_buffer++) {
+        assert(unstd_ishexchar(char_buffer));
+    }
+
+    // [0-9]
+    for (unsigned char char_buffer = '0'; char_buffer <= (unsigned char) '9'; char_buffer++) {
+        assert(unstd_ishexchar(char_buffer));
+    }
+
+    // [Fails]
+    assert(!unstd_ishexchar('g'));
+    assert(!unstd_ishexchar('h'));
+    assert(!unstd_ishexchar(255));
+    assert(!unstd_ishexchar(0));
+
+    notify("[+]", "`unstd_ishexchar()` passed");
+}
+
+
 
 void test_unstdstring(void) {
     //! [compare]
@@ -434,6 +467,7 @@ void test_unstdstring(void) {
     test_unstd_isalphabeticchar();
     test_unstd_isalphanumericchar();
     test_unstd_isdigitchar();
+    test_unstd_ishexchar();
 
     notify("[+]", "`unstdstring` passed");
 }
