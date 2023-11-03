@@ -1,6 +1,11 @@
 #include "unstdstring.h"
 
 
+bool unstd_charcmp(const unsigned char fBufferArg, const unsigned char sBufferArg) {
+    return fBufferArg == sBufferArg;
+}
+
+
 bool unstd_strcmp(const char *const fBufferArg, const char *const sBufferArg) {
     return fBufferArg != NULL && sBufferArg != NULL ? !strcmp(fBufferArg, sBufferArg) : false;
 }

@@ -9,6 +9,14 @@
 //! [compare]
 /**
  *
+ * @param fBufferArg should be a character
+ * @param sBufferArg should be a character
+ * @return true if both buffers are identical to each other otherwise false
+ */
+bool unstd_charcmp(const unsigned char fBufferArg, const unsigned char sBufferArg);
+
+/**
+ *
  * @param fBufferArg a pointer to a null-terminated buffer
  * @param sBufferArg a pointer to a null-terminated buffer
  * @return true if both buffers are identical to each other otherwise false
