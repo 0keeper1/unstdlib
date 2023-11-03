@@ -164,3 +164,10 @@ bool unstd_isdigitchar(const unsigned char bufferArg);
 * @return whether a character is within the ranges A-f, a-f, 0-9 or not
 */
 bool unstd_ishexchar(const unsigned char bufferArg);
+
+/**
+*
+* @param bufferArg should be a character
+* @return whether a character is within the ranges A-f, a-f, 0-9 or not
+*/
+bool unstd_iswhitespace(const unsigned char bufferArg);

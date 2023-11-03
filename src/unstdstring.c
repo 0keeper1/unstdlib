@@ -166,3 +166,10 @@ bool unstd_isdigitchar(const unsigned char bufferArg) {
 bool unstd_ishexchar(const unsigned char bufferArg) {
     return unstd_isdigitchar(bufferArg) || bufferArg >= 'a' && bufferArg <= 'f' || bufferArg >= 'A' && bufferArg <= 'F';
 }
+
+bool unstd_iswhitespace(const unsigned char bufferArg) {
+    return bufferArg == 32 || bufferArg == 9
+           || bufferArg == 10 || bufferArg == 11
+           || bufferArg == 12 || bufferArg == 13;
+}
+
