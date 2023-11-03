@@ -19,7 +19,7 @@ bool unstd_strcmp(const char *const fBufferArg, const char *const sBufferArg);
  *
  * @param fBufferArg a pointer to a null-terminated buffer
  * @param sBufferArg a pointer to a null-terminated buffer
- * @return ;true if both buffers are identical to each other otherwise false
+ * @return true if both buffers are identical to each other otherwise false
  */
 bool unstd_strcmpignorecase(const char *const fBufferArg, const char *const sBufferArg);
 
