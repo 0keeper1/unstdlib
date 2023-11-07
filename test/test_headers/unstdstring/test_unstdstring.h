@@ -452,6 +452,83 @@ void test_unstd_iswhitespace(void) {
     notify("[+]", "`unstd_iswhitespace()` passed");
 }
 
+//! [stringinit]
+void test_unstd_stringinit(void) {
+    unstd_string test_string_buffer = unstd_stringinit("Hello World!");
+
+    // [Succeeds]
+    assert(test_string_buffer.length == 12);
+    assert(unstd_strcmp(test_string_buffer.buffer, "Hello World!"));
+
+    // [Fails]
+    assert(test_string_buffer.length != 0);
+
+    unstd_stringfree(&test_string_buffer);
+    notify("[+]", "`unstd_stringinit()` passed");
+}
+
+//! [stringpushchar]
+void test_unstd_stringpushchar(void) {
+    unstd_string test_string_buffer = unstd_stringinit("Hello World");
+
+    unstd_stringpushchar(&test_string_buffer, '!');
+
+    // [Succeeds]
+    assert(test_string_buffer.length == 12);
+    assert(unstd_strcmp(test_string_buffer.buffer, "Hello World!"));
+
+    unstd_stringpushchar(&test_string_buffer, ' ');
+
+    assert(test_string_buffer.length == 13);
+    assert(unstd_strcmp(test_string_buffer.buffer, "Hello World! "));
+
+    // [Fails]
+    assert(test_string_buffer.length != 0);
+    assert(!unstd_endswithchar(test_string_buffer.buffer, '+'));
+
+    unstd_stringfree(&test_string_buffer);
+    notify("[+]", "`unstd_stringpushchar()` passed");
+}
+
+//! [stringpushchar]
+void test_unstd_stringpopchar(void) {
+    unstd_string test_string_buffer = unstd_stringinit("Hello World!");
+
+    unstd_stringpopchar(&test_string_buffer);
+
+    // [Succeeds]
+    assert(test_string_buffer.length == 11);
+    assert(unstd_strcmp(test_string_buffer.buffer, "Hello World"));
+
+    assert(unstd_stringpopchar(&test_string_buffer) == 'd');
+    assert(test_string_buffer.length == 10);
+
+    // [Fails]
+    assert(test_string_buffer.length != 0);
+    assert(!unstd_endswithchar(test_string_buffer.buffer, '!'));
+
+    unstd_stringfree(&test_string_buffer);
+    notify("[+]", "`unstd_stringpushchar()` passed");
+}
+
+//! [stringappendstr]
+void test_unstd_stringappendstr(void) {
+    unstd_string test_string_buffer = unstd_stringinit("Hello");
+
+    unstd_stringappendstr(&test_string_buffer, " fuckin' world");
+
+    // [Succeeds]
+    assert(test_string_buffer.length == 19);
+    assert(unstd_strcmp(test_string_buffer.buffer, "Hello fuckin' world"));
+
+    // [Fails]
+    assert(test_string_buffer.length != 0);
+    assert(!unstd_endswithchar(test_string_buffer.buffer, 'o'));
+
+    unstd_stringfree(&test_string_buffer);
+    notify("[+]", "`unstd_stringappendstr()` passed");
+}
+
 
 void test_unstdstring(void) {
     //! [compare]
@@ -488,6 +565,12 @@ void test_unstdstring(void) {
     test_unstd_isdigitchar();
     test_unstd_ishexchar();
     test_unstd_iswhitespace();
+
+    //! [string]
+    test_unstd_stringinit();
+    test_unstd_stringpushchar();
+    test_unstd_stringpopchar();
+    test_unstd_stringappendstr();
 
     notify("[+]", "`unstdstring` passed");
 }
