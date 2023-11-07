@@ -6,6 +6,65 @@
 #include <stdarg.h>
 
 
+//! [string]
+typedef struct {
+    unsigned long int length;
+    char *buffer;
+} unstd_string;
+
+/**
+ * __INTERNAL__
+ * extends the buffer by reallocating it according to the `sizeArg` param
+ * @param stringEntityArg should be a pointer to a valid string entity
+ * @param sizeArg amount of bytes to extend the buffer by
+ * @return a boolean indicating the state of operation
+ */
+bool _unstd_stringextend(unstd_string *const stringEntityArg, const unsigned long int sizeArg);
+
+/**
+ * __INTERNAL__
+ * shrink downs the buffer by reallocating it according to the `sizeArg` param
+ * @param stringEntityArg should be a pointer to a valid string entity
+ * @param sizeArg amount of bytes to shrink the buffer by
+ */
+bool _unstd_stringshrink(unstd_string *const stringEntityArg, const unsigned long int sizeArg);
+
+/**
+ * Declares and initializes a string entity
+ * @param bufferArg gets assigned to the string after declaration. Pass `NULL` for nothing
+ * @return a string entity
+ */
+unstd_string unstd_stringinit(const char *const bufferArg);
+
+/**
+ * frees the heap-allocated memory by string entity inside the `buffer` pointer
+ * @param stringEntityArg should be a pointer to a valid string entity
+ */
+void unstd_stringfree(const unstd_string *const stringEntityArg);
+
+/**
+ * appends a character at the end of the string buffer
+ * @param stringEntityArg should be a pointer to a valid string entity
+ * @param bufferArg a character
+ */
+void unstd_stringpushchar(unstd_string *const stringEntityArg, const unsigned char bufferArg);
+
+/**
+ * pops back the last character from buffer
+ * @param stringEntityArg should be a pointer to a valid string entity
+ * @return the popped character from the end
+ */
+char unstd_stringpopchar(unstd_string *const stringEntityArg);
+
+/**
+ * appends a string to the buffer
+ * @param stringEntityArg should be a pointer to a valid string entity
+ * @param bufferArg a pointer to a null-terminated buffer
+ * @return a boolean indicating the state of operation
+ */
+bool unstd_stringappendstr(unstd_string *const stringEntityArg, const char *const bufferArg);
+
+
 //! [compare]
 /**
  *

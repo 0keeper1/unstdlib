@@ -173,3 +173,114 @@ bool unstd_iswhitespace(const unsigned char bufferArg) {
            || bufferArg == 10 || bufferArg == 11
            || bufferArg == 12 || bufferArg == 13;
 }
+
+//! [string]
+bool _unstd_stringextend(unstd_string *const stringEntityArg, const unsigned long sizeArg) {
+    if (!stringEntityArg) {
+        return false;
+    }
+
+    void *buffer_holder = realloc(stringEntityArg->buffer, stringEntityArg->length + sizeArg + 1);
+    if (buffer_holder == NULL) {
+        return false;
+    }
+
+    stringEntityArg->buffer = (char *) buffer_holder;
+    stringEntityArg->length += sizeArg;
+    return true;
+}
+
+
+bool _unstd_stringshrink(unstd_string *const stringEntityArg, const unsigned long sizeArg) {
+    if (!stringEntityArg) {
+        return false;
+    }
+
+    void *buffer_holder = realloc(stringEntityArg->buffer, stringEntityArg->length - sizeArg - 1);
+    if (buffer_holder == NULL) {
+        return false;
+    }
+
+    stringEntityArg->buffer = (char *) buffer_holder;
+    stringEntityArg->length -= sizeArg;
+    return true;
+}
+
+
+unstd_string unstd_stringinit(const char *const bufferArg) {
+    unstd_string string_temp = {
+            .length = 0,
+            .buffer = NULL
+    };
+
+    if (bufferArg != NULL) {
+        string_temp.length = strlen(bufferArg);
+        string_temp.buffer = (char *) malloc(string_temp.length + 1);
+        if (string_temp.buffer == NULL) {
+            return string_temp;
+        }
+        memset(string_temp.buffer, 0, string_temp.length + 1);
+        strcpy(string_temp.buffer, bufferArg);
+    }
+
+    return string_temp;
+}
+
+
+void unstd_stringfree(const unstd_string *const stringEntityArg) {
+    if (!stringEntityArg) {
+        return;
+    }
+
+    free(stringEntityArg->buffer);
+}
+
+
+void unstd_stringpushchar(unstd_string *const stringEntityArg, const unsigned char bufferArg) {
+    if (!stringEntityArg) {
+        return;
+    }
+
+    if (!_unstd_stringextend(stringEntityArg, 1)) {
+        return;
+    }
+
+    stringEntityArg->buffer[stringEntityArg->length - 1] = (char) bufferArg;
+}
+
+
+char unstd_stringpopchar(unstd_string *const stringEntityArg) {
+    if (!stringEntityArg) {
+        return -1;
+    }
+
+    char temp_char_holder = stringEntityArg->buffer[stringEntityArg->length - 1];
+    stringEntityArg->buffer[stringEntityArg->length - 1] = '\0';
+
+    if (!_unstd_stringshrink(stringEntityArg, 1)) {
+        return -1;
+    }
+
+    return temp_char_holder;
+}
+
+
+bool unstd_stringappendstr(unstd_string *const stringEntityArg, const char *const bufferArg) {
+    if (!stringEntityArg) {
+        return false;
+    }
+
+    if (!bufferArg) {
+        return false;
+    }
+
+    size_t length_bufferArg_temp = strlen(bufferArg);
+
+    if (!_unstd_stringextend(stringEntityArg, length_bufferArg_temp)) {
+        return false;
+    }
+
+    strcat(stringEntityArg->buffer, bufferArg);
+
+    return true;
+}
