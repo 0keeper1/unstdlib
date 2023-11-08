@@ -196,7 +196,9 @@ bool _unstd_stringshrink(unstd_string *const stringEntityArg, const unsigned lon
         return false;
     }
 
-    void *buffer_holder = realloc(stringEntityArg->buffer, stringEntityArg->length - sizeArg - 1);
+    void *buffer_holder = realloc(
+            stringEntityArg->buffer,
+            stringEntityArg->length == sizeArg ? 1 : stringEntityArg->length - sizeArg - 1);
     if (buffer_holder == NULL) {
         return false;
     }
@@ -233,6 +235,20 @@ void unstd_stringfree(const unstd_string *const stringEntityArg) {
     }
 
     free(stringEntityArg->buffer);
+}
+
+
+void unstd_stringclear(unstd_string *const stringEntityArg) {
+    if (!stringEntityArg) {
+        return;
+    }
+
+
+    memset(stringEntityArg->buffer, 0, stringEntityArg->length + 1);
+
+    if (!_unstd_stringshrink(stringEntityArg, stringEntityArg->length)) {
+        return;
+    }
 }
 
 

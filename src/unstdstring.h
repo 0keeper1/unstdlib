@@ -43,6 +43,12 @@ unstd_string unstd_stringinit(const char *const bufferArg);
 void unstd_stringfree(const unstd_string *const stringEntityArg);
 
 /**
+ * zeros all the bytes in buffer
+ * @param stringEntityArg should be a pointer to a valid string entity
+ */
+void unstd_stringclear(unstd_string *const stringEntityArg);
+
+/**
  * appends a character at the end of the string buffer
  * @param stringEntityArg should be a pointer to a valid string entity
  * @param bufferArg a character
