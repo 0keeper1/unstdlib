@@ -529,6 +529,24 @@ void test_unstd_stringappendstr(void) {
     notify("[+]", "`unstd_stringappendstr()` passed");
 }
 
+//! [stringclear]
+void test_unstd_stringclear(void) {
+    unstd_string test_string_buffer = unstd_stringinit("Hello");
+
+    unstd_stringclear(&test_string_buffer);
+
+    // [Succeeds]
+    assert(test_string_buffer.length == 0);
+    assert(unstd_strcmp(test_string_buffer.buffer, ""));
+
+    // [Fails]
+    assert(!(test_string_buffer.length != 0));
+    assert(!unstd_endswithchar(test_string_buffer.buffer, 'o'));
+
+    unstd_stringfree(&test_string_buffer);
+    notify("[+]", "`unstd_stringclear()` passed");
+}
+
 
 void test_unstdstring(void) {
     //! [compare]
@@ -571,6 +589,7 @@ void test_unstdstring(void) {
     test_unstd_stringpushchar();
     test_unstd_stringpopchar();
     test_unstd_stringappendstr();
+    test_unstd_stringclear();
 
     notify("[+]", "`unstdstring` passed");
 }
