@@ -99,11 +99,11 @@ bool unstd_strcmpignorecase(const char *const fBufferArg, const char *const sBuf
 
 //! [startswith]
 /**
-*
-* @param bufferArg a pointer to a null-terminated buffer
-* @param checkOnArg the character which the function performs the operation on
-* @return a boolean indicating the state of operation
-*/
+ *
+ * @param bufferArg a pointer to a null-terminated buffer
+ * @param checkOnArg the character which the function performs the operation on
+ * @return a boolean indicating the state of operation
+ */
 bool unstd_startswithchar(const char *const bufferArg, const char checkOnArg);
 
 /**
@@ -135,10 +135,10 @@ bool unstd_endswithcharignorecase(const char *const bufferArg, const char checkO
 
 //! [tolower]
 /**
-*
-* @param bufferArg should be a pointer to a null-terminated heap-allocated / c-array buffer
-* @return a pointer to the first character of the modified buffer
-*/
+ *
+ * @param bufferArg should be a pointer to a null-terminated heap-allocated / c-array buffer
+ * @return a pointer to the first character of the modified buffer
+ */
 void unstd_tolowerstr(char *const bufferArg);
 
 /**
@@ -182,10 +182,10 @@ void unstd_toupperstrarray(char (*const bufferArg)[]);
 //! [is]
 //! [isascii]
 /**
-*
-* @param bufferArg should be an ascii character
-* @return whether a character is an ASCII control character or not
-*/
+ *
+ * @param bufferArg should be an ascii character
+ * @return whether a character is an ASCII control character or not
+ */
 bool unstd_isasciicontrolchar(const unsigned char bufferArg);
 
 /**
@@ -217,22 +217,22 @@ bool unstd_isalphabeticchar(const unsigned char bufferArg);
 bool unstd_isalphanumericchar(const unsigned char bufferArg);
 
 /**
-*
-* @param bufferArg should be a character
-* @return whether a character is within the range 0-9 or not
-*/
+ *
+ * @param bufferArg should be a character
+ * @return whether a character is within the range 0-9 or not
+ */
 bool unstd_isdigitchar(const unsigned char bufferArg);
 
 /**
-*
-* @param bufferArg should be a character
-* @return whether a character is within the ranges A-f, a-f, 0-9 or not
-*/
+ *
+ * @param bufferArg should be a character
+ * @return whether a character is within the ranges A-f, a-f, 0-9 or not
+ */
 bool unstd_ishexchar(const unsigned char bufferArg);
 
 /**
-*
-* @param bufferArg should be a character
-* @return whether a character is within the ranges A-f, a-f, 0-9 or not
-*/
+ *
+ * @param bufferArg should be a character
+ * @return whether a character is within the ranges A-f, a-f, 0-9 or not
+ */
 bool unstd_iswhitespace(const unsigned char bufferArg);
