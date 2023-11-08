@@ -1,31 +1,31 @@
 #include "unstdstring.h"
 
 
-bool unstd_charcmp(const unsigned char fBufferArg, const unsigned char sBufferArg) {
+bool unstdstring_charcmp(const unsigned char fBufferArg, const unsigned char sBufferArg) {
     return fBufferArg == sBufferArg;
 }
 
 
-bool unstd_strcmp(const char *const fBufferArg, const char *const sBufferArg) {
+bool unstdstring_strcmp(const char *const fBufferArg, const char *const sBufferArg) {
     return fBufferArg != NULL && sBufferArg != NULL ? !strcmp(fBufferArg, sBufferArg) : false;
 }
 
 
-bool unstd_strcmpignorecase(const char *const fBufferArg, const char *const sBufferArg) {
+bool unstdstring_strcmpignorecase(const char *const fBufferArg, const char *const sBufferArg) {
     if (fBufferArg == NULL && sBufferArg == NULL) {
         return false;
     }
 
-    char *lowered_fBufferArg = unstd_tolowerstrcopy(fBufferArg);
-    char *lowered_sBufferArg = unstd_tolowerstrcopy(sBufferArg);
-    bool strcmp_result = unstd_strcmp(lowered_fBufferArg, lowered_sBufferArg);
+    char *lowered_fBufferArg = unstdstring_tolowerstrcopy(fBufferArg);
+    char *lowered_sBufferArg = unstdstring_tolowerstrcopy(sBufferArg);
+    bool strcmp_result = unstdstring_strcmp(lowered_fBufferArg, lowered_sBufferArg);
     free(lowered_sBufferArg);
     free(lowered_fBufferArg);
     return strcmp_result;
 }
 
 
-bool unstd_startswithchar(const char *const bufferArg, const char checkOnArg) {
+bool unstdstring_startswithchar(const char *const bufferArg, const char checkOnArg) {
     if (bufferArg == NULL) {
         return false;
     }
@@ -38,7 +38,7 @@ bool unstd_startswithchar(const char *const bufferArg, const char checkOnArg) {
 }
 
 
-bool unstd_startswithcharignorecase(const char *const bufferArg, const char checkOnArg) {
+bool unstdstring_startswithcharignorecase(const char *const bufferArg, const char checkOnArg) {
     if (bufferArg == NULL) {
         return false;
     }
@@ -51,7 +51,7 @@ bool unstd_startswithcharignorecase(const char *const bufferArg, const char chec
 }
 
 
-bool unstd_endswithchar(const char *const bufferArg, const char checkOnArg) {
+bool unstdstring_endswithchar(const char *const bufferArg, const char checkOnArg) {
     if (bufferArg == NULL) {
         return false;
     }
@@ -64,7 +64,7 @@ bool unstd_endswithchar(const char *const bufferArg, const char checkOnArg) {
 }
 
 
-bool unstd_endswithcharignorecase(const char *const bufferArg, const char checkOnArg) {
+bool unstdstring_endswithcharignorecase(const char *const bufferArg, const char checkOnArg) {
     if (bufferArg == NULL) {
         return false;
     }
@@ -77,12 +77,12 @@ bool unstd_endswithcharignorecase(const char *const bufferArg, const char checkO
 }
 
 
-void unstd_tolowerstr(char *const bufferArg) {
+void unstdstring_tolowerstr(char *const bufferArg) {
     for (size_t i = 0; bufferArg[i] != '\0'; bufferArg[i] = (char) tolower(bufferArg[i]), i++);
 }
 
 
-char *unstd_tolowerstrcopy(const char *const bufferArg) {
+char *unstdstring_tolowerstrcopy(const char *const bufferArg) {
     if (bufferArg == NULL) {
         return NULL;
     }
@@ -100,17 +100,17 @@ char *unstd_tolowerstrcopy(const char *const bufferArg) {
 }
 
 
-void unstd_tolowerstrarray(char (*const bufferArg)[]) {
+void unstdstring_tolowerstrarray(char (*const bufferArg)[]) {
     for (size_t i = 0; (*bufferArg)[i]; i++) { (*bufferArg)[i] = (char) tolower((*bufferArg)[i]); }
 }
 
 
-void unstd_toupperstr(char *const bufferArg) {
+void unstdstring_toupperstr(char *const bufferArg) {
     for (size_t i = 0; bufferArg[i] != '\0'; bufferArg[i] = (char) toupper(bufferArg[i]), i++);
 }
 
 
-char *unstd_toupperstrcopy(const char *const bufferArg) {
+char *unstdstring_toupperstrcopy(const char *const bufferArg) {
     if (bufferArg == NULL) {
         return NULL;
     }
@@ -128,54 +128,54 @@ char *unstd_toupperstrcopy(const char *const bufferArg) {
 }
 
 
-void unstd_toupperstrarray(char (*const bufferArg)[]) {
+void unstdstring_toupperstrarray(char (*const bufferArg)[]) {
     for (size_t i = 0; (*bufferArg)[i]; i++) { (*bufferArg)[i] = (char) toupper((*bufferArg)[i]); }
 }
 
 
-bool unstd_isasciicontrolchar(const unsigned char bufferArg) {
+bool unstdstring_isasciicontrolchar(const unsigned char bufferArg) {
     return bufferArg >= 0 && bufferArg <= 31 || bufferArg == 127;
 }
 
 
-bool unstd_isasciiprintablechar(const unsigned char bufferArg) {
+bool unstdstring_isasciiprintablechar(const unsigned char bufferArg) {
     return bufferArg >= 32 && bufferArg <= 126;
 }
 
 
-bool unstd_isasciiextendedchar(const unsigned char bufferArg) {
+bool unstdstring_isasciiextendedchar(const unsigned char bufferArg) {
     return bufferArg >= 128 && bufferArg <= 255;
 }
 
 
-bool unstd_isalphabeticchar(const unsigned char bufferArg) {
+bool unstdstring_isalphabeticchar(const unsigned char bufferArg) {
     return bufferArg >= 'a' && bufferArg <= 'z' || bufferArg >= 'A' && bufferArg <= 'Z';
 }
 
 
-bool unstd_isalphanumericchar(const unsigned char bufferArg) {
-    return unstd_isalphabeticchar(bufferArg) || bufferArg >= '0' && bufferArg <= '9';
+bool unstdstring_isalphanumericchar(const unsigned char bufferArg) {
+    return unstdstring_isalphabeticchar(bufferArg) || bufferArg >= '0' && bufferArg <= '9';
 }
 
 
-bool unstd_isdigitchar(const unsigned char bufferArg) {
+bool unstdstring_isdigitchar(const unsigned char bufferArg) {
     return bufferArg >= '0' && bufferArg <= '9';
 }
 
 
-bool unstd_ishexchar(const unsigned char bufferArg) {
-    return unstd_isdigitchar(bufferArg) || bufferArg >= 'a' && bufferArg <= 'f' || bufferArg >= 'A' && bufferArg <= 'F';
+bool unstdstring_ishexchar(const unsigned char bufferArg) {
+    return unstdstring_isdigitchar(bufferArg) || bufferArg >= 'a' && bufferArg <= 'f' || bufferArg >= 'A' && bufferArg <= 'F';
 }
 
 
-bool unstd_iswhitespace(const unsigned char bufferArg) {
+bool unstdstring_iswhitespace(const unsigned char bufferArg) {
     return bufferArg == 32 || bufferArg == 9
            || bufferArg == 10 || bufferArg == 11
            || bufferArg == 12 || bufferArg == 13;
 }
 
 //! [string]
-bool _unstd_stringextend(unstd_string *const stringEntityArg, const unsigned long sizeArg) {
+bool _unstdstring_stringextend(unstdstring_string *const stringEntityArg, const unsigned long sizeArg) {
     if (!stringEntityArg) {
         return false;
     }
@@ -191,7 +191,7 @@ bool _unstd_stringextend(unstd_string *const stringEntityArg, const unsigned lon
 }
 
 
-bool _unstd_stringshrink(unstd_string *const stringEntityArg, const unsigned long sizeArg) {
+bool _unstdstring_stringshrink(unstdstring_string *const stringEntityArg, const unsigned long sizeArg) {
     if (!stringEntityArg) {
         return false;
     }
@@ -209,8 +209,8 @@ bool _unstd_stringshrink(unstd_string *const stringEntityArg, const unsigned lon
 }
 
 
-unstd_string unstd_stringinit(const char *const bufferArg) {
-    unstd_string string_temp = {
+unstdstring_string unstdstring_stringinit(const char *const bufferArg) {
+    unstdstring_string string_temp = {
             .length = 0,
             .buffer = NULL
     };
@@ -229,7 +229,7 @@ unstd_string unstd_stringinit(const char *const bufferArg) {
 }
 
 
-void unstd_stringfree(const unstd_string *const stringEntityArg) {
+void unstdstring_stringfree(const unstdstring_string *const stringEntityArg) {
     if (!stringEntityArg) {
         return;
     }
@@ -238,7 +238,7 @@ void unstd_stringfree(const unstd_string *const stringEntityArg) {
 }
 
 
-void unstd_stringclear(unstd_string *const stringEntityArg) {
+void unstdstring_stringclear(unstdstring_string *const stringEntityArg) {
     if (!stringEntityArg) {
         return;
     }
@@ -246,18 +246,18 @@ void unstd_stringclear(unstd_string *const stringEntityArg) {
 
     memset(stringEntityArg->buffer, 0, stringEntityArg->length + 1);
 
-    if (!_unstd_stringshrink(stringEntityArg, stringEntityArg->length)) {
+    if (!_unstdstring_stringshrink(stringEntityArg, stringEntityArg->length)) {
         return;
     }
 }
 
 
-void unstd_stringpushchar(unstd_string *const stringEntityArg, const unsigned char bufferArg) {
+void unstdstring_stringpushchar(unstdstring_string *const stringEntityArg, const unsigned char bufferArg) {
     if (!stringEntityArg) {
         return;
     }
 
-    if (!_unstd_stringextend(stringEntityArg, 1)) {
+    if (!_unstdstring_stringextend(stringEntityArg, 1)) {
         return;
     }
 
@@ -265,7 +265,7 @@ void unstd_stringpushchar(unstd_string *const stringEntityArg, const unsigned ch
 }
 
 
-char unstd_stringpopchar(unstd_string *const stringEntityArg) {
+char unstdstring_stringpopchar(unstdstring_string *const stringEntityArg) {
     if (!stringEntityArg) {
         return -1;
     }
@@ -273,7 +273,7 @@ char unstd_stringpopchar(unstd_string *const stringEntityArg) {
     char temp_char_holder = stringEntityArg->buffer[stringEntityArg->length - 1];
     stringEntityArg->buffer[stringEntityArg->length - 1] = '\0';
 
-    if (!_unstd_stringshrink(stringEntityArg, 1)) {
+    if (!_unstdstring_stringshrink(stringEntityArg, 1)) {
         return -1;
     }
 
@@ -281,7 +281,7 @@ char unstd_stringpopchar(unstd_string *const stringEntityArg) {
 }
 
 
-bool unstd_stringappendstr(unstd_string *const stringEntityArg, const char *const bufferArg) {
+bool unstdstring_stringappendstr(unstdstring_string *const stringEntityArg, const char *const bufferArg) {
     if (!stringEntityArg) {
         return false;
     }
@@ -292,7 +292,7 @@ bool unstd_stringappendstr(unstd_string *const stringEntityArg, const char *cons
 
     size_t length_bufferArg_temp = strlen(bufferArg);
 
-    if (!_unstd_stringextend(stringEntityArg, length_bufferArg_temp)) {
+    if (!_unstdstring_stringextend(stringEntityArg, length_bufferArg_temp)) {
         return false;
     }
 
