@@ -1,6 +1,9 @@
 #ifndef UNSTDLIB_TEST_COMMON_H
 #define UNSTDLIB_TEST_COMMON_H
 
+#include <string.h>
+
+
 #define ______unstd_strcmp(a, b) !strcmp(a, b)
 #define _notify(notifySignArg, msgArg)                                      \
 signed short int colorCode = 0;                                             \
