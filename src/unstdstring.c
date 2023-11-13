@@ -1,5 +1,10 @@
 #include "unstdstring.h"
 
+#include <ctype.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
+
 
 bool unstdstring_charcmp(const u8 fBufferArg, const u8 sBufferArg) {
     return fBufferArg == sBufferArg;

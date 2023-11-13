@@ -1,10 +1,8 @@
+#ifndef UNSTDLIB_UNSTDSTRING_H
+#define UNSTDLIB_UNSTDSTRING_H
+
 #include "unstdinttypes.h"
-#include <ctype.h>
 #include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdarg.h>
 
 //! [compare]
 /**
@@ -13,7 +11,7 @@
  * @param sBufferArg Should be a character.
  * @returns True if both buffers are identical otherwise False.
  */
-bool unstdstring_charcmp(
+extern bool unstdstring_charcmp(
         const u8 fBufferArg,
         const u8 sBufferArg
 );
@@ -24,7 +22,7 @@ bool unstdstring_charcmp(
  * @param sBufferArg A pointer to a null-terminated buffer.
  * @returns True if both buffers are identical otherwise False.
  */
-bool unstdstring_strcmp(
+extern bool unstdstring_strcmp(
         const char *const fBufferArg,
         const char *const sBufferArg
 );
@@ -35,7 +33,7 @@ bool unstdstring_strcmp(
  * @param sBufferArg A pointer to a null-terminated buffer.
  * @returns True if both buffers are identical otherwise False.
  */
-bool unstdstring_strcmpignorecase(
+extern bool unstdstring_strcmpignorecase(
         const char *const fBufferArg,
         const char *const sBufferArg
 );
@@ -48,7 +46,7 @@ bool unstdstring_strcmpignorecase(
  * @param checkOnArg The character which the function performs the operation on.
  * @returns A boolean indicating the state of the operation.
  */
-bool unstdstring_startswithchar(
+extern bool unstdstring_startswithchar(
         const char *const bufferArg,
         const char checkOnArg
 );
@@ -59,7 +57,7 @@ bool unstdstring_startswithchar(
  * @param checkOnArg The character which the function performs the operation on.
  * @returns A pointer to the first character of the modified buffer.
  */
-bool unstdstring_startswithcharignorecase(
+extern bool unstdstring_startswithcharignorecase(
         const char *const bufferArg,
         const char checkOnArg
 );
@@ -72,7 +70,7 @@ bool unstdstring_startswithcharignorecase(
  * @param checkOnArg The character which the function performs the operation on.
  * @returns A boolean indicating the state of the operation.
  */
-bool unstdstring_endswithchar(
+extern bool unstdstring_endswithchar(
         const char *const bufferArg,
         const char checkOnArg
 );
@@ -83,7 +81,7 @@ bool unstdstring_endswithchar(
  * @param checkOnArg The character which the function performs the operation on.
  * @returns A pointer to the first character of the modified buffer.
  */
-bool unstdstring_endswithcharignorecase(
+extern bool unstdstring_endswithcharignorecase(
         const char *const bufferArg,
         const char checkOnArg
 );
@@ -95,7 +93,7 @@ bool unstdstring_endswithcharignorecase(
  * @param bufferArg Should be a pointer to a valid, null-terminated heap-allocated / c-array buffer.
  * @returns A pointer to the first character of the modified buffer.
  */
-void unstdstring_tolowerstr(
+extern void unstdstring_tolowerstr(
         char *const bufferArg
 );
 
@@ -113,7 +111,7 @@ char *unstdstring_tolowerstrcopy(
  * @param bufferArg Should be a reference to a null-terminated c-array of characters.
  * @returns A pointer to the first character of the modified buffer.
  */
-void unstdstring_tolowerstrarray(
+extern void unstdstring_tolowerstrarray(
         char (*const bufferArg)[]
 );
 
@@ -124,7 +122,7 @@ void unstdstring_tolowerstrarray(
  * @param bufferArg Should be a pointer to a valid, null-terminated heap-allocated / c-array buffer.
  * @returns A pointer to the first character of the modified buffer.
  */
-void unstdstring_toupperstr(
+extern void unstdstring_toupperstr(
         char *const bufferArg
 );
 
@@ -133,7 +131,7 @@ void unstdstring_toupperstr(
  * @param bufferArg Should be a pointer to a valid, null-terminated heap-allocated / c-array buffer.
  * @returns A pointer to the first character of the modified buffer.
  */
-char *unstdstring_toupperstrcopy(
+extern char *unstdstring_toupperstrcopy(
         const char *const bufferArg
 );
 
@@ -142,7 +140,7 @@ char *unstdstring_toupperstrcopy(
  * @param bufferArg Should be a reference to a null-terminated c-array of characters.
  * @returns A pointer to the first character of the modified buffer.
  */
-void unstdstring_toupperstrarray(
+extern void unstdstring_toupperstrarray(
         char (*const bufferArg)[]
 );
 
@@ -154,7 +152,7 @@ void unstdstring_toupperstrarray(
  * @param bufferArg Should be an ascii character.
  * @returns Whether a character is an ASCII control character or not.
  */
-bool unstdstring_isasciicontrolchar(
+extern bool unstdstring_isasciicontrolchar(
         const u8 bufferArg
 );
 
@@ -163,7 +161,7 @@ bool unstdstring_isasciicontrolchar(
  * @param bufferArg Should be an ascii character.
  * @returns Whether a character is an ASCII printable character or not.
  */
-bool unstdstring_isasciiprintablechar(
+extern bool unstdstring_isasciiprintablechar(
         const u8 bufferArg
 );
 
@@ -172,7 +170,7 @@ bool unstdstring_isasciiprintablechar(
  * @param bufferArg Should be an ascii character.
  * @returns Whether a character is an ASCII extended character or not.
  */
-bool unstdstring_isasciiextendedchar(
+extern bool unstdstring_isasciiextendedchar(
         const u8 bufferArg
 );
 
@@ -190,7 +188,7 @@ bool unstdstring_isalphabeticchar(
  * @param bufferArg Should be a character.
  * @returns Whether a character is within the ranges A-Z, a-z, 0-9 or not.
  */
-bool unstdstring_isalphanumericchar(
+extern bool unstdstring_isalphanumericchar(
         const u8 bufferArg
 );
 
@@ -199,7 +197,7 @@ bool unstdstring_isalphanumericchar(
  * @param bufferArg Should be a character.
  * @returns Whether a character is within the range 0-9 or not.
  */
-bool unstdstring_isdigitchar(
+extern bool unstdstring_isdigitchar(
         const u8 bufferArg
 );
 
@@ -208,7 +206,7 @@ bool unstdstring_isdigitchar(
  * @param bufferArg Should be a character.
  * @returns Whether a character is within the ranges A-f, a-f, 0-9 or not.
  */
-bool unstdstring_ishexchar(
+extern bool unstdstring_ishexchar(
         const u8 bufferArg
 );
 
@@ -217,7 +215,7 @@ bool unstdstring_ishexchar(
  * @param bufferArg Should be a character.
  * @returns Whether a character is within the ranges A-f, a-f, 0-9 or not.
  */
-bool unstdstring_iswhitespace(
+extern bool unstdstring_iswhitespace(
         const u8 bufferArg
 );
 
@@ -240,7 +238,7 @@ bool unstdstring_iswhitespace(
  * @retval [3] Insufficient parameter. `sizeArg` does not meet the minimum required length. See `sizeArg`.
  * @retval [4] Failure. 'memset()' failed.
  */
-u8 _unstdstring_bufferextend(
+extern u8 _unstdstring_bufferextend(
         void *bufferArg,
         const u64 sizeArg
 );
@@ -264,7 +262,7 @@ u8 _unstdstring_bufferextend(
  * @retval [5] Insufficient parameter. `sizeArg` does not meet the maximum required length. See `sizeArg`.
  * @retval [6] Failure. 'memset()' failed.
  */
-u8 _unstdstring_buffershrink(
+extern u8 _unstdstring_buffershrink(
         void *bufferArg,
         const u64 sizeArg
 );
@@ -285,7 +283,7 @@ u8 _unstdstring_buffershrink(
  * @OutParamValue [2] Failure `memset()` failed.
  * @OutParamValue [3] Failure `strcpy()` failed.
  */
-char *unstdstring_bufferstringinit(
+extern char *unstdstring_bufferstringinit(
         const char *const bufferArg,
         u8 *const outErrorArg
 );
@@ -303,7 +301,7 @@ char *unstdstring_bufferstringinit(
  * @retval [2] Insufficient parameter. `bufferArg` is NULL. See `bufferArg`.
  * @retval [3] Failure. `_unstdstring_buffershrink()` failed.
  */
-u8 unstdstring_bufferclear(
+extern u8 unstdstring_bufferclear(
         void *const bufferArg
 );
 
@@ -318,7 +316,7 @@ u8 unstdstring_bufferclear(
  * @retval [1] Success.
  * @retval [2] Insufficient parameter. `toBufferArg` is NULL. See `toBufferArg`.
  */
-u8 unstdstring_pushchar8(
+extern u8 unstdstring_pushchar8(
         void *const toBufferArg,
         const u8 fromBufferArg
 );
@@ -336,7 +334,7 @@ u8 unstdstring_pushchar8(
  * @OutParamValue [1] Success.
  * @OutParamValue [2] Insufficient parameter. `bufferArg` is NULL. See `bufferArg`.
  */
-u8 unstdstring_popchar8(
+extern u8 unstdstring_popchar8(
         void *const bufferArg,
         u8 *const outErrorArg
 );
@@ -351,7 +349,9 @@ u8 unstdstring_popchar8(
  * @retval [2] Insufficient parameter. `toBufferArg` is NULL. See `toBufferArg`.
  * @retval [3] Insufficient parameter. `fromBufferArg` is NULL. See `fromBufferArg`.
  */
-u8 unstdstring_appendstr(
+extern u8 unstdstring_appendstr(
         void *const toBufferArg,
         const char *const fromBufferArg
 );
+
+#endif /* UNSTDLIB_UNSTDSTRING_H */

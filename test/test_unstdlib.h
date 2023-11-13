@@ -1,5 +1,5 @@
-#ifndef UNSTDLIB_TEST_UNSTDLIB_HPP
-#define UNSTDLIB_TEST_UNSTDLIB_HPP
+#ifndef UNSTDLIB_TEST_UNSTDLIB_H
+#define UNSTDLIB_TEST_UNSTDLIB_H
 
 #include "_test_common.h"
 #include "test_headers/unstdstring/test_unstdstring.h"
@@ -11,4 +11,4 @@ void test_unstdlib_all(void) {
     test_unstdmemory();
 }
 
-#endif //UNSTDLIB_TEST_UNSTDLIB_HPP
+#endif /* UNSTDLIB_TEST_UNSTDLIB_H */

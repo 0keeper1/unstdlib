@@ -590,6 +590,8 @@ void test_unstdstring_appendstr(void) {
     assert(!unstdstring_endswithchar(test_string_buffer, 'o'));
 
     free(test_string_buffer);
+
+
     _notify("[+]", "`unstdstring_appendstr()` passed");
 }
 

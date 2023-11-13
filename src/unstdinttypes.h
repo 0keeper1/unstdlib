@@ -1,5 +1,5 @@
-#ifndef UNSTDINTTYPES_H
-#define UNSTDINTTYPES_H
+#ifndef UNSTDLIB_UNSTDINTTYPES_H
+#define UNSTDLIB_UNSTDINTTYPES_H
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -21,4 +21,4 @@ typedef u32 u64;
 typedef s32 s64;
 #endif
 
-#endif
+#endif /* UNSTDLIB_UNSTDINTTYPES_H */
