@@ -152,6 +152,13 @@ bool unstdstring_isasciiextendedchar(const u8 bufferArg) {
     return bufferArg >= 128 && bufferArg <= 255;
 }
 
+bool unstdstring_isasciivisiblechar(const u8 bufferArg) {
+    return unstdstring_isasciiprintablechar(bufferArg) || unstdstring_isasciiextendedchar(bufferArg);
+}
+
+bool unstdstring_isasciichar(const u8 bufferArg) {
+    return bufferArg >= 0 && bufferArg <= 255;
+}
 
 bool unstdstring_isalphabeticchar(const u8 bufferArg) {
     return bufferArg >= 'a' && bufferArg <= 'z' || bufferArg >= 'A' && bufferArg <= 'Z';
@@ -181,25 +188,25 @@ bool unstdstring_iswhitespace(const u8 bufferArg) {
 }
 
 
-u8 _unstdstring_bufferextend(void *bufferArg, const u64 sizeArg) {
+u8 _unstdstring_bufferextend(void *bufferArg, const u64 bytesArg) {
     if (bufferArg == NULL) {
         return 2;
     }
 
-    if (sizeArg < 1) {
+    if (bytesArg < 1) {
         return 3;
     }
 
     const size_t size_bufferArg = strlen(bufferArg);
     char *realloc_result = (char *) realloc(
             (void *) bufferArg,
-            size_bufferArg + sizeArg + 1
+            size_bufferArg + bytesArg + 1
     );
     if (realloc_result == NULL) {
         return 0;
     }
 
-    if (memset(bufferArg + size_bufferArg, 0, sizeArg + 1) == NULL) {
+    if (memset(bufferArg + size_bufferArg, 0, bytesArg + 1) == NULL) {
         return 4;
     }
 
@@ -207,12 +214,12 @@ u8 _unstdstring_bufferextend(void *bufferArg, const u64 sizeArg) {
 }
 
 
-u8 _unstdstring_buffershrink(void *bufferArg, const u64 sizeArg) {
+u8 _unstdstring_buffershrink(void *bufferArg, const u64 bytesArg) {
     if (bufferArg == NULL) {
         return 2;
     }
 
-    if (sizeArg < 1) {
+    if (bytesArg < 1) {
         return 3;
     }
 
@@ -221,19 +228,19 @@ u8 _unstdstring_buffershrink(void *bufferArg, const u64 sizeArg) {
         return 4;
     }
 
-    if (sizeArg > size_bufferArg) {
+    if (bytesArg > size_bufferArg) {
         return 5;
     }
 
     char *realloc_result = (char *) realloc(
             (void *) bufferArg,
-            size_bufferArg == sizeArg ? 1 : size_bufferArg - sizeArg
+            size_bufferArg == bytesArg ? 1 : size_bufferArg - bytesArg
     );
     if (realloc_result == NULL) {
         return 0;
     }
 
-    if (memset(bufferArg + size_bufferArg - sizeArg, 0, sizeArg + 1) == NULL) {
+    if (memset(bufferArg + size_bufferArg - bytesArg, 0, bytesArg + 1) == NULL) {
         return 6;
     }
 
@@ -292,13 +299,31 @@ u8 unstdstring_pushchar8(void *const toBufferArg, const u8 fromBufferArg) {
         return 2;
     }
 
-    if (_unstdstring_bufferextend(toBufferArg, 1) != 1) {
+    if (_unstdstring_bufferextend(toBufferArg, sizeof(u8)) != 1) {
         return 0;
     }
     const size_t size_toBufferArg = strlen(toBufferArg);
 
     ((u8 *) toBufferArg)[size_toBufferArg] = fromBufferArg;
     ((u8 *) toBufferArg)[size_toBufferArg + 1] = 0;
+    return 1;
+}
+
+
+u8 unstdstring_pushchar16(void *const toBufferArg, const u16 fromBufferArg) {
+    if (toBufferArg == NULL) {
+        return 2;
+    }
+
+    if (_unstdstring_bufferextend(toBufferArg, sizeof(u16)) != 1) {
+        return 0;
+    }
+
+    const size_t size_toBufferArg = strlen(toBufferArg);
+
+    ((u16 *) toBufferArg)[size_toBufferArg] = fromBufferArg;
+    ((u8 *) toBufferArg)[size_toBufferArg + 1] = 0;
+
     return 1;
 }
 
@@ -313,7 +338,7 @@ u8 unstdstring_popchar8(void *const bufferArg, u8 *const outErrorArg) {
 
     u8 temp_char_holder = ((u8 *) bufferArg)[strlen(bufferArg) - 1];
 
-    if (_unstdstring_buffershrink(bufferArg, 1) != 1) {
+    if (_unstdstring_buffershrink(bufferArg, sizeof(u8)) != 1) {
         if (outErrorArg != NULL) {
             *outErrorArg = 0;
             return 0;

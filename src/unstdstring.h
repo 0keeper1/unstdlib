@@ -4,6 +4,7 @@
 #include "unstdinttypes.h"
 #include <stdbool.h>
 
+
 //! [compare]
 /**
  *
@@ -149,7 +150,7 @@ extern void unstdstring_toupperstrarray(
 //! [isascii]
 /**
  *
- * @param bufferArg Should be an ascii character.
+ * @param bufferArg Should be an ASCII (u8) character.
  * @returns Whether a character is an ASCII control character or not.
  */
 extern bool unstdstring_isasciicontrolchar(
@@ -158,7 +159,7 @@ extern bool unstdstring_isasciicontrolchar(
 
 /**
  *
- * @param bufferArg Should be an ascii character.
+ * @param bufferArg Should be an ASCII (u8) character.
  * @returns Whether a character is an ASCII printable character or not.
  */
 extern bool unstdstring_isasciiprintablechar(
@@ -167,7 +168,7 @@ extern bool unstdstring_isasciiprintablechar(
 
 /**
  *
- * @param bufferArg Should be an ascii character.
+ * @param bufferArg Should be an ASCII (u8) character.
  * @returns Whether a character is an ASCII extended character or not.
  */
 extern bool unstdstring_isasciiextendedchar(
@@ -176,7 +177,25 @@ extern bool unstdstring_isasciiextendedchar(
 
 /**
  *
- * @param bufferArg Should be a character.
+ * @param bufferArg Should be an ASCII (u8) character.
+ * @returns Whether a character is an ASCII visible character or not.
+ */
+extern bool unstdstring_isasciivisiblechar(
+        const u8 bufferArg
+);
+
+/**
+ * @note I know i know, it's pretty dump.
+ * @param bufferArg Should be an ASCII (u8) character.
+ * @returns Whether a character is an ASCII or not.
+ */
+extern bool unstdstring_isasciichar(
+        const u8 bufferArg
+);
+
+/**
+ *
+ * @param bufferArg Should be an ASCII (u8) character.
  * @returns Whether a character is within the ranges A-Z, a-z or not.
  */
 bool unstdstring_isalphabeticchar(
@@ -185,7 +204,7 @@ bool unstdstring_isalphabeticchar(
 
 /**
  *
- * @param bufferArg Should be a character.
+ * @param bufferArg Should be an ASCII (u8) character.
  * @returns Whether a character is within the ranges A-Z, a-z, 0-9 or not.
  */
 extern bool unstdstring_isalphanumericchar(
@@ -194,7 +213,7 @@ extern bool unstdstring_isalphanumericchar(
 
 /**
  *
- * @param bufferArg Should be a character.
+ * @param bufferArg Should be an ASCII (u8) character.
  * @returns Whether a character is within the range 0-9 or not.
  */
 extern bool unstdstring_isdigitchar(
@@ -203,7 +222,7 @@ extern bool unstdstring_isdigitchar(
 
 /**
  *
- * @param bufferArg Should be a character.
+ * @param bufferArg Should be an ASCII (u8) character.
  * @returns Whether a character is within the ranges A-f, a-f, 0-9 or not.
  */
 extern bool unstdstring_ishexchar(
@@ -213,60 +232,60 @@ extern bool unstdstring_ishexchar(
 /**
  *
  * @param bufferArg Should be a character.
- * @returns Whether a character is within the ranges A-f, a-f, 0-9 or not.
+ * @returns Whether a character is a whitespace or not.
  */
 extern bool unstdstring_iswhitespace(
         const u8 bufferArg
 );
+
 
 //! [buffer]
 //! [manipulation]
 //! [resize]
 /**
  * @internal This function should not be called directly (dont fuck around with it if you have no idea what the fuck are doing).
- * @brief Extends the buffer by reallocating it according to the `sizeArg` param.
- * @details Extends the memory `sizeArg` bytes, then zeros-out the newly reallocated (extended) memory.
+ * @brief Extends the buffer by reallocating it according to the `bytesArg` param.
+ * @details Extends the memory `bytesArg` bytes, then zeros-out the newly reallocated (extended) memory.
  *          Be aware that it depends on `strlen()`; consider passing a buffer with (minimum_buffer_length >= 1) length.
  * @param bufferArg Should be a pointer to a valid, null-terminated heap-allocated buffer.
- * @param sizeArg Number of bytes to extend the buffer by.<br><br>
- *                <strong>Maximum sizeArg size</strong>: UNLIMITED (till your memory/system goes kaboom).<br>
- *                <strong>Minimum sizeArg size</strong>: 0 (meaningless, waste of time/resource, shit-call operation. Why would you even wanna do that?).
+ * @param bytesArg Number of bytes to extend the buffer by.<br><br>
+ *                <strong>Maximum bytesArg size</strong>: UNLIMITED (till your memory/system goes kaboom).<br>
+ *                <strong>Minimum bytesArg size</strong>: 0 (meaningless, waste of time/resource, shit-call operation. Why would you even wanna do that?).
  * @returns A number (u8) indicating the state of the operation.
  * @retval [0] Failure. Failed to reallocate.
  * @retval [1] Success.
  * @retval [2] Insufficient parameter. `bufferArg` is NULL. See `bufferArg`.
- * @retval [3] Insufficient parameter. `sizeArg` does not meet the minimum required length. See `sizeArg`.
+ * @retval [3] Insufficient parameter. `bytesArg` does not meet the minimum required length. See `bytesArg`.
  * @retval [4] Failure. 'memset()' failed.
  */
 extern u8 _unstdstring_bufferextend(
         void *bufferArg,
-        const u64 sizeArg
+        const u64 bytesArg
 );
 
 /**
  * @internal This function should not be called directly (dont fuck around with it if you have no idea what the fuck are doing).
- * @brief Shrinks down the buffer by reallocating it according to the `sizeArg` param.
- * @details Shrinks the memory `sizeArg` bytes, then zeros-out the newly reallocated (shrinked) memory.<br>
+ * @brief Shrinks down the buffer by reallocating it according to the `bytesArg` param.
+ * @details Shrinks the memory `bytesArg` bytes, then zeros-out the newly reallocated (shrinked) memory.<br>
  *          Be aware that it depends on `strlen()`; consider passing a buffer with (minimum_buffer_length >= 1) length.
  * @param bufferArg Should be a pointer to a valid, null-terminated heap-allocated buffer.<br><br>
  *                  <strong>Minimum bufferArg length</strong>: 1 (should be enough to be able to get shrinked down).
- * @param sizeArg Number of bytes to shrink the buffer by.<br><br>
- *                <strong>Maximum sizeArg size</strong>: should be less than the size of `bufferArg`.<br>
- *                <strong>Minimum sizeArg size</strong>: 0 (meaningless, waste of time/resource, shit-call operation. Why would you even wanna do that?).
+ * @param bytesArg Number of bytes to shrink the buffer by.<br><br>
+ *                <strong>Maximum bytesArg size</strong>: should be less than the size of `bufferArg`.<br>
+ *                <strong>Minimum bytesArg size</strong>: 0 (meaningless, waste of time/resource, shit-call operation. Why would you even wanna do that?).
  * @returns A number (u8) indicating the state of the operation.
  * @retval [0] Failure. Failed to reallocate.
  * @retval [1] Success.
  * @retval [2] Insufficient parameter. `bufferArg` is NULL. See `bufferArg`.
- * @retval [3] Insufficient parameter. `sizeArg` does not meet the minimum required length. See `sizeArg`.
+ * @retval [3] Insufficient parameter. `bytesArg` does not meet the minimum required length. See `bytesArg`.
  * @retval [4] Insufficient parameter. `bufferArg` does not meet the minimum required length. Buffer is too short to be shrinked. See `bufferArg`.
- * @retval [5] Insufficient parameter. `sizeArg` does not meet the maximum required length. See `sizeArg`.
+ * @retval [5] Insufficient parameter. `bytesArg` does not meet the maximum required length. See `bytesArg`.
  * @retval [6] Failure. 'memset()' failed.
  */
 extern u8 _unstdstring_buffershrink(
         void *bufferArg,
-        const u64 sizeArg
+        const u64 bytesArg
 );
-
 
 /**
  * @brief Declares and initializes a valid, null-terminated heap-allocated string buffer.
@@ -288,7 +307,6 @@ extern char *unstdstring_bufferstringinit(
         u8 *const outErrorArg
 );
 
-
 /**
  * @brief Zeros all the bytes in `bufferArg`.
  * @details This function only reallocates to 1; it does not free the `bufferArg`,
@@ -305,6 +323,7 @@ extern u8 unstdstring_bufferclear(
         void *const bufferArg
 );
 
+
 //! [add / remove]
 //! [pop / push]
 /**
@@ -319,6 +338,20 @@ extern u8 unstdstring_bufferclear(
 extern u8 unstdstring_pushchar8(
         void *const toBufferArg,
         const u8 fromBufferArg
+);
+
+/**
+ * @brief Appends a character (ANSI, 16bit) at the end of the string buffer.
+ * @param toBufferArg Should be a pointer to a valid, null-terminated heap-allocated buffer.
+ * @param fromBufferArg Should be a 16bit, ANSI character.
+ * @returns A number (u8) indicating the state of the operation.
+ * @retval [0] Failure. `_unstdstring_bufferextend()` failed.
+ * @retval [1] Success.
+ * @retval [2] Insufficient parameter. `toBufferArg` is NULL. See `toBufferArg`.
+ */
+extern u8 unstdstring_pushchar16(
+        void *const toBufferArg,
+        const u16 fromBufferArg
 );
 
 /**
