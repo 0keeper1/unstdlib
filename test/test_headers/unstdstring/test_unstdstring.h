@@ -4,6 +4,7 @@
 #include "../../../src/unstdinttypes.h"
 #include "../../../src/unstdstring.h"
 
+
 //! [charcmp]
 void test_unstdstring_charcmp(void) {
     // [Succeeds]
@@ -342,6 +343,36 @@ void test_unstdstring_isasciiextendedchar(void) {
     _notify("[+]", "`unstdstring_isasciiextendedchar()` passed");
 }
 
+//! [isasciivisiblechar]
+void test_unstdstring_isasciivisiblechar(void) {
+    // [Succeeds]
+    for (unsigned char ascii_buffer = 0x20; ascii_buffer <= 0x7E; ascii_buffer++) {
+        assert(unstdstring_isasciivisiblechar(ascii_buffer));
+    }
+
+    for (unsigned char ascii_buffer = 0x80; ascii_buffer >= 0x80 && ascii_buffer <= 0xFF; ascii_buffer++) {
+        assert(unstdstring_isasciivisiblechar(ascii_buffer));
+    }
+
+    // [Fails]
+    for (unsigned char ascii_buffer = 0x0; ascii_buffer <= 0x1F; ascii_buffer++) {
+        assert(!unstdstring_isasciivisiblechar(ascii_buffer));
+    }
+
+    _notify("[+]", "`unstdstring_isasciivisiblechar()` passed");
+}
+
+//! [isasciichar]
+void test_unstdstring_isasciichar(void) {
+    // [Succeeds]
+    for (unsigned char ascii_buffer = 0x00; ascii_buffer <= 0xFE;) {
+        assert(unstdstring_isasciichar(++ascii_buffer));
+    }
+
+    _notify("[+]", "`unstdstring_isasciichar()` passed");
+}
+
+
 //! [isalphabeticchar]
 void test_unstdstring_isalphabeticchar(void) {
     // [Succeeds]
@@ -550,6 +581,32 @@ void test_unstdstring_pushchar8(void) {
     _notify("[+]", "`unstdstring_pushchar8()` passed");
 }
 
+//! [pushchar16]
+void test_unstdstring_pushchar16(void) {
+    char *test_string_buffer = unstdstring_bufferstringinit(NULL, NULL);
+    // [Succeeds]
+    assert(*test_string_buffer == '\0');
+
+    unstdstring_pushchar16(test_string_buffer, L'ÿ');
+
+    // [Succeeds]
+    assert(strlen(test_string_buffer) == 1);
+//    assert(unstdstring_strcmp(test_string_buffer, "ÿ"));
+
+    unstdstring_pushchar16(test_string_buffer, ' ');
+
+    assert(strlen(test_string_buffer) == 2);
+    assert(unstdstring_strcmp(test_string_buffer, "! "));
+
+    // [Fails]
+    assert(strlen(test_string_buffer) != 0);
+    assert(!unstdstring_endswithchar(test_string_buffer, '+'));
+
+    free(test_string_buffer);
+
+    _notify("[+]", "`unstdstring_pushchar16()` passed");
+}
+
 //! [popchar8]
 void test_unstdstring_popchar8(void) {
     char *test_string_buffer = unstdstring_bufferstringinit("Hello World!", NULL);
@@ -625,6 +682,9 @@ void test_unstdstring(void) {
     test_unstdstring_isasciicontrolchar();
     test_unstdstring_isasciiprintablechar();
     test_unstdstring_isasciiextendedchar();
+    test_unstdstring_isasciivisiblechar();
+    test_unstdstring_isasciichar();
+
 
     test_unstdstring_isalphabeticchar();
     test_unstdstring_isalphanumericchar();
@@ -636,6 +696,8 @@ void test_unstdstring(void) {
     test_unstdstring_bufferstringinit();
     test_unstdstring_bufferclear();
     test_unstdstring_pushchar8();
+    //! under implementation
+    //test_unstdstring_pushchar16();
     test_unstdstring_popchar8();
     test_unstdstring_appendstr();
 
