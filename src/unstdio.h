@@ -58,7 +58,10 @@ u8 unstdio_openfile(
  * @brief Gets the size of a file in bytes excluding the null-terminators
  *        (kinda like the number of characters in a file).
  * @param fileptr_arg Should be a valid pointer to a valid FILE handle.
- * @returns The number of bytes in the file pointed to by `fileptr_arg`, otherwise -1 in case of failure.
+ * @returns A number (s32l) indicating the state of the operation.
+ * @retval [>=0] The number of bytes in the file pointed to by `fileptr_arg`.
+ * @retval [-1] Failure. <code>fseek()</code> failed.
+ * @retval [-2] Failure. <code>ftell()</code> failed.
  */
 s32l unstdio_getfilesize(
         FILE *const fileptr_arg

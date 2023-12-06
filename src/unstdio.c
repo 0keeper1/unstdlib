@@ -26,7 +26,11 @@ s32l getfilesize(FILE *const fileptr_arg) {
         return -1;
     }
 
-    s32l filesize = ftell(fileptr_arg);
+    s32l filesize;
+    if (ftell(fileptr_arg) < 0) {
+        return -2;
+    }
+
     if (fseek(fileptr_arg, 0, SEEK_SET) < 0) {
         return -1;
     }  /* same as `rewind(fileptr_arg)` */
