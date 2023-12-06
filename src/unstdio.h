@@ -46,8 +46,7 @@ while ((line_bytes_arg = getline(&line_data_arg, &len, fileptr_arg)) != -1)
  * @returns A number (u8) indicating the state of the operation.
  * @retval [0] Failure. <code>realpath()</code> failed.
  * @retval [1] Success.
- * @retval [2] Insufficient parameter. `fileptr_arg` is NULL. See `OutParam`.
- * @retval [3] Failure. <code>fopen()</code> failed.
+ * @retval [2] Failure. <code>fopen()</code> failed.
  */
 u8 unstdio_openfile(
         const char *const filepath_arg,

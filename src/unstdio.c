@@ -6,10 +6,6 @@
 #include "unstdbool.h"
 
 u8 unstdio_openfile(const char *const filepath_arg, const char *const mod_arg, const FILE *fileptr_arg) {
-    if (fileptr_arg == NULL) {
-        return 2;
-    }
-
     char *filepath_arg_realpath = NULL;
     if ((filepath_arg_realpath = realpath(filepath_arg, NULL)) == NULL) {
         return 0;
@@ -17,7 +13,7 @@ u8 unstdio_openfile(const char *const filepath_arg, const char *const mod_arg, c
 
     FILE *file_ptr = NULL;
     if ((file_ptr = fopen(filepath_arg_realpath, mod_arg)) == NULL) {
-        return 3;
+        return 2;
     }
 
     fileptr_arg = file_ptr;
