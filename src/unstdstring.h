@@ -5,6 +5,17 @@
 #include "unstdbool.h"
 
 
+//! [strlen]
+/**
+ * @brief Counts the number of UTF-8 characters (bytes (u8)) inside `buffer_arg`.
+ * @note Returns 0 if `buffer_arg` is NULL.
+ * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array buffer.
+ * @returns Number of UTF-8 characters (bytes (u8)) in `buffer_arg`.
+ */
+extern u64l unstdstring_strlen8(
+        const char *const buffer_arg
+);
+
 //! [compare]
 /**
  *
@@ -289,7 +300,7 @@ extern u8 _unstdstring_buffershrink(
 );
 
 /**
- * @brief Declares and initializes a valid, null-terminated heap-allocated string buffer.
+ * @brief Declares and initializes a valid, null-terminated heap-allocated UTF-8 string buffer.
  * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array / constant buffer.<br>
  *                  It gets assigned to the string (return) after declaration.<br>
  *                  Pass `NULL` to ignore.
@@ -303,7 +314,7 @@ extern u8 _unstdstring_buffershrink(
  * @OutParamValue [2] Failure <code>memset()</code> failed.
  * @OutParamValue [3] Failure <code>strcpy()</code> failed.
  */
-extern char *unstdstring_bufferstringinit(
+extern char *unstdstring_bufferstringinit8(
         const char *const buffer_arg,
         u8 *const out_error_arg
 );

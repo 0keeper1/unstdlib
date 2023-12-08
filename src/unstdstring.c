@@ -6,6 +6,17 @@
 #include <string.h>
 
 
+extern u64l unstdstring_strlen8(const char *const buffer_arg) {
+    if (buffer_arg == NULL) {
+        return 0;
+    }
+
+    u64l len = 0;
+    while (buffer_arg[++len] != '\0');
+    return len;
+}
+
+
 bool unstdstring_charcmp(const u8 f_buffer_arg, const u8 s_buffer_arg) {
     return f_buffer_arg == s_buffer_arg;
 }
@@ -248,7 +259,7 @@ u8 _unstdstring_buffershrink(void *buffer_arg, const u64 bytes_arg) {
 }
 
 
-char *unstdstring_bufferstringinit(const char *const buffer_arg, u8 *const out_error_arg) {
+char *unstdstring_bufferstringinit8(const char *const buffer_arg, u8 *const out_error_arg) {
     char *buffer = NULL;
 
     size_t size_buffer_arg = buffer_arg == NULL ? 0 : strlen(buffer_arg);
