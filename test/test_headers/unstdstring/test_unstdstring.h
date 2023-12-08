@@ -5,6 +5,25 @@
 #include "../../../src/unstdstring.h"
 
 
+//! [strlen8]
+void test_unstdstring_strlen8(void) {
+    // heap-allocated test
+    char *test_buffer_heap_allocated = (char *) malloc(32);
+    strcpy(test_buffer_heap_allocated, "Hello, world!");
+
+    // [Succeeds]
+    assert(unstdstring_strlen8(test_buffer_heap_allocated) == 13);
+    free(test_buffer_heap_allocated);
+
+    // c-array test
+    char test_buffer_c_array[] = "Hello, world!";
+
+    // [Succeeds]
+    assert(unstdstring_strlen8(test_buffer_c_array) == 13);
+
+    _notify("[+]", "`unstdstring_strlen8()` passed");
+}
+
 //! [charcmp]
 void test_unstdstring_charcmp(void) {
     // [Succeeds]
@@ -481,10 +500,10 @@ void test_unstdstring_iswhitespace(void) {
     _notify("[+]", "`unstdstring_iswhitespace()` passed");
 }
 
-//! [bufferstringinit]
-void test_unstdstring_bufferstringinit(void) {
+//! [bufferstringinit8]
+void test_unstdstring_bufferstringinit8(void) {
     u8 out_error_result = 0;
-    char *test_buffer = unstdstring_bufferstringinit("Hello World!", &out_error_result);
+    char *test_buffer = unstdstring_bufferstringinit8("Hello World!", &out_error_result);
 
     // [Succeeds]
     assert(test_buffer != NULL);
@@ -499,7 +518,7 @@ void test_unstdstring_bufferstringinit(void) {
     free(test_buffer);
 
     u8 out_error_result_2 = 0;
-    char *test_buffer_2 = unstdstring_bufferstringinit(NULL, &out_error_result_2);
+    char *test_buffer_2 = unstdstring_bufferstringinit8(NULL, &out_error_result_2);
 
     assert(unstdstring_strcmp(test_buffer_2, "\0"));
     assert(out_error_result_2 == 1);
@@ -511,7 +530,7 @@ void test_unstdstring_bufferstringinit(void) {
 
     free(test_buffer_2);
 
-    _notify("[+]", "`unstdstring_bufferstringinit()` passed");
+    _notify("[+]", "`unstdstring_bufferstringinit8()` passed");
 }
 
 //! [bufferclear]
@@ -557,7 +576,7 @@ void test_unstdstring_bufferclear(void) {
 
 //! [pushchar8]
 void test_unstdstring_pushchar8(void) {
-    char *test_string_buffer = unstdstring_bufferstringinit(NULL, NULL);
+    char *test_string_buffer = unstdstring_bufferstringinit8(NULL, NULL);
     // [Succeeds]
     assert(*test_string_buffer == '\0');
 
@@ -583,7 +602,7 @@ void test_unstdstring_pushchar8(void) {
 
 //! [pushchar16]
 void test_unstdstring_pushchar16(void) {
-    char *test_string_buffer = unstdstring_bufferstringinit(NULL, NULL);
+    char *test_string_buffer = unstdstring_bufferstringinit8(NULL, NULL);
     // [Succeeds]
     assert(*test_string_buffer == '\0');
 
@@ -609,7 +628,7 @@ void test_unstdstring_pushchar16(void) {
 
 //! [popchar8]
 void test_unstdstring_popchar8(void) {
-    char *test_string_buffer = unstdstring_bufferstringinit("Hello World!", NULL);
+    char *test_string_buffer = unstdstring_bufferstringinit8("Hello World!", NULL);
 
     u8 error_out_holder = 0;
     const u8 function_return_value = unstdstring_popchar8(test_string_buffer, &error_out_holder);
@@ -633,7 +652,7 @@ void test_unstdstring_popchar8(void) {
 
 //! [appendstr]
 void test_unstdstring_appendstr(void) {
-    char *test_string_buffer = unstdstring_bufferstringinit("Hello", NULL);
+    char *test_string_buffer = unstdstring_bufferstringinit8("Hello", NULL);
 
 
     unstdstring_appendstr(test_string_buffer, " fuckin' world");
@@ -654,6 +673,9 @@ void test_unstdstring_appendstr(void) {
 
 
 void test_unstdstring(void) {
+    //! [strlen]
+    test_unstdstring_strlen8();
+
     //! [compare]
     test_unstdstring_charcmp();
     test_unstdstring_strcmp();
@@ -693,7 +715,7 @@ void test_unstdstring(void) {
     test_unstdstring_iswhitespace();
 
     //! [string]
-    test_unstdstring_bufferstringinit();
+    test_unstdstring_bufferstringinit8();
     test_unstdstring_bufferclear();
     test_unstdstring_pushchar8();
     //! under implementation
