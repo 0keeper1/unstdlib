@@ -1,6 +1,9 @@
 #ifndef UNSTDLIB_UNSTDINTTYPES_H
 #define UNSTDLIB_UNSTDINTTYPES_H
 
+#include <stddef.h>
+#include <sys/types.h>
+
 typedef unsigned char u8;
 typedef signed char s8;
 
