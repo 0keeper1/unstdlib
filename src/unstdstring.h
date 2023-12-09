@@ -69,7 +69,7 @@ extern bool unstdstring_strcmpignorecase(
  * @param checkon_arg The character which the function performs the operation on.
  * @returns A boolean indicating the state of the operation.
  */
-extern bool unstdstring_startswithchar(
+extern bool unstdstring_startswithchar8(
         const char *const buffer_arg,
         const char checkon_arg
 );

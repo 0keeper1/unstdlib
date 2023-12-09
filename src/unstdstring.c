@@ -53,7 +53,7 @@ bool unstdstring_strcmpignorecase(const char *const f_buffer_arg, const char *co
 }
 
 
-bool unstdstring_startswithchar(const char *const buffer_arg, const char checkon_arg) {
+bool unstdstring_startswithchar8(const char *const buffer_arg, const char checkon_arg) {
     if (buffer_arg == NULL) {
         return false;
     }

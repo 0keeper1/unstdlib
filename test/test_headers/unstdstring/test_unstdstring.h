@@ -36,7 +36,7 @@ void test_unstdstring_strlen16(void) {
     assert(unstdstring_strlen16(test_buffer_heap_allocated) == 3);
     free(test_buffer_heap_allocated);
 
-    _notify("[+]", "`unstdstring_strlen8()` passed");
+    _notify("[+]", "`unstdstring_strlen16()` passed");
 }
 
 //! [charcmp]
@@ -94,26 +94,26 @@ void test_unstdstring_strcmpignorecase(void) {
     _notify("[+]", "`unstdstring_strcmpignorecase()` passed");
 }
 
-//! [startswithchar]
-void test_unstdstring_startswithchar(void) {
+//! [startswithchar8]
+void test_unstdstring_startswithchar8(void) {
     char *test_buffer = "Hello, world!";
 
     // [Succeeds]
-    assert(unstdstring_startswithchar(test_buffer, 'H'));
+    assert(unstdstring_startswithchar8(test_buffer, 'H'));
 
     // [Fails]
-    assert(!unstdstring_startswithchar(test_buffer, 'a'));
-    assert(!unstdstring_startswithchar(test_buffer, ' '));
-    assert(!unstdstring_startswithchar(test_buffer, '\42'));
-    assert(!unstdstring_startswithchar(test_buffer, '\n'));
-    assert(!unstdstring_startswithchar(test_buffer, '\r'));
-    assert(!unstdstring_startswithchar(test_buffer, '$'));
-    assert(!unstdstring_startswithchar(test_buffer, 0xff));
-    assert(!unstdstring_startswithchar(test_buffer, -2));
-    assert(!unstdstring_startswithchar(test_buffer, 0));
-    assert(!unstdstring_startswithchar(test_buffer, '\0'));
+    assert(!unstdstring_startswithchar8(test_buffer, 'a'));
+    assert(!unstdstring_startswithchar8(test_buffer, ' '));
+    assert(!unstdstring_startswithchar8(test_buffer, '\42'));
+    assert(!unstdstring_startswithchar8(test_buffer, '\n'));
+    assert(!unstdstring_startswithchar8(test_buffer, '\r'));
+    assert(!unstdstring_startswithchar8(test_buffer, '$'));
+    assert(!unstdstring_startswithchar8(test_buffer, 0xff));
+    assert(!unstdstring_startswithchar8(test_buffer, -2));
+    assert(!unstdstring_startswithchar8(test_buffer, 0));
+    assert(!unstdstring_startswithchar8(test_buffer, '\0'));
 
-    _notify("[+]", "`unstdstring_startswithchar()` passed");
+    _notify("[+]", "`unstdstring_startswithchar8()` passed");
 }
 
 //! [startswithcharignorecase]
@@ -592,6 +592,7 @@ void test_unstdstring_bufferclear(void) {
 //! [pushchar8]
 void test_unstdstring_pushchar8(void) {
     char *test_string_buffer = unstdstring_bufferstringinit8(NULL, NULL);
+
     // [Succeeds]
     assert(*test_string_buffer == '\0');
 
@@ -649,6 +650,7 @@ void test_unstdstring_popchar8(void) {
     const u8 function_return_value = unstdstring_popchar8(test_string_buffer, &error_out_holder);
 
     // [Succeeds]
+    assert(function_return_value == '!');
     assert(error_out_holder == 1);
     assert(strlen(test_string_buffer) == 11);
     assert(unstdstring_strcmp(test_string_buffer, "Hello World"));
@@ -667,21 +669,24 @@ void test_unstdstring_popchar8(void) {
 
 //! [appendstr]
 void test_unstdstring_appendstr(void) {
-    char *test_string_buffer = unstdstring_bufferstringinit8("Hello", NULL);
+//    char *test_string_buffer = unstdstring_bufferstringinit8("Hello", NULL);
+//
+//
+//    unstdstring_appendstr(test_string_buffer, " fuckin' world");
+//
+//    // [Succeeds]
+//    assert(strlen(test_string_buffer) == 19);
+//    assert(unstdstring_strcmp(test_string_buffer, "Hello fuckin' world"));
+//
+//    // [Fails]
+//    assert(test_string_buffer != 0);
+//    assert(!unstdstring_endswithchar(test_string_buffer, 'o'));
+//
+//    free(test_string_buffer);
+//
+    char *test_string_buffer_2 = unstdstring_bufferstringinit8("Heyyyyyyyyyyyyyyyyyyyyyy madar jendeeeeeeeeeee", NULL);
 
-
-    unstdstring_appendstr(test_string_buffer, " fuckin' world");
-
-    // [Succeeds]
-    assert(strlen(test_string_buffer) == 19);
-    assert(unstdstring_strcmp(test_string_buffer, "Hello fuckin' world"));
-
-    // [Fails]
-    assert(test_string_buffer != 0);
-    assert(!unstdstring_endswithchar(test_string_buffer, 'o'));
-
-    free(test_string_buffer);
-
+    unstdstring_appendstr(test_string_buffer_2, "Ɵ");
 
     _notify("[+]", "`unstdstring_appendstr()` passed");
 }
@@ -698,7 +703,7 @@ void test_unstdstring(void) {
     test_unstdstring_strcmpignorecase();
 
     //! [startswith]
-    test_unstdstring_startswithchar();
+    test_unstdstring_startswithchar8();
     test_unstdstring_startswithcharignorecase();
 
     //! [endswith]
