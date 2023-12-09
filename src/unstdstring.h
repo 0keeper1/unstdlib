@@ -16,6 +16,17 @@ extern u64l unstdstring_strlen8(
         const char *const buffer_arg
 );
 
+/**
+ * @brief Counts the number of UTF-16 characters (double-bytes (u16)) inside `buffer_arg`.
+ * @note Returns 0 if `buffer_arg` is NULL.
+ * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated.
+ * @returns Number of UTF-16 characters (double-bytes (u16)) in `buffer_arg`.
+ */
+extern u64l unstdstring_strlen16(
+        const u16 *const buffer_arg
+);
+
+
 //! [compare]
 /**
  *

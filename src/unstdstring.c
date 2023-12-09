@@ -7,12 +7,24 @@
 
 
 extern u64l unstdstring_strlen8(const char *const buffer_arg) {
-    if (buffer_arg == NULL) {
+    if (buffer_arg == NULL || *buffer_arg == '\0') {
         return 0;
     }
 
     u64l len = 0;
     while (buffer_arg[++len] != '\0');
+    return len;
+}
+
+
+extern u64l unstdstring_strlen16(const u16 *const buffer_arg) {
+    if (buffer_arg == NULL || *buffer_arg == '\0') {
+        return 0;
+    }
+
+    u64l len = 0;
+    while (((u16 *) buffer_arg)[++len] != '\0');
+
     return len;
 }
 
@@ -321,24 +333,6 @@ u8 unstdstring_pushchar8(void *const to_buffer_arg, const u8 from_buffer_arg) {
 }
 
 
-u8 unstdstring_pushchar16(void *const to_buffer_arg, const u16 from_buffer_arg) {
-    if (to_buffer_arg == NULL) {
-        return 2;
-    }
-
-    if (_unstdstring_bufferextend(to_buffer_arg, sizeof(u16)) != 1) {
-        return 0;
-    }
-
-    const size_t size_to_buffer_arg = strlen(to_buffer_arg);
-
-    ((u16 *) to_buffer_arg)[size_to_buffer_arg] = from_buffer_arg;
-    ((u8 *) to_buffer_arg)[size_to_buffer_arg + 1] = 0;
-
-    return 1;
-}
-
-
 u8 unstdstring_popchar8(void *const buffer_arg, u8 *const out_error_arg) {
     if (buffer_arg == NULL) {
         if (out_error_arg != NULL) {
@@ -360,6 +354,24 @@ u8 unstdstring_popchar8(void *const buffer_arg, u8 *const out_error_arg) {
         *out_error_arg = 1;
     }
     return temp_char_holder;
+}
+
+
+u8 unstdstring_pushchar16(void *const to_buffer_arg, const u16 from_buffer_arg) {
+    if (to_buffer_arg == NULL) {
+        return 2;
+    }
+
+    if (_unstdstring_bufferextend(to_buffer_arg, sizeof(u16)) != 1) {
+        return 0;
+    }
+
+    const u64l size_to_buffer_arg = unstdstring_strlen16(to_buffer_arg);
+
+    ((u16 *) to_buffer_arg)[size_to_buffer_arg] = from_buffer_arg;
+    ((u16 *) to_buffer_arg)[size_to_buffer_arg + 1] = 0;
+
+    return 1;
 }
 
 
