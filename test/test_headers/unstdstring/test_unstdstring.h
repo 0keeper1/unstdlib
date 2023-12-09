@@ -24,6 +24,21 @@ void test_unstdstring_strlen8(void) {
     _notify("[+]", "`unstdstring_strlen8()` passed");
 }
 
+//! [strlen16]
+void test_unstdstring_strlen16(void) {
+    // heap-allocated test
+    u16 *test_buffer_heap_allocated = (u16 *) calloc(10, sizeof(u16));
+    unstdstring_pushchar16(test_buffer_heap_allocated, L'Œ');
+    unstdstring_pushchar16(test_buffer_heap_allocated, L'Ɯ');
+    unstdstring_pushchar16(test_buffer_heap_allocated, L'Ɯ');
+
+    // [Succeeds]
+    assert(unstdstring_strlen16(test_buffer_heap_allocated) == 3);
+    free(test_buffer_heap_allocated);
+
+    _notify("[+]", "`unstdstring_strlen8()` passed");
+}
+
 //! [charcmp]
 void test_unstdstring_charcmp(void) {
     // [Succeeds]
@@ -675,6 +690,7 @@ void test_unstdstring_appendstr(void) {
 void test_unstdstring(void) {
     //! [strlen]
     test_unstdstring_strlen8();
+    test_unstdstring_strlen16();
 
     //! [compare]
     test_unstdstring_charcmp();
