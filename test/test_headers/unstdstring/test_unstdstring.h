@@ -116,26 +116,26 @@ void test_unstdstring_startswithchar8(void) {
     _notify("[+]", "`unstdstring_startswithchar8()` passed");
 }
 
-//! [startswithcharignorecase]
-void test_unstdstring_startswithcharignorecase(void) {
+//! [startswithcharignorecase8]
+void test_unstdstring_startswithcharignorecase8(void) {
     char *test_buffer = "Hello, world";
 
     // [Succeeds]
-    assert(unstdstring_startswithcharignorecase(test_buffer, 'h'));
-    assert(unstdstring_startswithcharignorecase(test_buffer, 'H'));
+    assert(unstdstring_startswithcharignorecase8(test_buffer, 'h'));
+    assert(unstdstring_startswithcharignorecase8(test_buffer, 'H'));
 
     // [Fails]
-    assert(!unstdstring_startswithcharignorecase(test_buffer, ' '));
-    assert(!unstdstring_startswithcharignorecase(test_buffer, '\42'));
-    assert(!unstdstring_startswithcharignorecase(test_buffer, '\n'));
-    assert(!unstdstring_startswithcharignorecase(test_buffer, '\r'));
-    assert(!unstdstring_startswithcharignorecase(test_buffer, '$'));
-    assert(!unstdstring_startswithcharignorecase(test_buffer, 0xff));
-    assert(!unstdstring_startswithcharignorecase(test_buffer, -2));
-    assert(!unstdstring_startswithcharignorecase(test_buffer, 0));
-    assert(!unstdstring_startswithcharignorecase(test_buffer, '\0'));
+    assert(!unstdstring_startswithcharignorecase8(test_buffer, ' '));
+    assert(!unstdstring_startswithcharignorecase8(test_buffer, '\42'));
+    assert(!unstdstring_startswithcharignorecase8(test_buffer, '\n'));
+    assert(!unstdstring_startswithcharignorecase8(test_buffer, '\r'));
+    assert(!unstdstring_startswithcharignorecase8(test_buffer, '$'));
+    assert(!unstdstring_startswithcharignorecase8(test_buffer, 0xff));
+    assert(!unstdstring_startswithcharignorecase8(test_buffer, -2));
+    assert(!unstdstring_startswithcharignorecase8(test_buffer, 0));
+    assert(!unstdstring_startswithcharignorecase8(test_buffer, '\0'));
 
-    _notify("[+]", "`unstdstring_startswithcharignorecase()` passed");
+    _notify("[+]", "`unstdstring_startswithcharignorecase8()` passed");
 }
 
 //! [endswithchar]
@@ -704,7 +704,7 @@ void test_unstdstring(void) {
 
     //! [startswith]
     test_unstdstring_startswithchar8();
-    test_unstdstring_startswithcharignorecase();
+    test_unstdstring_startswithcharignorecase8();
 
     //! [endswith]
     test_unstdstring_endswithchar();

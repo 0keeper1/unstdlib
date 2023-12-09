@@ -80,7 +80,7 @@ extern bool unstdstring_startswithchar8(
  * @param checkon_arg The character which the function performs the operation on.
  * @returns A pointer to the first character of the modified buffer.
  */
-extern bool unstdstring_startswithcharignorecase(
+extern bool unstdstring_startswithcharignorecase8(
         const char *const buffer_arg,
         const char checkon_arg
 );

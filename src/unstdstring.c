@@ -66,7 +66,7 @@ bool unstdstring_startswithchar8(const char *const buffer_arg, const char checko
 }
 
 
-bool unstdstring_startswithcharignorecase(const char *const buffer_arg, const char checkon_arg) {
+bool unstdstring_startswithcharignorecase8(const char *const buffer_arg, const char checkon_arg) {
     if (buffer_arg == NULL) {
         return false;
     }
