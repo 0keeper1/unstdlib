@@ -668,6 +668,33 @@ void test_unstdstring_popchar8(void) {
     _notify("[+]", "`unstdstring_popchar8()` passed");
 }
 
+//! [popchar16]
+void test_unstdstring_popchar16(void) {
+    char *test_string_buffer = unstdstring_bufferstringinit8("Hello World!", NULL);
+
+    unstdstring_pushchar16(test_string_buffer, L'Œ');
+
+    u8 error_out_holder = 0;
+    const u16 function_return_value = unstdstring_popchar16(test_string_buffer, &error_out_holder);
+
+    // [Succeeds]
+    assert(function_return_value == L'Œ');
+    assert(error_out_holder == 1);
+    assert(unstdstring_strlen8(test_string_buffer) == 12);
+    assert(unstdstring_strcmp(test_string_buffer, "Hello World!"));
+
+    assert(unstdstring_popchar8(test_string_buffer, NULL) == '!');
+    assert(strlen(test_string_buffer) == 11);
+
+    // [Fails]
+    assert(strlen(test_string_buffer) != 0);
+    assert(!unstdstring_endswithchar(test_string_buffer, '!'));
+
+    free(test_string_buffer);
+
+    _notify("[+]", "`unstdstring_popchar8()` passed");
+}
+
 //! [appendstr]
 void test_unstdstring_appendstr(void) {
     char *test_string_buffer = unstdstring_bufferstringinit8("Hello", NULL);
@@ -744,6 +771,7 @@ void test_unstdstring(void) {
     test_unstdstring_pushchar8();
     test_unstdstring_pushchar16();
     test_unstdstring_popchar8();
+    test_unstdstring_popchar16();
     test_unstdstring_appendstr();
 
 
