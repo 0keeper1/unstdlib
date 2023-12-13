@@ -619,19 +619,20 @@ void test_unstdstring_pushchar8(void) {
 //! [pushchar16]
 void test_unstdstring_pushchar16(void) {
     char *test_string_buffer = unstdstring_bufferstringinit8(NULL, NULL);
+
     // [Succeeds]
     assert(*test_string_buffer == '\0');
 
     unstdstring_pushchar16(test_string_buffer, L'ÿ');
 
     // [Succeeds]
-    assert(strlen(test_string_buffer) == 1);
-//    assert(unstdstring_strcmp(test_string_buffer, "ÿ"));
+    assert(unstdstring_strlen16((u16 *) test_string_buffer) == 1);
+    assert(unstdstring_strcmp(test_string_buffer, (char *) L"ÿ"));
 
     unstdstring_pushchar16(test_string_buffer, ' ');
 
-    assert(strlen(test_string_buffer) == 2);
-    assert(unstdstring_strcmp(test_string_buffer, "! "));
+    assert(unstdstring_strlen16((u16 *) test_string_buffer) == 2);
+    assert(unstdstring_strcmp(test_string_buffer, (char *) L"ÿ "));
 
     // [Fails]
     assert(strlen(test_string_buffer) != 0);
@@ -669,24 +670,26 @@ void test_unstdstring_popchar8(void) {
 
 //! [appendstr]
 void test_unstdstring_appendstr(void) {
-//    char *test_string_buffer = unstdstring_bufferstringinit8("Hello", NULL);
-//
-//
-//    unstdstring_appendstr(test_string_buffer, " fuckin' world");
-//
-//    // [Succeeds]
-//    assert(strlen(test_string_buffer) == 19);
-//    assert(unstdstring_strcmp(test_string_buffer, "Hello fuckin' world"));
-//
-//    // [Fails]
-//    assert(test_string_buffer != 0);
-//    assert(!unstdstring_endswithchar(test_string_buffer, 'o'));
-//
-//    free(test_string_buffer);
-//
+    char *test_string_buffer = unstdstring_bufferstringinit8("Hello", NULL);
+
+    unstdstring_appendstr(test_string_buffer, " fuckin' world");
+
+    // [Succeeds]
+    assert(strlen(test_string_buffer) == 19);
+    assert(unstdstring_strcmp(test_string_buffer, "Hello fuckin' world"));
+    free(test_string_buffer);
+
     char *test_string_buffer_2 = unstdstring_bufferstringinit8("Heyyyyyyyyyyyyyyyyyyyyyy madar jendeeeeeeeeeee", NULL);
 
     unstdstring_appendstr(test_string_buffer_2, "Ɵ");
+
+    assert(unstdstring_strcmp(test_string_buffer_2, "Heyyyyyyyyyyyyyyyyyyyyyy madar jendeeeeeeeeeeeƟ"));
+
+    free(test_string_buffer_2);
+
+    // [Fails]
+    assert(test_string_buffer != 0);
+    assert(!unstdstring_endswithchar(test_string_buffer, 'o'));
 
     _notify("[+]", "`unstdstring_appendstr()` passed");
 }
@@ -739,8 +742,7 @@ void test_unstdstring(void) {
     test_unstdstring_bufferstringinit8();
     test_unstdstring_bufferclear();
     test_unstdstring_pushchar8();
-    //! under implementation
-    //test_unstdstring_pushchar16();
+    test_unstdstring_pushchar16();
     test_unstdstring_popchar8();
     test_unstdstring_appendstr();
 
