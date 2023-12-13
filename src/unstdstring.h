@@ -396,6 +396,24 @@ extern u8 unstdstring_popchar8(
 );
 
 /**
+ * @brief Pops back the last character (ANSI, 16bit) from buffer.
+ * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated buffer.
+ * @param out_error_arg Will contain a number (u16) indicating the state of the operation.<br>
+ *                    Pass `NULL` to ignore.
+ * @returns The popped character from end-of-the-buffer or 0 in case of failure which is not very reliable.<br>
+ *          It's best practice to always check for errors (only if you do give a shit).<br>
+ *          See `out_error_arg`.
+ * @OutParam <strong>out_error_arg</strong>
+ * @OutParamValue [0] Failure. <code>_unstdstring_buffershrink()</code> failed.
+ * @OutParamValue [1] Success.
+ * @OutParamValue [2] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
+ */
+extern u16 unstdstring_popchar16(
+        void *const buffer_arg,
+        u8 *const out_error_arg
+);
+
+/**
  * @brief Appends a string at the end of the string buffer (`to_buffer_arg`).
  * @param to_buffer_arg Should be a pointer to a valid, null-terminated heap-allocated buffer.
  * @param from_buffer_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array / constant buffer.

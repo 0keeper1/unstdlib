@@ -13,6 +13,7 @@ u64l unstdstring_strlen8(const char *const buffer_arg) {
 
     u64l len = 0;
     while (buffer_arg[++len] != '\0');
+
     return len;
 }
 
@@ -353,6 +354,32 @@ u8 unstdstring_popchar8(void *const buffer_arg, u8 *const out_error_arg) {
     if (out_error_arg != NULL) {
         *out_error_arg = 1;
     }
+
+    return temp_char_holder;
+}
+
+
+u16 unstdstring_popchar16(void *const buffer_arg, u8 *const out_error_arg) {
+    if (buffer_arg == NULL) {
+        if (out_error_arg != NULL) {
+            *out_error_arg = 2;
+            return 0;
+        }
+    }
+
+    u16 temp_char_holder = ((u16 *) buffer_arg)[unstdstring_strlen16(buffer_arg) - 1];
+
+    if (_unstdstring_buffershrink(buffer_arg, sizeof(u16)) != 1) {
+        if (out_error_arg != NULL) {
+            *out_error_arg = 0;
+            return 0;
+        }
+    }
+
+    if (out_error_arg != NULL) {
+        *out_error_arg = 1;
+    }
+
     return temp_char_holder;
 }
 
