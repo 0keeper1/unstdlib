@@ -6,6 +6,8 @@
 #include "unstdinttypes.h"
 #include "unstdbool.h"
 
+
+#ifndef unstdio_freadlinesM
 //! [macros]
 /**
  * @brief Reads lines of bytes from the file pointer `fileptr_arg`
@@ -33,6 +35,8 @@ __ssize_t line_bytes_arg;                                                       
 size_t len = 0;                                                                 \
 char *line_data_arg = NULL;                                                     \
 while ((line_bytes_arg = getline(&line_data_arg, &len, fileptr_arg)) != -1)
+#endif
+
 
 //! [file operations]
 /**

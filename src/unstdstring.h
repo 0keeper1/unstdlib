@@ -4,6 +4,30 @@
 #include "unstdinttypes.h"
 #include "unstdbool.h"
 
+/**
+ * @brief Good Stuff, dont mind me.
+ */
+#ifndef __unstdstring_bufferencoding
+#define __unstdstring_bufferencoding
+typedef enum : u8 {
+    _unstdstring_bufferencoding_UTF8 = 1,
+    _unstdstring_bufferencoding_UTF16 = 2,
+    _unstdstring_bufferencoding_UTF32 = 4
+} _unstdstring_bufferencoding;
+
+
+#define _unstdstring_encode_as_utf8(string_arg) u8##string_arg
+#define _unstdstring_encode_as_utf16(string_arg) u##string_arg
+#define _unstdstring_encode_as_utf32(string_arg) U##string_arg
+#define _unstdstring_encode_as_widechar(string_arg) L##string_arg
+#define _unstdstring_encode_as_raw(string_arg) R##string_arg
+
+#define _unstdstring_encode_as_raw_utf8(string_arg) u8R##string_arg
+#define _unstdstring_encode_as_raw_utf16(string_arg) uR##string_arg
+#define _unstdstring_encode_as_raw_utf32(string_arg) UR##string_arg
+#define _unstdstring_encode_as_raw_widechar(string_arg) LR##string_arg
+#endif /* __unstdstring_bufferencoding */
+
 
 //! [strlen]
 /**
@@ -30,24 +54,39 @@ extern u64l unstdstring_strlen16(
 //! [compare]
 /**
  *
- * @param f_buffer_arg Should be a character.
- * @param s_buffer_arg Should be a character.
+ * @param f_buffer_arg Should be an UTF-8 character.
+ * @param s_buffer_arg Should be a UTF-8 character.
  * @returns True if both buffers are identical otherwise False.
  */
-extern bool unstdstring_charcmp(
+extern bool unstdstring_charcmp8(
         const u8 f_buffer_arg,
         const u8 s_buffer_arg
 );
 
 /**
- *
+ * @brief Checks if two UTF-8 strings are identical.
+ * @details Its just a wrapper around the C's </code>strlen()</code>.
  * @param f_buffer_arg A pointer to a null-terminated buffer.
  * @param s_buffer_arg A pointer to a null-terminated buffer.
  * @returns True if both buffers are identical otherwise False.
  */
-extern bool unstdstring_strcmp(
+extern bool unstdstring_strcmp8(
         const char *const f_buffer_arg,
         const char *const s_buffer_arg
+);
+
+/**
+ * @brief Checks if two UTF-16 strings are identical.
+ * @details Compares `s_buffer_arg` by `f_buffer_arg`.
+ *          It returns true if both `f_buffer_arg` and `s_buffer_arg` are '\0'.
+ *          It returns false in case of length inequality.
+ * @param f_buffer_arg A pointer to a null-terminated buffer.
+ * @param s_buffer_arg A pointer to a null-terminated buffer.
+ * @returns True if both buffers are identical otherwise False. See `details` for more details.
+ */
+extern bool unstdstring_strcmp16(
+        const u16 *const f_buffer_arg,
+        const u16 *const s_buffer_arg
 );
 
 /**
@@ -56,7 +95,7 @@ extern bool unstdstring_strcmp(
  * @param s_buffer_arg A pointer to a null-terminated buffer.
  * @returns True if both buffers are identical otherwise False.
  */
-extern bool unstdstring_strcmpignorecase(
+extern bool unstdstring_strcmpignorecase8(
         const char *const f_buffer_arg,
         const char *const s_buffer_arg
 );
@@ -93,7 +132,7 @@ extern bool unstdstring_startswithcharignorecase8(
  * @param checkon_arg The character which the function performs the operation on.
  * @returns A boolean indicating the state of the operation.
  */
-extern bool unstdstring_endswithchar(
+extern bool unstdstring_endswithchar8(
         const char *const buffer_arg,
         const char checkon_arg
 );
@@ -104,7 +143,7 @@ extern bool unstdstring_endswithchar(
  * @param checkon_arg The character which the function performs the operation on.
  * @returns A pointer to the first character of the modified buffer.
  */
-extern bool unstdstring_endswithcharignorecase(
+extern bool unstdstring_endswithcharignorecase8(
         const char *const buffer_arg,
         const char checkon_arg
 );
@@ -266,7 +305,7 @@ extern bool unstdstring_iswhitespace(
 //! [manipulation]
 //! [resize]
 /**
- * @internal This function should not be called directly (dont fuck around with it if you have no idea what the fuck are doing).
+ * @internal This function should not be called directly (dont fuck around with it if you have no idea what the fuck you are doing).
  * @brief Extends the buffer by reallocating it according to the `bytes_arg` param.
  * @details Extends the memory `bytes_arg` bytes, then zeros-out the newly reallocated (extended) memory.
  *          Be aware that it depends on <code>strlen()</code>; consider passing a buffer with (minimum_buffer_length >= 1) length.
@@ -274,20 +313,24 @@ extern bool unstdstring_iswhitespace(
  * @param bytes_arg Number of bytes to extend the buffer by.<br><br>
  *                <strong>Maximum bytes_arg size</strong>: UNLIMITED (till your memory/system goes kaboom).<br>
  *                <strong>Minimum bytes_arg size</strong>: 0 (meaningless, waste of time/resource, shit-call operation. Why would you even wanna do that?).
+ * @param encoding_arg Number of bytes for each character within the buffer.
+ *                 (use `_unstdstring_bufferencoding` enum if you have no fucking idea what you are doing).
  * @returns A number (u8) indicating the state of the operation.
  * @retval [0] Failure. Failed to reallocate.
  * @retval [1] Success.
  * @retval [2] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
  * @retval [3] Insufficient parameter. `bytes_arg` does not meet the minimum required length. See `bytes_arg`.
- * @retval [4] Failure. <code>memset()</code> failed.
+ * @retval [4] Insufficient parameter. `encoding_arg` is not a valid encoding. See `encoding_arg`.
+ * @retval [5] Failure. <code>memset()</code> failed.
  */
 extern u8 _unstdstring_bufferextend(
         void *buffer_arg,
-        const u64 bytes_arg
+        const u64 bytes_arg,
+        const u8 encoding_arg
 );
 
 /**
- * @internal This function should not be called directly (dont fuck around with it if you have no idea what the fuck are doing).
+ * @internal This function should not be called directly (dont fuck around with it if you have no idea what the fuck you are doing).
  * @brief Shrinks down the buffer by reallocating it according to the `bytes_arg` param.
  * @details Shrinks the memory `bytes_arg` bytes, then zeros-out the newly reallocated (shrinked) memory.<br>
  *          Be aware that it depends on <code>strlen()</code>; consider passing a buffer with (minimum_buffer_length >= 1) length.
@@ -296,6 +339,8 @@ extern u8 _unstdstring_bufferextend(
  * @param bytes_arg Number of bytes to shrink the buffer by.<br><br>
  *                <strong>Maximum bytes_arg size</strong>: should be less than the size of `buffer_arg`.<br>
  *                <strong>Minimum bytes_arg size</strong>: 0 (meaningless, waste of time/resource, shit-call operation. Why would you even wanna do that?).
+ * @param encoding_arg Number of bytes for each character within the buffer.
+ *                 (use `_unstdstring_bufferencoding` enum if you have no fucking idea what you are doing).
  * @returns A number (u8) indicating the state of the operation.
  * @retval [0] Failure. Failed to reallocate.
  * @retval [1] Success.
@@ -303,15 +348,18 @@ extern u8 _unstdstring_bufferextend(
  * @retval [3] Insufficient parameter. `bytes_arg` does not meet the minimum required length. See `bytes_arg`.
  * @retval [4] Insufficient parameter. `buffer_arg` does not meet the minimum required length. Buffer is too short to be shrinked. See `buffer_arg`.
  * @retval [5] Insufficient parameter. `bytes_arg` does not meet the maximum required length. See `bytes_arg`.
- * @retval [6] Failure. <code>memset()</code> failed.
+ * @retval [6] Insufficient parameter. `encoding_arg` is not a valid encoding. See `encoding_arg`.
+ * @retval [7] Failure. <code>memset()</code> failed.
  */
 extern u8 _unstdstring_buffershrink(
         void *buffer_arg,
-        const u64 bytes_arg
+        const u64 bytes_arg,
+        const u8 encoding_arg
 );
 
 /**
  * @brief Declares and initializes a valid, null-terminated heap-allocated UTF-8 string buffer.
+ * @details It allocates 8 bits (1 bytes) for each character.
  * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array / constant buffer.<br>
  *                  It gets assigned to the string (return) after declaration.<br>
  *                  Pass `NULL` to ignore.
@@ -331,6 +379,27 @@ extern char *unstdstring_bufferstringinit8(
 );
 
 /**
+ * @brief Declares and initializes a valid, null-terminated heap-allocated UTF-16 string buffer.
+ * @details It allocates 16 bits (2 bytes) for each character despite the character encoding.
+ * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array / constant buffer.<br>
+ *                  It gets assigned to the string (return) after declaration.<br>
+ *                  Pass `NULL` to ignore.
+ * @param out_error_arg Will contain a number (u8) indicating the state of the operation. See `outparam` and `outvalue`s.<br>
+ *                    It's considered best practice to always check for errors (only if you do give a shit).<br>
+ *                    Pass `NULL` to ignore.
+ * @returns A pointer to the newly allocated string buffer or NULL, in case of failure.
+ * @OutParam <strong>out_error_arg</strong>
+ * @OutParamValue [0] Failure. <code>malloc()<code> failed.
+ * @OutParamValue [1] Success.
+ * @OutParamValue [2] Failure <code>memset()</code> failed.
+ * @OutParamValue [3] Failure <code>strcpy()</code> failed.
+ */
+extern u16 *unstdstring_bufferstringinit16(
+        const u16 *const buffer_arg,
+        u8 *const out_error_arg
+);
+
+/**
  * @brief Zeros all the bytes in `buffer_arg`.
  * @details This function only reallocates to 1; it does not free the `buffer_arg`,
  *          meaning that it only reallocates the buffer to the lowest size possible (that can only holds 1 byte '\0').
@@ -342,7 +411,7 @@ extern char *unstdstring_bufferstringinit8(
  * @retval [2] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
  * @retval [3] Failure. <code>_unstdstring_buffershrink()</code> failed.
  */
-extern u8 unstdstring_bufferclear(
+extern u8 unstdstring_bufferclear8(
         void *const buffer_arg
 );
 
@@ -423,7 +492,7 @@ extern u16 unstdstring_popchar16(
  * @retval [2] Insufficient parameter. `to_buffer_arg` is NULL. See `to_buffer_arg`.
  * @retval [3] Insufficient parameter. `from_buffer_arg` is NULL. See `from_buffer_arg`.
  */
-extern u8 unstdstring_appendstr(
+extern u8 unstdstring_appendstr8(
         void *const to_buffer_arg,
         const char *const from_buffer_arg
 );

@@ -27,7 +27,7 @@ void test_unstdstring_strlen8(void) {
 //! [strlen16]
 void test_unstdstring_strlen16(void) {
     // heap-allocated test
-    u16 *test_buffer_heap_allocated = (u16 *) calloc(10, sizeof(u16));
+    u16 *test_buffer_heap_allocated = (u16 *) malloc(1);
     unstdstring_pushchar16(test_buffer_heap_allocated, L'Œ');
     unstdstring_pushchar16(test_buffer_heap_allocated, L'Ɯ');
     unstdstring_pushchar16(test_buffer_heap_allocated, L'Ɯ');
@@ -39,59 +39,59 @@ void test_unstdstring_strlen16(void) {
     _notify("[+]", "`unstdstring_strlen16()` passed");
 }
 
-//! [charcmp]
-void test_unstdstring_charcmp(void) {
+//! [charcmp8]
+void test_unstdstring_charcmp8(void) {
     // [Succeeds]
-    assert(unstdstring_charcmp('0', '0'));
-    assert(unstdstring_charcmp(2, 2));
-    assert(unstdstring_charcmp('`', '`'));
+    assert(unstdstring_charcmp8('0', '0'));
+    assert(unstdstring_charcmp8(2, 2));
+    assert(unstdstring_charcmp8('`', '`'));
 
     // [Fails]
-    assert(!unstdstring_charcmp(' ', '2'));
+    assert(!unstdstring_charcmp8(' ', '2'));
 
-    _notify("[+]", "`unstdstring_charcmp()` passed");
+    _notify("[+]", "`unstdstring_charcmp8()` passed");
 }
 
-//! [strcmp]
-void test_unstdstring_strcmp(void) {
+//! [strcmp8]
+void test_unstdstring_strcmp8(void) {
     // [Succeeds]
-    assert(unstdstring_strcmp("0", "0"));
-    assert(unstdstring_strcmp("\0", "\0"));
-    assert(unstdstring_strcmp("\x1\n", "\x1\n"));
-    assert(unstdstring_strcmp("\x33", "\x33"));
-    assert(unstdstring_strcmp("\n\n\n\r\r\r", "\n\n\n\r\r\r"));
+    assert(unstdstring_strcmp8("0", "0"));
+    assert(unstdstring_strcmp8("\0", "\0"));
+    assert(unstdstring_strcmp8("\x1\n", "\x1\n"));
+    assert(unstdstring_strcmp8("\x33", "\x33"));
+    assert(unstdstring_strcmp8("\n\n\n\r\r\r", "\n\n\n\r\r\r"));
 
     // [Fails]
-    assert(!unstdstring_strcmp("\10", "0"));
-    assert(!unstdstring_strcmp(0, 0));
-    assert(!unstdstring_strcmp("32", "0"));
-    assert(!unstdstring_strcmp("\n\n\n\r\r\r\b", "\n\n\n\r\r\r"));
-    assert(!unstdstring_strcmp(NULL, NULL));
+    assert(!unstdstring_strcmp8("\10", "0"));
+    assert(!unstdstring_strcmp8(0, 0));
+    assert(!unstdstring_strcmp8("32", "0"));
+    assert(!unstdstring_strcmp8("\n\n\n\r\r\r\b", "\n\n\n\r\r\r"));
+    assert(!unstdstring_strcmp8(NULL, NULL));
 
-    _notify("[+]", "`unstdstring_strcmp()` passed");
+    _notify("[+]", "`unstdstring_strcmp8()` passed");
 }
 
-//! [strcmpignorecase]
-void test_unstdstring_strcmpignorecase(void) {
+//! [strcmpignorecase8]
+void test_unstdstring_strcmpignorecase8(void) {
     // [Succeeds]
-    assert(unstdstring_strcmpignorecase("0", "0"));
-    assert(unstdstring_strcmpignorecase("\0", "\0"));
-    assert(unstdstring_strcmpignorecase("\x1\n", "\x1\n"));
-    assert(unstdstring_strcmpignorecase("\x33", "\x33"));
-    assert(unstdstring_strcmpignorecase("\n\n\n\r\r\r", "\n\n\n\r\r\r"));
-    assert(unstdstring_strcmpignorecase("\n\n\n\r\r\r", "\n\n\n\r\r\r"));
-    assert(unstdstring_strcmpignorecase("Hello World", "hello world"));
+    assert(unstdstring_strcmpignorecase8("0", "0"));
+    assert(unstdstring_strcmpignorecase8("\0", "\0"));
+    assert(unstdstring_strcmpignorecase8("\x1\n", "\x1\n"));
+    assert(unstdstring_strcmpignorecase8("\x33", "\x33"));
+    assert(unstdstring_strcmpignorecase8("\n\n\n\r\r\r", "\n\n\n\r\r\r"));
+    assert(unstdstring_strcmpignorecase8("\n\n\n\r\r\r", "\n\n\n\r\r\r"));
+    assert(unstdstring_strcmpignorecase8("Hello World", "hello world"));
 
     // [Fails]
-    assert(!unstdstring_strcmpignorecase("\0", "0"));
-    assert(!unstdstring_strcmpignorecase(0, 0));
-    assert(!unstdstring_strcmpignorecase("32", "0"));
-    assert(!unstdstring_strcmpignorecase("\n\n\n\r\r\r\b", "\n\n\n\r\r\r"));
-    assert(!unstdstring_strcmpignorecase(NULL, NULL));
-    assert(!unstdstring_strcmpignorecase("Hello World!", "hello world"));
+    assert(!unstdstring_strcmpignorecase8("\0", "0"));
+    assert(!unstdstring_strcmpignorecase8(0, 0));
+    assert(!unstdstring_strcmpignorecase8("32", "0"));
+    assert(!unstdstring_strcmpignorecase8("\n\n\n\r\r\r\b", "\n\n\n\r\r\r"));
+    assert(!unstdstring_strcmpignorecase8(NULL, NULL));
+    assert(!unstdstring_strcmpignorecase8("Hello World!", "hello world"));
 
 
-    _notify("[+]", "`unstdstring_strcmpignorecase()` passed");
+    _notify("[+]", "`unstdstring_strcmpignorecase8()` passed");
 }
 
 //! [startswithchar8]
@@ -138,48 +138,48 @@ void test_unstdstring_startswithcharignorecase8(void) {
     _notify("[+]", "`unstdstring_startswithcharignorecase8()` passed");
 }
 
-//! [endswithchar]
-void test_unstdstring_endswithchar(void) {
+//! [endswithchar8]
+void test_unstdstring_endswithchar8(void) {
     char *test_buffer = "Hello, world!";
 
     // [Succeeds]
-    assert(unstdstring_endswithchar(test_buffer, '!'));
+    assert(unstdstring_endswithchar8(test_buffer, '!'));
 
     // [Fails]
-    assert(!unstdstring_endswithchar(test_buffer, 'a'));
-    assert(!unstdstring_endswithchar(test_buffer, ' '));
-    assert(!unstdstring_endswithchar(test_buffer, '\42'));
-    assert(!unstdstring_endswithchar(test_buffer, '\n'));
-    assert(!unstdstring_endswithchar(test_buffer, '\r'));
-    assert(!unstdstring_endswithchar(test_buffer, '$'));
-    assert(!unstdstring_endswithchar(test_buffer, 0xff));
-    assert(!unstdstring_endswithchar(test_buffer, -2));
-    assert(!unstdstring_endswithchar(test_buffer, 0));
-    assert(!unstdstring_endswithchar(test_buffer, '\0'));
+    assert(!unstdstring_endswithchar8(test_buffer, 'a'));
+    assert(!unstdstring_endswithchar8(test_buffer, ' '));
+    assert(!unstdstring_endswithchar8(test_buffer, '\42'));
+    assert(!unstdstring_endswithchar8(test_buffer, '\n'));
+    assert(!unstdstring_endswithchar8(test_buffer, '\r'));
+    assert(!unstdstring_endswithchar8(test_buffer, '$'));
+    assert(!unstdstring_endswithchar8(test_buffer, 0xff));
+    assert(!unstdstring_endswithchar8(test_buffer, -2));
+    assert(!unstdstring_endswithchar8(test_buffer, 0));
+    assert(!unstdstring_endswithchar8(test_buffer, '\0'));
 
-    _notify("[+]", "`unstdstring_endswithchar()` passed");
+    _notify("[+]", "`unstdstring_endswithchar8()` passed");
 }
 
-//! [endswithcharignorecase]
-void test_unstdstring_endswithcharignorecase(void) {
+//! [endswithcharignorecase8]
+void test_unstdstring_endswithcharignorecase8(void) {
     char *test_buffer = "Hello, world";
 
     // [Succeeds]
-    assert(unstdstring_endswithcharignorecase(test_buffer, 'd'));
-    assert(unstdstring_endswithcharignorecase(test_buffer, 'D'));
+    assert(unstdstring_endswithcharignorecase8(test_buffer, 'd'));
+    assert(unstdstring_endswithcharignorecase8(test_buffer, 'D'));
 
     // [Fails]
-    assert(!unstdstring_endswithcharignorecase(test_buffer, ' '));
-    assert(!unstdstring_endswithcharignorecase(test_buffer, '\42'));
-    assert(!unstdstring_endswithcharignorecase(test_buffer, '\n'));
-    assert(!unstdstring_endswithcharignorecase(test_buffer, '\r'));
-    assert(!unstdstring_endswithcharignorecase(test_buffer, '$'));
-    assert(!unstdstring_endswithcharignorecase(test_buffer, 0xff));
-    assert(!unstdstring_endswithcharignorecase(test_buffer, -2));
-    assert(!unstdstring_endswithcharignorecase(test_buffer, 0));
-    assert(!unstdstring_endswithcharignorecase(test_buffer, '\0'));
+    assert(!unstdstring_endswithcharignorecase8(test_buffer, ' '));
+    assert(!unstdstring_endswithcharignorecase8(test_buffer, '\42'));
+    assert(!unstdstring_endswithcharignorecase8(test_buffer, '\n'));
+    assert(!unstdstring_endswithcharignorecase8(test_buffer, '\r'));
+    assert(!unstdstring_endswithcharignorecase8(test_buffer, '$'));
+    assert(!unstdstring_endswithcharignorecase8(test_buffer, 0xff));
+    assert(!unstdstring_endswithcharignorecase8(test_buffer, -2));
+    assert(!unstdstring_endswithcharignorecase8(test_buffer, 0));
+    assert(!unstdstring_endswithcharignorecase8(test_buffer, '\0'));
 
-    _notify("[+]", "`unstdstring_endswithcharignorecase()` passed");
+    _notify("[+]", "`unstdstring_endswithcharignorecase8()` passed");
 }
 
 //! [tolowerstr]
@@ -194,7 +194,7 @@ void test_unstdstring_tolowerstr(void) {
     unstdstring_tolowerstr(test_buffer_heap_allocated);
 
     // [Succeeds]
-    assert(!unstdstring_strcmp(test_buffer_heap_allocated_copy, test_buffer_heap_allocated));
+    assert(!unstdstring_strcmp8(test_buffer_heap_allocated_copy, test_buffer_heap_allocated));
     free(test_buffer_heap_allocated);
 
     // c-array test
@@ -206,7 +206,7 @@ void test_unstdstring_tolowerstr(void) {
     unstdstring_tolowerstr(test_buffer_c_array);
 
     // [Succeeds]
-    assert(!unstdstring_strcmp(test_buffer_c_array_copy, test_buffer_c_array));
+    assert(!unstdstring_strcmp8(test_buffer_c_array_copy, test_buffer_c_array));
 
     _notify("[+]", "`unstdstring_tolowerstr()` passed");
 }
@@ -222,7 +222,7 @@ void test_unstdstring_tolowerstrcopy(void) {
     test_buffer_heap_allocated_result = unstdstring_tolowerstrcopy(test_buffer_heap_allocated);
 
     // [Succeeds]
-    assert(!unstdstring_strcmp(test_buffer_heap_allocated_result, test_buffer_heap_allocated));
+    assert(!unstdstring_strcmp8(test_buffer_heap_allocated_result, test_buffer_heap_allocated));
     free(test_buffer_heap_allocated);
 
 
@@ -235,14 +235,14 @@ void test_unstdstring_tolowerstrcopy(void) {
     free(test_buffer_c_array_result_temp);
 
     // [Succeeds]
-    assert(!unstdstring_strcmp(test_buffer_c_array_result, test_buffer_c_array));
+    assert(!unstdstring_strcmp8(test_buffer_c_array_result, test_buffer_c_array));
 
     // constant test
     const char *test_buffer_constant = "Hello, World!";
     char *test_buffer_constant_result = unstdstring_tolowerstrcopy(test_buffer_constant);
 
     // [Succeeds]
-    assert(!unstdstring_strcmp(test_buffer_heap_allocated_result, test_buffer_constant));
+    assert(!unstdstring_strcmp8(test_buffer_heap_allocated_result, test_buffer_constant));
     free(test_buffer_constant_result);
 
     _notify("[+]", "`unstdstring_tolowerstrcopy()` passed");
@@ -258,7 +258,7 @@ void test_unstdstring_tolowerstrarray(void) {
     unstdstring_tolowerstrarray(&test_buffer_c_array);
 
     // [Succeeds]
-    assert(!unstdstring_strcmp(test_buffer_c_array_copy, test_buffer_c_array));
+    assert(!unstdstring_strcmp8(test_buffer_c_array_copy, test_buffer_c_array));
 
     _notify("[+]", "`unstdstring_tolowerstrarray()` passed");
 }
@@ -276,7 +276,7 @@ void test_unstdstring_toupperstr(void) {
     unstdstring_toupperstr(test_buffer_heap_allocated);
 
     // [Succeeds]
-    assert(!unstdstring_strcmp(test_buffer_heap_allocated_copy, test_buffer_heap_allocated));
+    assert(!unstdstring_strcmp8(test_buffer_heap_allocated_copy, test_buffer_heap_allocated));
     free(test_buffer_heap_allocated);
 
     // c-array test
@@ -288,7 +288,7 @@ void test_unstdstring_toupperstr(void) {
     unstdstring_toupperstr(test_buffer_c_array);
 
     // [Succeeds]
-    assert(!unstdstring_strcmp(test_buffer_c_array_copy, test_buffer_c_array));
+    assert(!unstdstring_strcmp8(test_buffer_c_array_copy, test_buffer_c_array));
 
     _notify("[+]", "`unstdstring_toupperstr()` passed");
 }
@@ -305,7 +305,7 @@ void test_unstdstring_toupperstrcopy(void) {
     test_buffer_heap_allocated_result = unstdstring_toupperstrcopy(test_buffer_heap_allocated);
 
     // [Succeeds]
-    assert(!unstdstring_strcmp(test_buffer_heap_allocated_result, test_buffer_heap_allocated));
+    assert(!unstdstring_strcmp8(test_buffer_heap_allocated_result, test_buffer_heap_allocated));
     free(test_buffer_heap_allocated);
 
 
@@ -318,14 +318,14 @@ void test_unstdstring_toupperstrcopy(void) {
     free(test_buffer_c_array_result_temp);
 
     // [Succeeds]
-    assert(!unstdstring_strcmp(test_buffer_c_array_result, test_buffer_c_array));
+    assert(!unstdstring_strcmp8(test_buffer_c_array_result, test_buffer_c_array));
 
     // constant test
     const char *test_buffer_constant = "Hello, World!";
     char *test_buffer_constant_result = unstdstring_toupperstrcopy(test_buffer_constant);
 
     // [Succeeds]
-    assert(!unstdstring_strcmp(test_buffer_heap_allocated_result, test_buffer_constant));
+    assert(!unstdstring_strcmp8(test_buffer_heap_allocated_result, test_buffer_constant));
     free(test_buffer_constant_result);
 
     _notify("[+]", "`unstdstring_toupperstrcopy()` passed");
@@ -341,7 +341,7 @@ void test_unstdstring_toupperstrarray(void) {
     unstdstring_toupperstrarray(&test_buffer_c_array);
 
     // [Succeeds]
-    assert(!unstdstring_strcmp(test_buffer_c_array_copy, test_buffer_c_array));
+    assert(!unstdstring_strcmp8(test_buffer_c_array_copy, test_buffer_c_array));
 
     _notify("[+]", "`unstdstring_toupperstrarray()` passed");
 }
@@ -522,7 +522,7 @@ void test_unstdstring_bufferstringinit8(void) {
 
     // [Succeeds]
     assert(test_buffer != NULL);
-    assert(unstdstring_strcmp(test_buffer, "Hello World!"));
+    assert(unstdstring_strcmp8(test_buffer, "Hello World!"));
     assert(out_error_result == 1);
 
     // [Fails]
@@ -535,7 +535,7 @@ void test_unstdstring_bufferstringinit8(void) {
     u8 out_error_result_2 = 0;
     char *test_buffer_2 = unstdstring_bufferstringinit8(NULL, &out_error_result_2);
 
-    assert(unstdstring_strcmp(test_buffer_2, "\0"));
+    assert(unstdstring_strcmp8(test_buffer_2, "\0"));
     assert(out_error_result_2 == 1);
 
     // [Fails]
@@ -548,8 +548,41 @@ void test_unstdstring_bufferstringinit8(void) {
     _notify("[+]", "`unstdstring_bufferstringinit8()` passed");
 }
 
-//! [bufferclear]
-void test_unstdstring_bufferclear(void) {
+//! [bufferstringinit16]
+void test_unstdstring_bufferstringinit16(void) {
+    u8 out_error_result = 0;
+    u16 *test_buffer = unstdstring_bufferstringinit16(_unstdstring_encode_as_utf16("Hello World!"), &out_error_result);
+
+    // [Succeeds]
+    assert(test_buffer != NULL);
+    assert(unstdstring_strcmp16(test_buffer, _unstdstring_encode_as_utf16("Hello World!")));
+    assert(out_error_result == 1);
+
+    // [Fails]
+    assert(out_error_result != 0);
+    assert(out_error_result != 2);
+    assert(out_error_result != 3);
+
+    free(test_buffer);
+
+    u8 out_error_result_2 = 0;
+    u16 *test_buffer_2 = unstdstring_bufferstringinit16(NULL, &out_error_result_2);
+
+    assert(unstdstring_strcmp16(test_buffer_2, _unstdstring_encode_as_utf16("\0")));
+    assert(out_error_result_2 == 1);
+
+    // [Fails]
+    assert(out_error_result_2 != 0);
+    assert(out_error_result_2 != 2);
+    assert(out_error_result_2 != 3);
+
+    free(test_buffer_2);
+
+    _notify("[+]", "`unstdstring_bufferstringinit16()` passed");
+}
+
+//! [bufferclear8]
+void test_unstdstring_bufferclear8(void) {
     // heap-allocated test
     char *test_buffer_heap_allocated = (char *) malloc(32);
     char *const test_buffer_heap_allocated_copy = (char *) malloc(32);
@@ -557,11 +590,11 @@ void test_unstdstring_bufferclear(void) {
     strcpy(test_buffer_heap_allocated, "Hello, world!");
     strcpy(test_buffer_heap_allocated_copy, test_buffer_heap_allocated);
 
-    u8 function_return_value = unstdstring_bufferclear(test_buffer_heap_allocated);
+    u8 function_return_value = unstdstring_bufferclear8(test_buffer_heap_allocated);
 
     // [Succeeds]
-    assert(strlen(test_buffer_heap_allocated) != strlen(test_buffer_heap_allocated_copy));
-    assert(!unstdstring_strcmp(test_buffer_heap_allocated, test_buffer_heap_allocated_copy));
+    assert(unstdstring_strlen8(test_buffer_heap_allocated) != unstdstring_strlen8(test_buffer_heap_allocated_copy));
+    assert(!unstdstring_strcmp8(test_buffer_heap_allocated, test_buffer_heap_allocated_copy));
     assert(function_return_value == 1);
 
     // [Fails]
@@ -574,7 +607,7 @@ void test_unstdstring_bufferclear(void) {
     char *test_buffer_heap_allocated_2 = (char *) malloc(32);
     strcpy(test_buffer_heap_allocated_2, "Hello, world!");
 
-    unsigned char function_return_value_2 = unstdstring_bufferclear(test_buffer_heap_allocated_2);
+    unsigned char function_return_value_2 = unstdstring_bufferclear8(test_buffer_heap_allocated_2);
 
     // [Fails]
     assert(!(function_return_value_2 == 3));
@@ -586,7 +619,7 @@ void test_unstdstring_bufferclear(void) {
 
     free(test_buffer_heap_allocated_2);
 
-    _notify("[+]", "`unstdstring_bufferclear()` passed");
+    _notify("[+]", "`unstdstring_bufferclear8()` passed");
 }
 
 //! [pushchar8]
@@ -599,17 +632,17 @@ void test_unstdstring_pushchar8(void) {
     unstdstring_pushchar8(test_string_buffer, '!');
 
     // [Succeeds]
-    assert(strlen(test_string_buffer) == 1);
-    assert(unstdstring_strcmp(test_string_buffer, "!"));
+    assert(unstdstring_strlen8(test_string_buffer) == 1);
+    assert(unstdstring_strcmp8(test_string_buffer, "!"));
 
     unstdstring_pushchar8(test_string_buffer, ' ');
 
-    assert(strlen(test_string_buffer) == 2);
-    assert(unstdstring_strcmp(test_string_buffer, "! "));
+    assert(unstdstring_strlen8(test_string_buffer) == 2);
+    assert(unstdstring_strcmp8(test_string_buffer, "! "));
 
     // [Fails]
-    assert(strlen(test_string_buffer) != 0);
-    assert(!unstdstring_endswithchar(test_string_buffer, '+'));
+    assert(unstdstring_strlen8(test_string_buffer) != 0);
+    assert(!unstdstring_endswithchar8(test_string_buffer, '+'));
 
     free(test_string_buffer);
 
@@ -618,25 +651,25 @@ void test_unstdstring_pushchar8(void) {
 
 //! [pushchar16]
 void test_unstdstring_pushchar16(void) {
-    char *test_string_buffer = unstdstring_bufferstringinit8(NULL, NULL);
+    u16 *test_string_buffer = unstdstring_bufferstringinit16(NULL, NULL);
 
     // [Succeeds]
     assert(*test_string_buffer == '\0');
 
-    unstdstring_pushchar16(test_string_buffer, L'ÿ');
+    unstdstring_pushchar16(test_string_buffer, _unstdstring_encode_as_utf16('ÿ'));
 
     // [Succeeds]
     assert(unstdstring_strlen16((u16 *) test_string_buffer) == 1);
-    assert(unstdstring_strcmp(test_string_buffer, (char *) L"ÿ"));
+    assert(unstdstring_strcmp8((char *) test_string_buffer, (char *) _unstdstring_encode_as_utf16("ÿ")));
 
     unstdstring_pushchar16(test_string_buffer, ' ');
 
     assert(unstdstring_strlen16((u16 *) test_string_buffer) == 2);
-    assert(unstdstring_strcmp(test_string_buffer, (char *) L"ÿ "));
+    assert(unstdstring_strcmp8((char *) test_string_buffer, (char *) _unstdstring_encode_as_utf16("ÿ ")));
 
     // [Fails]
-    assert(strlen(test_string_buffer) != 0);
-    assert(!unstdstring_endswithchar(test_string_buffer, '+'));
+    assert(unstdstring_strlen8((char *) test_string_buffer) != 0);
+    assert(!unstdstring_endswithchar8((char *) test_string_buffer, '+'));
 
     free(test_string_buffer);
 
@@ -653,15 +686,15 @@ void test_unstdstring_popchar8(void) {
     // [Succeeds]
     assert(function_return_value == '!');
     assert(error_out_holder == 1);
-    assert(strlen(test_string_buffer) == 11);
-    assert(unstdstring_strcmp(test_string_buffer, "Hello World"));
+    assert(unstdstring_strlen8(test_string_buffer) == 11);
+    assert(unstdstring_strcmp8(test_string_buffer, "Hello World"));
 
     assert(unstdstring_popchar8(test_string_buffer, NULL) == 'd');
-    assert(strlen(test_string_buffer) == 10);
+    assert(unstdstring_strlen8(test_string_buffer) == 10);
 
     // [Fails]
-    assert(strlen(test_string_buffer) != 0);
-    assert(!unstdstring_endswithchar(test_string_buffer, '!'));
+    assert(unstdstring_strlen8(test_string_buffer) != 0);
+    assert(!unstdstring_endswithchar8(test_string_buffer, '!'));
 
     free(test_string_buffer);
 
@@ -670,55 +703,55 @@ void test_unstdstring_popchar8(void) {
 
 //! [popchar16]
 void test_unstdstring_popchar16(void) {
-    char *test_string_buffer = unstdstring_bufferstringinit8("Hello World!", NULL);
+    u16 *test_string_buffer = unstdstring_bufferstringinit16(_unstdstring_encode_as_utf16("Hello World!"), NULL);
 
-    unstdstring_pushchar16(test_string_buffer, L'Œ');
+    unstdstring_pushchar16(test_string_buffer, _unstdstring_encode_as_utf16('Œ'));
 
     u8 error_out_holder = 0;
     const u16 function_return_value = unstdstring_popchar16(test_string_buffer, &error_out_holder);
 
     // [Succeeds]
-    assert(function_return_value == L'Œ');
+    assert(function_return_value == _unstdstring_encode_as_utf16('Œ'));
     assert(error_out_holder == 1);
-    assert(unstdstring_strlen8(test_string_buffer) == 12);
-    assert(unstdstring_strcmp(test_string_buffer, "Hello World!"));
+    assert(unstdstring_strlen16(test_string_buffer) == 12);
+    assert(unstdstring_strcmp16(test_string_buffer, _unstdstring_encode_as_utf16("Hello World!")));
 
-    assert(unstdstring_popchar8(test_string_buffer, NULL) == '!');
-    assert(strlen(test_string_buffer) == 11);
+    assert(unstdstring_popchar16(test_string_buffer, NULL) == '!');
+    assert(unstdstring_strlen16(test_string_buffer) == 11);
 
     // [Fails]
-    assert(strlen(test_string_buffer) != 0);
-    assert(!unstdstring_endswithchar(test_string_buffer, '!'));
+    assert(unstdstring_strlen16(test_string_buffer) != 0);
+    assert((test_string_buffer[unstdstring_strlen16(test_string_buffer) - 1] != '!'));
 
     free(test_string_buffer);
 
-    _notify("[+]", "`unstdstring_popchar8()` passed");
+    _notify("[+]", "`unstdstring_popchar16()` passed");
 }
 
-//! [appendstr]
-void test_unstdstring_appendstr(void) {
+//! [appendstr8]
+void test_unstdstring_appendstr8(void) {
     char *test_string_buffer = unstdstring_bufferstringinit8("Hello", NULL);
 
-    unstdstring_appendstr(test_string_buffer, " fuckin' world");
+    unstdstring_appendstr8(test_string_buffer, " fuckin' world");
 
     // [Succeeds]
-    assert(strlen(test_string_buffer) == 19);
-    assert(unstdstring_strcmp(test_string_buffer, "Hello fuckin' world"));
+    assert(unstdstring_strlen8(test_string_buffer) == 19);
+    assert(unstdstring_strcmp8(test_string_buffer, "Hello fuckin' world"));
     free(test_string_buffer);
 
     char *test_string_buffer_2 = unstdstring_bufferstringinit8("Heyyyyyyyyyyyyyyyyyyyyyy madar jendeeeeeeeeeee", NULL);
 
-    unstdstring_appendstr(test_string_buffer_2, "Ɵ");
+    unstdstring_appendstr8(test_string_buffer_2, "Ɵ");
 
-    assert(unstdstring_strcmp(test_string_buffer_2, "Heyyyyyyyyyyyyyyyyyyyyyy madar jendeeeeeeeeeeeƟ"));
+    assert(unstdstring_strcmp8(test_string_buffer_2, "Heyyyyyyyyyyyyyyyyyyyyyy madar jendeeeeeeeeeeeƟ"));
 
     free(test_string_buffer_2);
 
     // [Fails]
     assert(test_string_buffer != 0);
-    assert(!unstdstring_endswithchar(test_string_buffer, 'o'));
+    assert(!unstdstring_endswithchar8(test_string_buffer, 'o'));
 
-    _notify("[+]", "`unstdstring_appendstr()` passed");
+    _notify("[+]", "`unstdstring_appendstr8()` passed");
 }
 
 
@@ -728,17 +761,17 @@ void test_unstdstring(void) {
     test_unstdstring_strlen16();
 
     //! [compare]
-    test_unstdstring_charcmp();
-    test_unstdstring_strcmp();
-    test_unstdstring_strcmpignorecase();
+    test_unstdstring_charcmp8();
+    test_unstdstring_strcmp8();
+    test_unstdstring_strcmpignorecase8();
 
     //! [startswith]
     test_unstdstring_startswithchar8();
     test_unstdstring_startswithcharignorecase8();
 
     //! [endswith]
-    test_unstdstring_endswithchar();
-    test_unstdstring_endswithcharignorecase();
+    test_unstdstring_endswithchar8();
+    test_unstdstring_endswithcharignorecase8();
 
     //! [tolower]
     test_unstdstring_tolowerstr();
@@ -765,14 +798,16 @@ void test_unstdstring(void) {
     test_unstdstring_ishexchar();
     test_unstdstring_iswhitespace();
 
+
     //! [string]
     test_unstdstring_bufferstringinit8();
-    test_unstdstring_bufferclear();
+    test_unstdstring_bufferstringinit16();
+    test_unstdstring_bufferclear8();
     test_unstdstring_pushchar8();
     test_unstdstring_pushchar16();
     test_unstdstring_popchar8();
     test_unstdstring_popchar16();
-    test_unstdstring_appendstr();
+    test_unstdstring_appendstr8();
 
 
     _notify("[+]", "`unstdstring` passed");
