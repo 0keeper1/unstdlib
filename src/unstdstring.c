@@ -6,7 +6,7 @@
 #include <string.h>
 
 
-extern u64l unstdstring_strlen8(const char *const buffer_arg) {
+u64l unstdstring_strlen8(const char *const buffer_arg) {
     if (buffer_arg == NULL || *buffer_arg == '\0') {
         return 0;
     }
@@ -17,7 +17,7 @@ extern u64l unstdstring_strlen8(const char *const buffer_arg) {
 }
 
 
-extern u64l unstdstring_strlen16(const u16 *const buffer_arg) {
+u64l unstdstring_strlen16(const u16 *const buffer_arg) {
     if (buffer_arg == NULL || *buffer_arg == '\0') {
         return 0;
     }
