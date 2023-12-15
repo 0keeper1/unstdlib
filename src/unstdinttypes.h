@@ -52,6 +52,4 @@ typedef int64_t s64t;
 typedef uint_least64_t u64lt;
 typedef int_least64_t s64lt;
 
-
-
 #endif /* UNSTDLIB_UNSTDINTTYPES_H */
