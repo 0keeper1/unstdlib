@@ -36,7 +36,7 @@ typedef enum : u8 {
  * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array buffer.
  * @returns Number of UTF-8 characters (bytes (u8)) in `buffer_arg`.
  */
-extern u64l unstdstring_strlen8(
+extern u64lt unstdstring_strlen8(
         const char *const buffer_arg
 );
 
@@ -46,8 +46,18 @@ extern u64l unstdstring_strlen8(
  * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated.
  * @returns Number of UTF-16 characters (double-bytes (u16)) in `buffer_arg`.
  */
-extern u64l unstdstring_strlen16(
+extern u64lt unstdstring_strlen16(
         const u16 *const buffer_arg
+);
+
+/**
+ * @brief Counts the number of UTF-32 characters (quad-bytes (u32t)) inside `buffer_arg`.
+ * @note Returns 0 if `buffer_arg` is NULL.
+ * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated.
+ * @returns Number of UTF-32 characters (quad-bytes (u32t)) in `buffer_arg`.
+ */
+extern u64lt unstdstring_strlen32(
+        const u32t *const buffer_arg
 );
 
 
@@ -325,7 +335,7 @@ extern bool unstdstring_iswhitespace(
  */
 extern u8 _unstdstring_bufferextend(
         void *buffer_arg,
-        const u32l bytes_arg,
+        const u32lt bytes_arg,
         const u8 encoding_arg
 );
 
@@ -353,7 +363,7 @@ extern u8 _unstdstring_bufferextend(
  */
 extern u8 _unstdstring_buffershrink(
         void *buffer_arg,
-        const u32l bytes_arg,
+        const u32lt bytes_arg,
         const u8 encoding_arg
 );
 

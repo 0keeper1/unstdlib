@@ -53,12 +53,12 @@ u8 unstdio_openfile(const char *const filepath_arg, const char *const mod_arg, c
     return 1;
 }
 
-s32l getfilesize(FILE *const fileptr_arg) {
+s32lt unstdio_getfilesize(FILE *const fileptr_arg) {
     if (fseek(fileptr_arg, 0, SEEK_END) < 0) {
         return -1;
     }
 
-    s32l filesize;
+    s32lt filesize;
     if (ftell(fileptr_arg) < 0) {
         return -2;
     }
