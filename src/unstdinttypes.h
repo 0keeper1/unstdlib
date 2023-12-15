@@ -17,7 +17,7 @@ typedef signed int s32;
 typedef unsigned long int u32l;
 typedef signed long int s32l;
 
-#if __WORDSIZE == 64 || defined __x86_64__
+#if __WORDSIZE == 64 || defined(__x86_64__)
 typedef unsigned long int u64;
 typedef signed long int s64;
 

@@ -71,10 +71,32 @@ void test_unstdstring_strcmp8(void) {
     _notify("[+]", "`unstdstring_strcmp8()` passed");
 }
 
+//! [strcmp16]
+void test_unstdstring_strcmp16(void) {
+    // [Succeeds]
+    assert(unstdstring_strcmp16(_unstdstring_encode_as_utf16("0"), _unstdstring_encode_as_utf16("0")));
+    assert(unstdstring_strcmp16(_unstdstring_encode_as_utf16("\0"), _unstdstring_encode_as_utf16("\0")));
+    assert(unstdstring_strcmp16(_unstdstring_encode_as_utf16("\x1\n"), _unstdstring_encode_as_utf16("\x1\n")));
+    assert(unstdstring_strcmp16(_unstdstring_encode_as_utf16("\x33"), _unstdstring_encode_as_utf16("\x33")));
+    assert(unstdstring_strcmp16(_unstdstring_encode_as_utf16("\n\n\n\r\r\r"),
+                                _unstdstring_encode_as_utf16("\n\n\n\r\r\r")));
+
+    // [Fails]
+    assert(!unstdstring_strcmp16(_unstdstring_encode_as_utf16("\10"), _unstdstring_encode_as_utf16("0")));
+    assert(!unstdstring_strcmp16(0, 0));
+    assert(!unstdstring_strcmp16(_unstdstring_encode_as_utf16("32"), _unstdstring_encode_as_utf16("0")));
+    assert(!unstdstring_strcmp16(_unstdstring_encode_as_utf16("\n\n\n\r\r\r\b"),
+                                 _unstdstring_encode_as_utf16("\n\n\n\r\r\r")));
+    assert(!unstdstring_strcmp16(NULL, NULL));
+
+    _notify("[+]", "`unstdstring_strcmp16()` passed");
+}
+
 //! [strcmpignorecase8]
 void test_unstdstring_strcmpignorecase8(void) {
     // [Succeeds]
     assert(unstdstring_strcmpignorecase8("0", "0"));
+    assert(unstdstring_strcmpignorecase8("", ""));
     assert(unstdstring_strcmpignorecase8("\0", "\0"));
     assert(unstdstring_strcmpignorecase8("\x1\n", "\x1\n"));
     assert(unstdstring_strcmpignorecase8("\x33", "\x33"));
@@ -763,6 +785,7 @@ void test_unstdstring(void) {
     //! [compare]
     test_unstdstring_charcmp8();
     test_unstdstring_strcmp8();
+    test_unstdstring_strcmp16();
     test_unstdstring_strcmpignorecase8();
 
     //! [startswith]

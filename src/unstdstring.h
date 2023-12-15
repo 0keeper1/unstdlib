@@ -325,7 +325,7 @@ extern bool unstdstring_iswhitespace(
  */
 extern u8 _unstdstring_bufferextend(
         void *buffer_arg,
-        const u64 bytes_arg,
+        const u32l bytes_arg,
         const u8 encoding_arg
 );
 
@@ -353,7 +353,7 @@ extern u8 _unstdstring_bufferextend(
  */
 extern u8 _unstdstring_buffershrink(
         void *buffer_arg,
-        const u64 bytes_arg,
+        const u32l bytes_arg,
         const u8 encoding_arg
 );
 
