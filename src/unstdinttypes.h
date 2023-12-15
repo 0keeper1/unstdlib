@@ -2,7 +2,9 @@
 #define UNSTDLIB_UNSTDINTTYPES_H
 
 #include <stddef.h>
+#include <stdint.h>
 #include <sys/types.h>
+#include <bits/stdint-uintn.h>
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -28,5 +30,28 @@ typedef signed long long int s64l;
 typedef u32l u64;
 typedef s32l s64;
 #endif
+
+// an alias for fixed-size/width types
+typedef uint8_t u8t;
+typedef int8_t s8t;
+typedef uint_least8_t u8lt;
+typedef int_least8_t s8lt;
+
+typedef uint16_t u16t;
+typedef int16_t s16t;
+typedef uint_least16_t u16lt;
+typedef int_least16_t s16lt;
+
+typedef uint32_t u32t;
+typedef int32_t s32t;
+typedef uint_least32_t u32lt;
+typedef int_least32_t s32lt;
+
+typedef uint64_t u64t;
+typedef int64_t s64t;
+typedef uint_least64_t u64lt;
+typedef int_least64_t s64lt;
+
+
 
 #endif /* UNSTDLIB_UNSTDINTTYPES_H */
