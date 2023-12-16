@@ -239,7 +239,7 @@ extern void unstdstring_toupperstr8(
  * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array buffer.
  * @returns A pointer to the first character of the modified buffer.
  */
-extern char *unstdstring_toupperstrcopy(
+extern char *unstdstring_toupperstrcopy8(
         const char *const buffer_arg
 );
 

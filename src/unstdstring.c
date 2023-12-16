@@ -278,7 +278,7 @@ void unstdstring_toupperstr8(char *const buffer_arg) {
 }
 
 
-char *unstdstring_toupperstrcopy(const char *const buffer_arg) {
+char *unstdstring_toupperstrcopy8(const char *const buffer_arg) {
     if (buffer_arg == NULL) {
         return NULL;
     }

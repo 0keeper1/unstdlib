@@ -377,15 +377,15 @@ void test_unstdstring_toupperstr8(void) {
     _notify("[+]", "`unstdstring_toupperstr8()` passed");
 }
 
-//! [toupperstrcopy]
-void test_unstdstring_toupperstrcopy(void) {
+//! [toupperstrcopy8]
+void test_unstdstring_toupperstrcopy8(void) {
     // heap-allocated test
     char *test_buffer_heap_allocated = (char *) malloc(32);
     char *test_buffer_heap_allocated_result = NULL;
 
     strcpy(test_buffer_heap_allocated, "Hello, world!");
 
-    test_buffer_heap_allocated_result = unstdstring_toupperstrcopy(test_buffer_heap_allocated);
+    test_buffer_heap_allocated_result = unstdstring_toupperstrcopy8(test_buffer_heap_allocated);
 
     // [Succeeds]
     assert(!unstdstring_strcmp8(test_buffer_heap_allocated_result, test_buffer_heap_allocated));
@@ -396,7 +396,7 @@ void test_unstdstring_toupperstrcopy(void) {
     char test_buffer_c_array[] = "Hello, world!";
     char test_buffer_c_array_result[sizeof(test_buffer_c_array)] = {'\0'};
 
-    char *test_buffer_c_array_result_temp = unstdstring_toupperstrcopy(test_buffer_c_array);
+    char *test_buffer_c_array_result_temp = unstdstring_toupperstrcopy8(test_buffer_c_array);
     strcpy(test_buffer_c_array_result, test_buffer_c_array_result_temp);
     free(test_buffer_c_array_result_temp);
 
@@ -405,13 +405,13 @@ void test_unstdstring_toupperstrcopy(void) {
 
     // constant test
     const char *test_buffer_constant = "Hello, World!";
-    char *test_buffer_constant_result = unstdstring_toupperstrcopy(test_buffer_constant);
+    char *test_buffer_constant_result = unstdstring_toupperstrcopy8(test_buffer_constant);
 
     // [Succeeds]
     assert(!unstdstring_strcmp8(test_buffer_heap_allocated_result, test_buffer_constant));
     free(test_buffer_constant_result);
 
-    _notify("[+]", "`unstdstring_toupperstrcopy()` passed");
+    _notify("[+]", "`unstdstring_toupperstrcopy8()` passed");
 }
 
 //! [toupperstrarray]
@@ -900,7 +900,7 @@ void test_unstdstring(void) {
 
     //! [toupper]
     test_unstdstring_toupperstr8();
-    test_unstdstring_toupperstrcopy();
+    test_unstdstring_toupperstrcopy8();
     test_unstdstring_toupperstrarray();
 
     //! [is]
