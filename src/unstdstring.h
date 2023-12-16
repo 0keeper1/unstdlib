@@ -210,7 +210,7 @@ extern void unstdstring_tolowerstr8(
  * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array / constant buffer.
  * @returns A pointer to the first character of the modified buffer.
  */
-char *unstdstring_tolowerstrcopy(
+extern char *unstdstring_tolowerstrcopy8(
         const char *const buffer_arg
 );
 

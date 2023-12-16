@@ -296,15 +296,15 @@ void test_unstdstring_tolowerstr8(void) {
     _notify("[+]", "`unstdstring_tolowerstr8()` passed");
 }
 
-//! [tolowerstrcopy]
-void test_unstdstring_tolowerstrcopy(void) {
+//! [tolowerstrcopy8]
+void test_unstdstring_tolowerstrcopy8(void) {
     // heap-allocated test
     char *test_buffer_heap_allocated = (char *) malloc(32);
     char *test_buffer_heap_allocated_result = NULL;
 
     strcpy(test_buffer_heap_allocated, "Hello, world!");
 
-    test_buffer_heap_allocated_result = unstdstring_tolowerstrcopy(test_buffer_heap_allocated);
+    test_buffer_heap_allocated_result = unstdstring_tolowerstrcopy8(test_buffer_heap_allocated);
 
     // [Succeeds]
     assert(!unstdstring_strcmp8(test_buffer_heap_allocated_result, test_buffer_heap_allocated));
@@ -315,7 +315,7 @@ void test_unstdstring_tolowerstrcopy(void) {
     char test_buffer_c_array[] = "Hello, world!";
     char test_buffer_c_array_result[sizeof(test_buffer_c_array)] = {'\0'};
 
-    char *test_buffer_c_array_result_temp = unstdstring_tolowerstrcopy(test_buffer_c_array);
+    char *test_buffer_c_array_result_temp = unstdstring_tolowerstrcopy8(test_buffer_c_array);
     strcpy(test_buffer_c_array_result, test_buffer_c_array_result_temp);
     free(test_buffer_c_array_result_temp);
 
@@ -324,13 +324,13 @@ void test_unstdstring_tolowerstrcopy(void) {
 
     // constant test
     const char *test_buffer_constant = "Hello, World!";
-    char *test_buffer_constant_result = unstdstring_tolowerstrcopy(test_buffer_constant);
+    char *test_buffer_constant_result = unstdstring_tolowerstrcopy8(test_buffer_constant);
 
     // [Succeeds]
     assert(!unstdstring_strcmp8(test_buffer_heap_allocated_result, test_buffer_constant));
     free(test_buffer_constant_result);
 
-    _notify("[+]", "`unstdstring_tolowerstrcopy()` passed");
+    _notify("[+]", "`unstdstring_tolowerstrcopy8()` passed");
 }
 
 //! [tolowerstrarray]
@@ -895,7 +895,7 @@ void test_unstdstring(void) {
 
     //! [tolower]
     test_unstdstring_tolowerstr8();
-    test_unstdstring_tolowerstrcopy();
+    test_unstdstring_tolowerstrcopy8();
     test_unstdstring_tolowerstrarray();
 
     //! [toupper]

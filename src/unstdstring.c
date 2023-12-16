@@ -247,7 +247,7 @@ void unstdstring_tolowerstr8(char *const buffer_arg) {
 }
 
 
-char *unstdstring_tolowerstrcopy(const char *const buffer_arg) {
+char *unstdstring_tolowerstrcopy8(const char *const buffer_arg) {
     if (!buffer_arg) {
         return NULL;
     }
