@@ -664,6 +664,39 @@ void test_unstdstring_bufferstringinit16(void) {
     _notify("[+]", "`unstdstring_bufferstringinit16()` passed");
 }
 
+//! [bufferstringinit32]
+void test_unstdstring_bufferstringinit32(void) {
+    u8t out_error_result = 0;
+    u32t *test_buffer = unstdstring_bufferstringinit32(_unstdstring_encode_as_utf32("Hello World!"), &out_error_result);
+
+    // [Succeeds]
+    assert(test_buffer != NULL);
+    assert(unstdstring_strcmp32(test_buffer, _unstdstring_encode_as_utf32("Hello World!")));
+    assert(out_error_result == 1);
+
+    // [Fails]
+    assert(out_error_result != 0);
+    assert(out_error_result != 2);
+    assert(out_error_result != 3);
+
+    free(test_buffer);
+
+    u8t out_error_result_2 = 0;
+    u32t *test_buffer_2 = unstdstring_bufferstringinit32(NULL, &out_error_result_2);
+
+    assert(unstdstring_strcmp32(test_buffer_2, _unstdstring_encode_as_utf32("\0")));
+    assert(out_error_result_2 == 1);
+
+    // [Fails]
+    assert(out_error_result_2 != 0);
+    assert(out_error_result_2 != 2);
+    assert(out_error_result_2 != 3);
+
+    free(test_buffer_2);
+
+    _notify("[+]", "`unstdstring_bufferstringinit32()` passed");
+}
+
 //! [bufferclear8]
 void test_unstdstring_bufferclear8(void) {
     // heap-allocated test
@@ -890,6 +923,7 @@ void test_unstdstring(void) {
     //! [string]
     test_unstdstring_bufferstringinit8();
     test_unstdstring_bufferstringinit16();
+    test_unstdstring_bufferstringinit32();
     test_unstdstring_bufferclear8();
     test_unstdstring_pushchar8();
     test_unstdstring_pushchar16();
