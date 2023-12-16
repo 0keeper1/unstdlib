@@ -130,6 +130,36 @@ bool unstdstring_strcmp16(const u16t *const f_buffer_arg, const u16t *const s_bu
 }
 
 
+bool unstdstring_strcmp32(const u32t *const f_buffer_arg, const u32t *const s_buffer_arg) {
+    if (!f_buffer_arg || !s_buffer_arg) {
+        return false;
+    }
+
+    if (!*f_buffer_arg && !*s_buffer_arg) {
+        return true;
+    }
+
+    if (!*f_buffer_arg || !*s_buffer_arg) {
+        return false;
+    }
+
+    u64lt length_s_buffer_arg = unstdstring_strlen32(s_buffer_arg);
+    u64lt length_f_buffer_arg = unstdstring_strlen32(f_buffer_arg);
+
+    if (length_s_buffer_arg != length_f_buffer_arg) {
+        return false;
+    }
+
+    for (u64lt buffer_arg_ptr = 0; ((u32t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
+        if (((u32t *) s_buffer_arg)[buffer_arg_ptr] != ((u32t *) f_buffer_arg)[buffer_arg_ptr]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
 bool unstdstring_strcmpignorecase8(const char *const f_buffer_arg, const char *const s_buffer_arg) {
     if (!f_buffer_arg || !s_buffer_arg) {
         return false;
@@ -426,7 +456,7 @@ u8t _unstdstring_buffershrink(void *buffer_arg, const u32lt bytes_arg, const u8t
 char *unstdstring_bufferstringinit8(const char *const buffer_arg, u8t *const out_error_arg) {
     u64lt size_buffer_arg = !buffer_arg ? 0 : unstdstring_strlen8(buffer_arg);
 
-    char *buffer = (char *) malloc(size_buffer_arg + 1);
+    char *buffer = (char *) malloc(size_buffer_arg + _unstdstring_bufferencoding_UTF8);
     if (!buffer) {
         if (out_error_arg) {
             *out_error_arg = 0;
@@ -434,7 +464,7 @@ char *unstdstring_bufferstringinit8(const char *const buffer_arg, u8t *const out
         return NULL;
     }
 
-    if (!memset(buffer, 0, size_buffer_arg + 1)) {
+    if (!memset(buffer, 0, size_buffer_arg + _unstdstring_bufferencoding_UTF8)) {
         if (out_error_arg) {
             *out_error_arg = 2;
         }
@@ -461,7 +491,7 @@ char *unstdstring_bufferstringinit8(const char *const buffer_arg, u8t *const out
 u16t *unstdstring_bufferstringinit16(const u16t *const buffer_arg, u8t *const out_error_arg) {
     u64lt size_bytes_buffer_arg = !buffer_arg ? 0 : (unstdstring_strlen16((const u16t *) buffer_arg) * 2);
 
-    u16t *buffer = (u16t *) malloc(size_bytes_buffer_arg + 2);
+    u16t *buffer = (u16t *) malloc(size_bytes_buffer_arg + _unstdstring_bufferencoding_UTF16);
     if (buffer == NULL) {
         if (out_error_arg) {
             *out_error_arg = 0;
@@ -469,7 +499,7 @@ u16t *unstdstring_bufferstringinit16(const u16t *const buffer_arg, u8t *const ou
         return NULL;
     }
 
-    if (!memset(buffer, 0, size_bytes_buffer_arg + 2)) {
+    if (!memset(buffer, 0, size_bytes_buffer_arg + _unstdstring_bufferencoding_UTF16)) {
         if (out_error_arg) {
             *out_error_arg = 2;
         }
@@ -502,8 +532,10 @@ u8t unstdstring_bufferclear8(void *const buffer_arg) {
         return 2;
     }
 
-    return _unstdstring_buffershrink(buffer_arg, unstdstring_strlen8(buffer_arg), _unstdstring_bufferencoding_UTF8) == 1
-           ? 1 : 3;
+    return _unstdstring_buffershrink(
+            buffer_arg,
+            unstdstring_strlen8(buffer_arg),
+            _unstdstring_bufferencoding_UTF8) == 1 ? 1 : 3;
 }
 
 

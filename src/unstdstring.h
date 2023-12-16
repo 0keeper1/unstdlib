@@ -31,20 +31,20 @@ typedef enum : u8t {
 
 //! [strlen]
 /**
- * @brief Counts the number of UTF-8 characters (bytes (u8)) inside `buffer_arg`.
+ * @brief Counts the number of UTF-8 characters (bytes (u8t)) inside `buffer_arg`.
  * @note Returns 0 if `buffer_arg` is NULL.
  * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array buffer.
- * @returns Number of UTF-8 characters (bytes (u8)) in `buffer_arg`.
+ * @returns Number of UTF-8 characters (bytes (u8t)) in `buffer_arg`.
  */
 extern u64lt unstdstring_strlen8(
         const char *const buffer_arg
 );
 
 /**
- * @brief Counts the number of UTF-16 characters (double-bytes (u16)) inside `buffer_arg`.
+ * @brief Counts the number of UTF-16 characters (double-bytes (u16t)) inside `buffer_arg`.
  * @note Returns 0 if `buffer_arg` is NULL.
  * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated.
- * @returns Number of UTF-16 characters (double-bytes (u16)) in `buffer_arg`.
+ * @returns Number of UTF-16 characters (double-bytes (u16t)) in `buffer_arg`.
  */
 extern u64lt unstdstring_strlen16(
         const u16t *const buffer_arg
@@ -119,6 +119,20 @@ extern bool unstdstring_strcmp8(
 extern bool unstdstring_strcmp16(
         const u16t *const f_buffer_arg,
         const u16t *const s_buffer_arg
+);
+
+/**
+ * @brief Checks if two UTF-32 strings are identical.
+ * @details Compares `s_buffer_arg` by `f_buffer_arg`.
+ *          It returns true if both `f_buffer_arg` and `s_buffer_arg` are '\0'.
+ *          It returns false in case of length inequality.
+ * @param f_buffer_arg A pointer to a null-terminated buffer.
+ * @param s_buffer_arg A pointer to a null-terminated buffer.
+ * @returns True if both buffers are identical otherwise False. See `details` for more details.
+ */
+extern bool unstdstring_strcmp32(
+        const u32t *const f_buffer_arg,
+        const u32t *const s_buffer_arg
 );
 
 /**
@@ -243,7 +257,7 @@ extern void unstdstring_toupperstrarray(
 //! [isascii]
 /**
  * @brief Whether a character is an ASCII control character or not.
- * @param buffer_arg Should be an ASCII (u8) character.
+ * @param buffer_arg Should be an ASCII (u8t) character.
  * @returns A boolean indicating the state of the operation.
  */
 extern bool unstdstring_isasciicontrolchar(
@@ -252,7 +266,7 @@ extern bool unstdstring_isasciicontrolchar(
 
 /**
  * @brief Whether a character is an ASCII printable character or not.
- * @param buffer_arg Should be an ASCII (u8) character.
+ * @param buffer_arg Should be an ASCII (u8t) character.
  * @returns A boolean indicating the state of the operation.
  */
 extern bool unstdstring_isasciiprintablechar(
@@ -261,7 +275,7 @@ extern bool unstdstring_isasciiprintablechar(
 
 /**
  * @brief Whether a character is an ASCII extended character or not.
- * @param buffer_arg Should be an ASCII (u8) character.
+ * @param buffer_arg Should be an ASCII (u8t) character.
  * @returns A boolean indicating the state of the operation.
  */
 extern bool unstdstring_isasciiextendedchar(
@@ -270,7 +284,7 @@ extern bool unstdstring_isasciiextendedchar(
 
 /**
  * @brief Whether a character is an ASCII visible character or not.
- * @param buffer_arg Should be an ASCII (u8) character.
+ * @param buffer_arg Should be an ASCII (u8t) character.
  * @returns A boolean indicating the state of the operation.
  */
 extern bool unstdstring_isasciivisiblechar(
@@ -280,7 +294,7 @@ extern bool unstdstring_isasciivisiblechar(
 /**
  * @brief Whether a character is an ASCII or not.
  * @note I know i know, it's pretty dump.
- * @param buffer_arg Should be an ASCII (u8) character.
+ * @param buffer_arg Should be an ASCII (u8t) character.
  * @returns A boolean indicating the state of the operation.
  */
 extern bool unstdstring_isasciichar(
@@ -289,7 +303,7 @@ extern bool unstdstring_isasciichar(
 
 /**
  * @brief Whether a character is within the ranges A-Z, a-z or not.
- * @param buffer_arg Should be an ASCII (u8) character.
+ * @param buffer_arg Should be an ASCII (u8t) character.
  * @returns A boolean indicating the state of the operation.
  */
 extern bool unstdstring_isalphabeticchar(
@@ -298,7 +312,7 @@ extern bool unstdstring_isalphabeticchar(
 
 /**
  * @brief Whether a character is within the ranges A-Z, a-z, 0-9 or not.
- * @param buffer_arg Should be an ASCII (u8) character.
+ * @param buffer_arg Should be an ASCII (u8t) character.
  * @returns A boolean indicating the state of the operation.
  */
 extern bool unstdstring_isalphanumericchar(
@@ -307,7 +321,7 @@ extern bool unstdstring_isalphanumericchar(
 
 /**
  * @brief Whether a character is within the range 0-9 or not.
- * @param buffer_arg Should be an ASCII (u8) character.
+ * @param buffer_arg Should be an ASCII (u8t) character.
  * @returns A boolean indicating the state of the operation.
  */
 extern bool unstdstring_isdigitchar(
@@ -316,7 +330,7 @@ extern bool unstdstring_isdigitchar(
 
 /**
  * @brief Whether a character is within the ranges A-f, a-f, 0-9 or not.
- * @param buffer_arg Should be an ASCII (u8) character.
+ * @param buffer_arg Should be an ASCII (u8t) character.
  * @returns A boolean indicating the state of the operation.
  */
 extern bool unstdstring_ishexchar(
@@ -347,7 +361,7 @@ extern bool unstdstring_iswhitespace(
  *                <strong>Minimum bytes_arg size</strong>: 0 (meaningless, waste of time/resource, shit-call operation. Why would you even wanna do that?).
  * @param encoding_arg Number of bytes for each character within the buffer.
  *                 (use `_unstdstring_bufferencoding` enum if you have no fucking idea what you are doing).
- * @returns A number (u8) indicating the state of the operation.
+ * @returns A number (u8t) indicating the state of the operation.
  * @retval [0] Failure. Failed to reallocate.
  * @retval [1] Success.
  * @retval [2] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
@@ -373,7 +387,7 @@ extern u8t _unstdstring_bufferextend(
  *                <strong>Minimum bytes_arg size</strong>: 0 (meaningless, waste of time/resource, shit-call operation. Why would you even wanna do that?).
  * @param encoding_arg Number of bytes for each character within the buffer.
  *                 (use `_unstdstring_bufferencoding` enum if you have no fucking idea what you are doing).
- * @returns A number (u8) indicating the state of the operation.
+ * @returns A number (u8t) indicating the state of the operation.
  * @retval [0] Failure. Failed to reallocate.
  * @retval [1] Success.
  * @retval [2] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
@@ -395,7 +409,7 @@ extern u8t _unstdstring_buffershrink(
  * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array / constant buffer.<br>
  *                  It gets assigned to the string (return) after declaration.<br>
  *                  Pass `NULL` to ignore.
- * @param out_error_arg Will contain a number (u8) indicating the state of the operation. See `outparam` and `outvalue`s.<br>
+ * @param out_error_arg Will contain a number (u8t) indicating the state of the operation. See `outparam` and `outvalue`s.<br>
  *                    It's considered best practice to always check for errors (only if you do give a shit).<br>
  *                    Pass `NULL` to ignore.
  * @returns A pointer to the newly allocated string buffer or NULL, in case of failure.
@@ -416,7 +430,7 @@ extern char *unstdstring_bufferstringinit8(
  * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array / constant buffer.<br>
  *                  It gets assigned to the string (return) after declaration.<br>
  *                  Pass `NULL` to ignore.
- * @param out_error_arg Will contain a number (u8) indicating the state of the operation. See `outparam` and `outvalue`s.<br>
+ * @param out_error_arg Will contain a number (u8t) indicating the state of the operation. See `outparam` and `outvalue`s.<br>
  *                    It's considered best practice to always check for errors (only if you do give a shit).<br>
  *                    Pass `NULL` to ignore.
  * @returns A pointer to the newly allocated string buffer or NULL, in case of failure.
@@ -437,7 +451,7 @@ extern u16t *unstdstring_bufferstringinit16(
  *          meaning that it only reallocates the buffer to the lowest size possible (that can only holds 1 byte '\0').
  * @attention Freeing the buffer is users responsibility.
  * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated buffer.
- * @returns A number (u8) indicating the state of the operation.
+ * @returns A number (u8t) indicating the state of the operation.
  * @retval [0] Failure. <code>memset()</code> failed.
  * @retval [1] Success.
  * @retval [2] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
@@ -454,7 +468,7 @@ extern u8t unstdstring_bufferclear8(
  * @brief Appends a character (ANSI, 8bit) at the end of the string buffer.
  * @param to_buffer_arg Should be a pointer to a valid, null-terminated heap-allocated buffer.
  * @param from_buffer_arg Should be an 8bit, ANSI character.
- * @returns A number (u8) indicating the state of the operation.
+ * @returns A number (u8t) indicating the state of the operation.
  * @retval [0] Failure. <code>_unstdstring_bufferextend()</code> failed.
  * @retval [1] Success.
  * @retval [2] Insufficient parameter. `to_buffer_arg` is NULL. See `to_buffer_arg`.
@@ -468,7 +482,7 @@ extern u8t unstdstring_pushchar8(
  * @brief Appends a character (ANSI, 16bit) at the end of the string buffer.
  * @param to_buffer_arg Should be a pointer to a valid, null-terminated heap-allocated buffer.
  * @param from_buffer_arg Should be a 16bit, ANSI character.
- * @returns A number (u8) indicating the state of the operation.
+ * @returns A number (u8t) indicating the state of the operation.
  * @retval [0] Failure. <code>_unstdstring_bufferextend()</code> failed.
  * @retval [1] Success.
  * @retval [2] Insufficient parameter. `to_buffer_arg` is NULL. See `to_buffer_arg`.
@@ -481,7 +495,7 @@ extern u8t unstdstring_pushchar16(
 /**
  * @brief Pops back the last character (ANSI, 8bit) from buffer.
  * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated buffer.
- * @param out_error_arg Will contain a number (u8) indicating the state of the operation.<br>
+ * @param out_error_arg Will contain a number (u8t) indicating the state of the operation.<br>
  *                    Pass `NULL` to ignore.
  * @returns The popped character from end-of-the-buffer or 0 in case of failure which is not very reliable.<br>
  *          It's best practice to always check for errors (only if you do give a shit).<br>
@@ -499,7 +513,7 @@ extern u8t unstdstring_popchar8(
 /**
  * @brief Pops back the last character (ANSI, 16bit) from buffer.
  * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated buffer.
- * @param out_error_arg Will contain a number (u16) indicating the state of the operation.<br>
+ * @param out_error_arg Will contain a number (u16t) indicating the state of the operation.<br>
  *                    Pass `NULL` to ignore.
  * @returns The popped character from end-of-the-buffer or 0 in case of failure which is not very reliable.<br>
  *          It's best practice to always check for errors (only if you do give a shit).<br>
@@ -518,7 +532,7 @@ extern u16t unstdstring_popchar16(
  * @brief Appends a string at the end of the string buffer (`to_buffer_arg`).
  * @param to_buffer_arg Should be a pointer to a valid, null-terminated heap-allocated buffer.
  * @param from_buffer_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array / constant buffer.
- * @returns A number (u8) indicating the state of the operation.
+ * @returns A number (u8t) indicating the state of the operation.
  * @retval [0] Failure. code>_unstdstring_bufferextend()</code> failed.
  * @retval [1] Success.
  * @retval [2] Insufficient parameter. `to_buffer_arg` is NULL. See `to_buffer_arg`.
