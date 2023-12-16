@@ -73,6 +73,11 @@ bool unstdstring_charcmp8(const u8t f_buffer_arg, const u8t s_buffer_arg) {
 }
 
 
+bool unstdstring_charcmp16(const u16t f_buffer_arg, const u16t s_buffer_arg) {
+    return f_buffer_arg == s_buffer_arg;
+}
+
+
 bool unstdstring_strcmp8(const char *const f_buffer_arg, const char *const s_buffer_arg) {
     if (!f_buffer_arg || !s_buffer_arg) {
         return false;
