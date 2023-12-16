@@ -351,16 +351,16 @@ extern bool unstdstring_iswhitespace(
 //! [manipulation]
 //! [resize]
 /**
- * @internal This function should not be called directly (dont fuck around with it if you have no idea what the fuck you are doing).
+ * @internal This function should not be called directly (dont play around with it if you got no idea what you are doing).
  * @brief Extends the buffer by reallocating it according to the `bytes_arg` param.
  * @details Extends the memory `bytes_arg` bytes, then zeros-out the newly reallocated (extended) memory.
  *          Be aware that it depends on <code>strlen()</code>; consider passing a buffer with (minimum_buffer_length >= 1) length.
  * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated buffer.
  * @param bytes_arg Number of bytes to extend the buffer by.<br><br>
  *                <strong>Maximum bytes_arg size</strong>: UNLIMITED (till your memory/system goes kaboom).<br>
- *                <strong>Minimum bytes_arg size</strong>: 0 (meaningless, waste of time/resource, shit-call operation. Why would you even wanna do that?).
+ *                <strong>Minimum bytes_arg size</strong>: 0 (is considered meaningless, waste of time/resource operation. Why would you even wanna do that?).
  * @param encoding_arg Number of bytes for each character within the buffer.
- *                 (use `_unstdstring_bufferencoding` enum if you have no fucking idea what you are doing).
+ *                 (use `_unstdstring_bufferencoding` enum if you have no idea what you are doing).
  * @returns A number (u8t) indicating the state of the operation.
  * @retval [0] Failure. Failed to reallocate.
  * @retval [1] Success.
@@ -376,7 +376,7 @@ extern u8t _unstdstring_bufferextend(
 );
 
 /**
- * @internal This function should not be called directly (dont fuck around with it if you have no idea what the fuck you are doing).
+ * @internal This function should not be called directly (dont play around with it if you got no idea what you are doing).
  * @brief Shrinks down the buffer by reallocating it according to the `bytes_arg` param.
  * @details Shrinks the memory `bytes_arg` bytes, then zeros-out the newly reallocated (shrinked) memory.<br>
  *          Be aware that it depends on <code>strlen()</code>; consider passing a buffer with (minimum_buffer_length >= 1) length.
@@ -384,9 +384,9 @@ extern u8t _unstdstring_bufferextend(
  *                  <strong>Minimum buffer_arg length</strong>: 1 (should be enough to be able to get shrinked down).
  * @param bytes_arg Number of bytes to shrink the buffer by.<br><br>
  *                <strong>Maximum bytes_arg size</strong>: should be less than the size of `buffer_arg`.<br>
- *                <strong>Minimum bytes_arg size</strong>: 0 (meaningless, waste of time/resource, shit-call operation. Why would you even wanna do that?).
+ *                <strong>Minimum bytes_arg size</strong>: 0 (is considered meaningless, waste of time/resource operation. Why would you even wanna do that?).
  * @param encoding_arg Number of bytes for each character within the buffer.
- *                 (use `_unstdstring_bufferencoding` enum if you have no fucking idea what you are doing).
+ *                 (use `_unstdstring_bufferencoding` enum if you have no idea what you are doing).
  * @returns A number (u8t) indicating the state of the operation.
  * @retval [0] Failure. Failed to reallocate.
  * @retval [1] Success.
@@ -410,7 +410,7 @@ extern u8t _unstdstring_buffershrink(
  *                  It gets assigned to the string (return) after declaration.<br>
  *                  Pass `NULL` to ignore.
  * @param out_error_arg Will contain a number (u8t) indicating the state of the operation. See `outparam` and `outvalue`s.<br>
- *                    It's considered best practice to always check for errors (only if you do give a shit).<br>
+ *                    It's considered best practice to always check for errors.<br>
  *                    Pass `NULL` to ignore.
  * @returns A pointer to the newly allocated string buffer or NULL, in case of failure.
  * @OutParam <strong>out_error_arg</strong>
@@ -431,7 +431,7 @@ extern char *unstdstring_bufferstringinit8(
  *                  It gets assigned to the string (return) after declaration.<br>
  *                  Pass `NULL` to ignore.
  * @param out_error_arg Will contain a number (u8t) indicating the state of the operation. See `outparam` and `outvalue`s.<br>
- *                    It's considered best practice to always check for errors (only if you do give a shit).<br>
+ *                    It's considered best practice to always check for errors.<br>
  *                    Pass `NULL` to ignore.
  * @returns A pointer to the newly allocated string buffer or NULL, in case of failure.
  * @OutParam <strong>out_error_arg</strong>
@@ -452,7 +452,7 @@ extern u16t *unstdstring_bufferstringinit16(
  *                  It gets assigned to the string (return) after declaration.<br>
  *                  Pass `NULL` to ignore.
  * @param out_error_arg Will contain a number (u8t) indicating the state of the operation. See `outparam` and `outvalue`s.<br>
- *                    It's considered best practice to always check for errors (only if you do give a shit).<br>
+ *                    It's considered best practice to always check for errors.<br>
  *                    Pass `NULL` to ignore.
  * @returns A pointer to the newly allocated string buffer or NULL, in case of failure.
  * @OutParam <strong>out_error_arg</strong>
@@ -476,10 +476,11 @@ extern u32t *unstdstring_bufferstringinit32(
  * @retval [0] Failure. <code>memset()</code> failed.
  * @retval [1] Success.
  * @retval [2] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
- * @retval [3] Failure. <code>_unstdstring_buffershrink()</code> failed.
+ * @retval [3] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
+ * @retval [4] Failure. <code>_unstdstring_buffershrink()</code> failed.
  */
 extern u8t unstdstring_bufferclear8(
-        void *const buffer_arg
+        char *const buffer_arg
 );
 
 
@@ -495,7 +496,7 @@ extern u8t unstdstring_bufferclear8(
  * @retval [2] Insufficient parameter. `to_buffer_arg` is NULL. See `to_buffer_arg`.
  */
 extern u8t unstdstring_pushchar8(
-        void *const to_buffer_arg,
+        char *const to_buffer_arg,
         const u8t from_buffer_arg
 );
 
@@ -509,7 +510,7 @@ extern u8t unstdstring_pushchar8(
  * @retval [2] Insufficient parameter. `to_buffer_arg` is NULL. See `to_buffer_arg`.
  */
 extern u8t unstdstring_pushchar16(
-        void *const to_buffer_arg,
+        u16t *const to_buffer_arg,
         const u16t from_buffer_arg
 );
 
@@ -519,15 +520,16 @@ extern u8t unstdstring_pushchar16(
  * @param out_error_arg Will contain a number (u8t) indicating the state of the operation.<br>
  *                    Pass `NULL` to ignore.
  * @returns The popped character from end-of-the-buffer or 0 in case of failure which is not very reliable.<br>
- *          It's best practice to always check for errors (only if you do give a shit).<br>
+ *          It's best practice to always check for errors.<br>
  *          See `out_error_arg`.
  * @OutParam <strong>out_error_arg</strong>
  * @OutParamValue [0] Failure. <code>_unstdstring_buffershrink()</code> failed.
  * @OutParamValue [1] Success.
  * @OutParamValue [2] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
+ * @OutParamValue [3] Insufficient parameter. `buffer_arg` is an empty string. See `buffer_arg`.
  */
 extern u8t unstdstring_popchar8(
-        void *const buffer_arg,
+        char *const buffer_arg,
         u8t *const out_error_arg
 );
 
@@ -537,15 +539,16 @@ extern u8t unstdstring_popchar8(
  * @param out_error_arg Will contain a number (u16t) indicating the state of the operation.<br>
  *                    Pass `NULL` to ignore.
  * @returns The popped character from end-of-the-buffer or 0 in case of failure which is not very reliable.<br>
- *          It's best practice to always check for errors (only if you do give a shit).<br>
+ *          It's best practice to always check for errors.<br>
  *          See `out_error_arg`.
  * @OutParam <strong>out_error_arg</strong>
  * @OutParamValue [0] Failure. <code>_unstdstring_buffershrink()</code> failed.
  * @OutParamValue [1] Success.
  * @OutParamValue [2] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
+ * @OutParamValue [3] Insufficient parameter. `buffer_arg` is an empty string. See `buffer_arg`.
  */
 extern u16t unstdstring_popchar16(
-        void *const buffer_arg,
+        u16t *const buffer_arg,
         u8t *const out_error_arg
 );
 
@@ -558,9 +561,10 @@ extern u16t unstdstring_popchar16(
  * @retval [1] Success.
  * @retval [2] Insufficient parameter. `to_buffer_arg` is NULL. See `to_buffer_arg`.
  * @retval [3] Insufficient parameter. `from_buffer_arg` is NULL. See `from_buffer_arg`.
+ * @retval [4] Insufficient parameter. `from_buffer_arg` is an empty string. See `from_buffer_arg`.
  */
 extern u8t unstdstring_appendstr8(
-        void *const to_buffer_arg,
+        char *const to_buffer_arg,
         const char *const from_buffer_arg
 );
 

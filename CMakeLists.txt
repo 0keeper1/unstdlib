@@ -9,7 +9,7 @@ set(CMAKE_C_STANDARD 11)
 
 # ------------------------ [ unstdlib files ] ------------------------
 set(locals_unstdlib
-        src/lib.h
+        src/unstdlib.h
         src/_unstdcommon.h
         )
 

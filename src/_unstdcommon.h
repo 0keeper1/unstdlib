@@ -9,7 +9,7 @@
 
 /**
  * @brief Checks whether a machine is little-endian or big-endian.
- * @details `usethefuckinggoogle.com`
+ * @details It first, stores a 2 continues bytes into memory, then fetches the first byte of it.
  * @returns A number (u8t) indicating the state of the operation.
  * @retval [0] little-endian
  * @retval [1] big-endian

@@ -26,6 +26,10 @@ void test_unstdstring_strlen8(void) {
 
 //! [strlen16]
 void test_unstdstring_strlen16(void) {
+    u16t *test_buffer_1 = _unstdstring_encode_as_utf16(
+            "this is a test string that contains utf-8, utf-16 characters! <ϿϾϰԀ>");
+    assert(unstdstring_strlen16(test_buffer_1) == 68);
+
     // heap-allocated test
     u16t *test_buffer_heap_allocated = (u16t *) malloc(1);
     unstdstring_pushchar16(test_buffer_heap_allocated, L'Œ');
@@ -42,8 +46,9 @@ void test_unstdstring_strlen16(void) {
 //! [strlen32]
 void test_unstdstring_strlen32(void) {
     // string literal test
-    u32t *test_buffer_1 = _unstdstring_encode_as_utf32("Oh shit!");
-    assert(unstdstring_strlen32(test_buffer_1) == 8);
+    u32t *test_buffer_1 = _unstdstring_encode_as_utf32(
+            "this is a test string that contains utf-8, utf-16, utf-32 characters + emojis! <ϿϾϰԀ | 🔒🔥🥶🭄🭏⼀􏿽>");
+    assert(unstdstring_strlen32(test_buffer_1) == 95);
 
     // [Succeeds]
     assert(unstdstring_strlen32(_unstdstring_encode_as_utf32("Y")) == 1);
@@ -142,7 +147,7 @@ void test_unstdstring_strcmp32(void) {
     assert(unstdstring_strcmp32(_unstdstring_encode_as_utf32("\0"), _unstdstring_encode_as_utf32("\0")));
     assert(unstdstring_strcmp32(_unstdstring_encode_as_utf32("\x1\n"), _unstdstring_encode_as_utf32("\x1\n")));
     assert(unstdstring_strcmp32(_unstdstring_encode_as_utf32("\x33"), _unstdstring_encode_as_utf32("\x33")));
-    assert(unstdstring_strcmp32(_unstdstring_encode_as_utf32("\n\r\r\r"),_unstdstring_encode_as_utf32("\n\r\r\r")));
+    assert(unstdstring_strcmp32(_unstdstring_encode_as_utf32("\n\r\r\r"), _unstdstring_encode_as_utf32("\n\r\r\r")));
 
     // [Fails]
     assert(!unstdstring_strcmp32(_unstdstring_encode_as_utf32("🤓☝️"), _unstdstring_encode_as_utf32("🤓☝️NO!")));
@@ -693,6 +698,19 @@ void test_unstdstring_bufferstringinit32(void) {
 
     free(test_buffer_2);
 
+    u8t out_error_result_3 = -1;
+    u32t *test_buffer_3 = unstdstring_bufferstringinit32(_unstdstring_encode_as_utf32(""), &out_error_result_3);
+
+    assert(unstdstring_strcmp32(test_buffer_3, _unstdstring_encode_as_utf32("")));
+    assert(out_error_result_3 == 1);
+
+    // [Fails]
+    assert(out_error_result_3 != 0);
+    assert(out_error_result_3 != 2);
+    assert(out_error_result_3 != 3);
+
+    free(test_buffer_3);
+
     _notify("[+]", "`unstdstring_bufferstringinit32()` passed");
 }
 
@@ -847,18 +865,18 @@ void test_unstdstring_popchar16(void) {
 void test_unstdstring_appendstr8(void) {
     char *test_string_buffer = unstdstring_bufferstringinit8("Hello", NULL);
 
-    unstdstring_appendstr8(test_string_buffer, " fuckin' world");
+    unstdstring_appendstr8(test_string_buffer, " my world");
 
     // [Succeeds]
-    assert(unstdstring_strlen8(test_string_buffer) == 19);
-    assert(unstdstring_strcmp8(test_string_buffer, "Hello fuckin' world"));
+    assert(unstdstring_strlen8(test_string_buffer) == 14);
+    assert(unstdstring_strcmp8(test_string_buffer, "Hello my world"));
     free(test_string_buffer);
 
-    char *test_string_buffer_2 = unstdstring_bufferstringinit8("Heyyyyyyyyyyyyyyyyyyyyyy madar jendeeeeeeeeeee", NULL);
+    char *test_string_buffer_2 = unstdstring_bufferstringinit8("\x01 - \xFF", NULL);
 
     unstdstring_appendstr8(test_string_buffer_2, "Ɵ");
 
-    assert(unstdstring_strcmp8(test_string_buffer_2, "Heyyyyyyyyyyyyyyyyyyyyyy madar jendeeeeeeeeeeeƟ"));
+    assert(unstdstring_strcmp8(test_string_buffer_2, "\x01 - \xFFƟ"));
 
     free(test_string_buffer_2);
 
