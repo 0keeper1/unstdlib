@@ -12,7 +12,7 @@
  */
 #ifndef __unstdstring_bufferencoding
 #define __unstdstring_bufferencoding
-typedef enum : u8 {
+typedef enum : u8t {
     _unstdstring_bufferencoding_UTF8 = 1,
     _unstdstring_bufferencoding_UTF16 = 2,
     _unstdstring_bufferencoding_UTF32 = 4
@@ -44,19 +44,19 @@ u64lt unstdstring_strlen8(const char *const buffer_arg) {
 }
 
 
-u64lt unstdstring_strlen16(const u16 *const buffer_arg) {
+u64lt unstdstring_strlen16(const u16t *const buffer_arg) {
     if (!buffer_arg || !*buffer_arg) {
         return 0;
     }
 
     u64lt len = 0;
-    while (((u16 *) buffer_arg)[++len]);
+    while (((u16t *) buffer_arg)[++len]);
 
     return len;
 }
 
 
-bool unstdstring_charcmp8(const u8 f_buffer_arg, const u8 s_buffer_arg) {
+bool unstdstring_charcmp8(const u8t f_buffer_arg, const u8t s_buffer_arg) {
     return f_buffer_arg == s_buffer_arg;
 }
 
@@ -78,7 +78,7 @@ bool unstdstring_strcmp8(const char *const f_buffer_arg, const char *const s_buf
 }
 
 
-bool unstdstring_strcmp16(const u16 *const f_buffer_arg, const u16 *const s_buffer_arg) {
+bool unstdstring_strcmp16(const u16t *const f_buffer_arg, const u16t *const s_buffer_arg) {
     if (!f_buffer_arg || !s_buffer_arg) {
         return false;
     }
@@ -98,8 +98,8 @@ bool unstdstring_strcmp16(const u16 *const f_buffer_arg, const u16 *const s_buff
         return false;
     }
 
-    for (u64lt buffer_arg_ptr = 0; ((u16 *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
-        if (((u16 *) s_buffer_arg)[buffer_arg_ptr] != ((u16 *) f_buffer_arg)[buffer_arg_ptr]) {
+    for (u64lt buffer_arg_ptr = 0; ((u16t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
+        if (((u16t *) s_buffer_arg)[buffer_arg_ptr] != ((u16t *) f_buffer_arg)[buffer_arg_ptr]) {
             return false;
         }
     }
@@ -128,8 +128,8 @@ bool unstdstring_strcmpignorecase8(const char *const f_buffer_arg, const char *c
         return false;
     }
 
-    for (u64lt buffer_arg_ptr = 0; ((u8 *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
-        if (tolower(((u8 *) s_buffer_arg)[buffer_arg_ptr]) != tolower(((u8 *) f_buffer_arg)[buffer_arg_ptr])) {
+    for (u64lt buffer_arg_ptr = 0; ((u8t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
+        if (tolower(((u8t *) s_buffer_arg)[buffer_arg_ptr]) != tolower(((u8t *) f_buffer_arg)[buffer_arg_ptr])) {
             return false;
         }
     }
@@ -252,60 +252,60 @@ void unstdstring_toupperstrarray(char (*const buffer_arg)[]) {
 }
 
 
-bool unstdstring_isasciicontrolchar(const u8 buffer_arg) {
+bool unstdstring_isasciicontrolchar(const u8t buffer_arg) {
     return buffer_arg >= 0 && buffer_arg <= 31 || buffer_arg == 127;
 }
 
 
-bool unstdstring_isasciiprintablechar(const u8 buffer_arg) {
+bool unstdstring_isasciiprintablechar(const u8t buffer_arg) {
     return buffer_arg >= 32 && buffer_arg <= 126;
 }
 
 
-bool unstdstring_isasciiextendedchar(const u8 buffer_arg) {
+bool unstdstring_isasciiextendedchar(const u8t buffer_arg) {
     return buffer_arg >= 128 && buffer_arg <= 255;
 }
 
-bool unstdstring_isasciivisiblechar(const u8 buffer_arg) {
+bool unstdstring_isasciivisiblechar(const u8t buffer_arg) {
     return unstdstring_isasciiprintablechar(buffer_arg) || unstdstring_isasciiextendedchar(buffer_arg);
 }
 
-bool unstdstring_isasciichar(const u8 buffer_arg) {
+bool unstdstring_isasciichar(const u8t buffer_arg) {
     return buffer_arg >= 0 && buffer_arg <= 255;
 }
 
-bool unstdstring_isalphabeticchar(const u8 buffer_arg) {
+bool unstdstring_isalphabeticchar(const u8t buffer_arg) {
     return buffer_arg >= 'a' && buffer_arg <= 'z'
            || buffer_arg >= 'A' && buffer_arg <= 'Z';
 }
 
 
-bool unstdstring_isalphanumericchar(const u8 buffer_arg) {
+bool unstdstring_isalphanumericchar(const u8t buffer_arg) {
     return unstdstring_isalphabeticchar(buffer_arg)
            || buffer_arg >= '0' && buffer_arg <= '9';
 }
 
 
-bool unstdstring_isdigitchar(const u8 buffer_arg) {
+bool unstdstring_isdigitchar(const u8t buffer_arg) {
     return buffer_arg >= '0' && buffer_arg <= '9';
 }
 
 
-bool unstdstring_ishexchar(const u8 buffer_arg) {
+bool unstdstring_ishexchar(const u8t buffer_arg) {
     return unstdstring_isdigitchar(buffer_arg)
            || buffer_arg >= 'a' && buffer_arg <= 'f'
            || buffer_arg >= 'A' && buffer_arg <= 'F';
 }
 
 
-bool unstdstring_iswhitespace(const u8 buffer_arg) {
+bool unstdstring_iswhitespace(const u8t buffer_arg) {
     return buffer_arg == 32 || buffer_arg == 9
            || buffer_arg == 10 || buffer_arg == 11
            || buffer_arg == 12 || buffer_arg == 13;
 }
 
 
-u8 _unstdstring_bufferextend(void *buffer_arg, const u32lt bytes_arg, const u8 encoding_arg) {
+u8t _unstdstring_bufferextend(void *buffer_arg, const u32lt bytes_arg, const u8t encoding_arg) {
     if (!buffer_arg) {
         return 2;
     }
@@ -349,7 +349,7 @@ u8 _unstdstring_bufferextend(void *buffer_arg, const u32lt bytes_arg, const u8 e
 }
 
 
-u8 _unstdstring_buffershrink(void *buffer_arg, const u32lt bytes_arg, const u8 encoding_arg) {
+u8t _unstdstring_buffershrink(void *buffer_arg, const u32lt bytes_arg, const u8t encoding_arg) {
     if (!buffer_arg) {
         return 2;
     }
@@ -403,7 +403,7 @@ u8 _unstdstring_buffershrink(void *buffer_arg, const u32lt bytes_arg, const u8 e
 }
 
 
-char *unstdstring_bufferstringinit8(const char *const buffer_arg, u8 *const out_error_arg) {
+char *unstdstring_bufferstringinit8(const char *const buffer_arg, u8t *const out_error_arg) {
     u64lt size_buffer_arg = !buffer_arg ? 0 : unstdstring_strlen8(buffer_arg);
 
     char *buffer = (char *) malloc(size_buffer_arg + 1);
@@ -438,10 +438,10 @@ char *unstdstring_bufferstringinit8(const char *const buffer_arg, u8 *const out_
 }
 
 
-u16 *unstdstring_bufferstringinit16(const u16 *const buffer_arg, u8 *const out_error_arg) {
-    u64lt size_bytes_buffer_arg = !buffer_arg ? 0 : (unstdstring_strlen16((const u16 *) buffer_arg) * 2);
+u16t *unstdstring_bufferstringinit16(const u16t *const buffer_arg, u8t *const out_error_arg) {
+    u64lt size_bytes_buffer_arg = !buffer_arg ? 0 : (unstdstring_strlen16((const u16t *) buffer_arg) * 2);
 
-    u16 *buffer = (u16 *) malloc(size_bytes_buffer_arg + 2);
+    u16t *buffer = (u16t *) malloc(size_bytes_buffer_arg + 2);
     if (buffer == NULL) {
         if (out_error_arg) {
             *out_error_arg = 0;
@@ -458,9 +458,9 @@ u16 *unstdstring_bufferstringinit16(const u16 *const buffer_arg, u8 *const out_e
 
     if (buffer_arg) {
         if (!unstdstring_strcmp16(
-                (u16 *) memcpy((char *) buffer,
-                               (char *) buffer_arg,
-                               size_bytes_buffer_arg),
+                (u16t *) memcpy((char *) buffer,
+                                (char *) buffer_arg,
+                                size_bytes_buffer_arg),
                 buffer_arg)) {
             if (out_error_arg) {
                 *out_error_arg = 3;
@@ -477,7 +477,7 @@ u16 *unstdstring_bufferstringinit16(const u16 *const buffer_arg, u8 *const out_e
 }
 
 
-u8 unstdstring_bufferclear8(void *const buffer_arg) {
+u8t unstdstring_bufferclear8(void *const buffer_arg) {
     if (!buffer_arg) {
         return 2;
     }
@@ -487,7 +487,7 @@ u8 unstdstring_bufferclear8(void *const buffer_arg) {
 }
 
 
-u8 unstdstring_pushchar8(void *const to_buffer_arg, const u8 from_buffer_arg) {
+u8t unstdstring_pushchar8(void *const to_buffer_arg, const u8t from_buffer_arg) {
     if (!to_buffer_arg) {
         return 2;
     }
@@ -498,13 +498,13 @@ u8 unstdstring_pushchar8(void *const to_buffer_arg, const u8 from_buffer_arg) {
 
     const u64lt size_to_buffer_arg = unstdstring_strlen8(to_buffer_arg);
 
-    ((u8 *) to_buffer_arg)[size_to_buffer_arg] = from_buffer_arg;
-    ((u8 *) to_buffer_arg)[size_to_buffer_arg + 1] = 0;
+    ((u8t *) to_buffer_arg)[size_to_buffer_arg] = from_buffer_arg;
+    ((u8t *) to_buffer_arg)[size_to_buffer_arg + 1] = 0;
     return 1;
 }
 
 
-u8 unstdstring_pushchar16(void *const to_buffer_arg, const u16 from_buffer_arg) {
+u8t unstdstring_pushchar16(void *const to_buffer_arg, const u16t from_buffer_arg) {
     if (!to_buffer_arg) {
         return 2;
     }
@@ -515,14 +515,14 @@ u8 unstdstring_pushchar16(void *const to_buffer_arg, const u16 from_buffer_arg) 
 
     const u64lt size_to_buffer_arg = unstdstring_strlen16(to_buffer_arg);
 
-    ((u16 *) to_buffer_arg)[size_to_buffer_arg] = from_buffer_arg;
-    ((u16 *) to_buffer_arg)[size_to_buffer_arg + 1] = 0;
+    ((u16t *) to_buffer_arg)[size_to_buffer_arg] = from_buffer_arg;
+    ((u16t *) to_buffer_arg)[size_to_buffer_arg + 1] = 0;
 
     return 1;
 }
 
 
-u8 unstdstring_popchar8(void *const buffer_arg, u8 *const out_error_arg) {
+u8t unstdstring_popchar8(void *const buffer_arg, u8t *const out_error_arg) {
     if (!buffer_arg) {
         if (out_error_arg) {
             *out_error_arg = 2;
@@ -530,7 +530,7 @@ u8 unstdstring_popchar8(void *const buffer_arg, u8 *const out_error_arg) {
         return 0;
     }
 
-    u8 temp_char_holder = ((u8 *) buffer_arg)[unstdstring_strlen8(buffer_arg) - 1];
+    u8t temp_char_holder = ((u8t *) buffer_arg)[unstdstring_strlen8(buffer_arg) - 1];
 
     if (_unstdstring_buffershrink(buffer_arg, 1, _unstdstring_bufferencoding_UTF8) != 1) {
         if (out_error_arg) {
@@ -547,7 +547,7 @@ u8 unstdstring_popchar8(void *const buffer_arg, u8 *const out_error_arg) {
 }
 
 
-u16 unstdstring_popchar16(void *const buffer_arg, u8 *const out_error_arg) {
+u16t unstdstring_popchar16(void *const buffer_arg, u8t *const out_error_arg) {
     if (!buffer_arg) {
         if (out_error_arg) {
             *out_error_arg = 2;
@@ -555,7 +555,7 @@ u16 unstdstring_popchar16(void *const buffer_arg, u8 *const out_error_arg) {
         return 0;
     }
 
-    u16 temp_char_holder = ((u16 *) buffer_arg)[unstdstring_strlen16(buffer_arg) - 1];
+    u16t temp_char_holder = ((u16t *) buffer_arg)[unstdstring_strlen16(buffer_arg) - 1];
 
     if (_unstdstring_buffershrink(buffer_arg, 1, _unstdstring_bufferencoding_UTF16) != 1) {
         if (out_error_arg) {
@@ -572,7 +572,7 @@ u16 unstdstring_popchar16(void *const buffer_arg, u8 *const out_error_arg) {
 }
 
 
-u8 unstdstring_appendstr8(void *const to_buffer_arg, const char *const from_buffer_arg) {
+u8t unstdstring_appendstr8(void *const to_buffer_arg, const char *const from_buffer_arg) {
     if (!to_buffer_arg) {
         return 2;
     }

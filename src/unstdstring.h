@@ -9,7 +9,7 @@
  */
 #ifndef __unstdstring_bufferencoding
 #define __unstdstring_bufferencoding
-typedef enum : u8 {
+typedef enum : u8t {
     _unstdstring_bufferencoding_UTF8 = 1,
     _unstdstring_bufferencoding_UTF16 = 2,
     _unstdstring_bufferencoding_UTF32 = 4
@@ -47,7 +47,7 @@ extern u64lt unstdstring_strlen8(
  * @returns Number of UTF-16 characters (double-bytes (u16)) in `buffer_arg`.
  */
 extern u64lt unstdstring_strlen16(
-        const u16 *const buffer_arg
+        const u16t *const buffer_arg
 );
 
 /**
@@ -69,8 +69,8 @@ extern u64lt unstdstring_strlen32(
  * @returns True if both buffers are identical otherwise False.
  */
 extern bool unstdstring_charcmp8(
-        const u8 f_buffer_arg,
-        const u8 s_buffer_arg
+        const u8t f_buffer_arg,
+        const u8t s_buffer_arg
 );
 
 /**
@@ -95,8 +95,8 @@ extern bool unstdstring_strcmp8(
  * @returns True if both buffers are identical otherwise False. See `details` for more details.
  */
 extern bool unstdstring_strcmp16(
-        const u16 *const f_buffer_arg,
-        const u16 *const s_buffer_arg
+        const u16t *const f_buffer_arg,
+        const u16t *const s_buffer_arg
 );
 
 /**
@@ -225,7 +225,7 @@ extern void unstdstring_toupperstrarray(
  * @returns A boolean indicating the state of the operation.
  */
 extern bool unstdstring_isasciicontrolchar(
-        const u8 buffer_arg
+        const u8t buffer_arg
 );
 
 /**
@@ -234,7 +234,7 @@ extern bool unstdstring_isasciicontrolchar(
  * @returns A boolean indicating the state of the operation.
  */
 extern bool unstdstring_isasciiprintablechar(
-        const u8 buffer_arg
+        const u8t buffer_arg
 );
 
 /**
@@ -243,7 +243,7 @@ extern bool unstdstring_isasciiprintablechar(
  * @returns A boolean indicating the state of the operation.
  */
 extern bool unstdstring_isasciiextendedchar(
-        const u8 buffer_arg
+        const u8t buffer_arg
 );
 
 /**
@@ -252,7 +252,7 @@ extern bool unstdstring_isasciiextendedchar(
  * @returns A boolean indicating the state of the operation.
  */
 extern bool unstdstring_isasciivisiblechar(
-        const u8 buffer_arg
+        const u8t buffer_arg
 );
 
 /**
@@ -262,7 +262,7 @@ extern bool unstdstring_isasciivisiblechar(
  * @returns A boolean indicating the state of the operation.
  */
 extern bool unstdstring_isasciichar(
-        const u8 buffer_arg
+        const u8t buffer_arg
 );
 
 /**
@@ -271,7 +271,7 @@ extern bool unstdstring_isasciichar(
  * @returns A boolean indicating the state of the operation.
  */
 extern bool unstdstring_isalphabeticchar(
-        const u8 buffer_arg
+        const u8t buffer_arg
 );
 
 /**
@@ -280,7 +280,7 @@ extern bool unstdstring_isalphabeticchar(
  * @returns A boolean indicating the state of the operation.
  */
 extern bool unstdstring_isalphanumericchar(
-        const u8 buffer_arg
+        const u8t buffer_arg
 );
 
 /**
@@ -289,7 +289,7 @@ extern bool unstdstring_isalphanumericchar(
  * @returns A boolean indicating the state of the operation.
  */
 extern bool unstdstring_isdigitchar(
-        const u8 buffer_arg
+        const u8t buffer_arg
 );
 
 /**
@@ -298,7 +298,7 @@ extern bool unstdstring_isdigitchar(
  * @returns A boolean indicating the state of the operation.
  */
 extern bool unstdstring_ishexchar(
-        const u8 buffer_arg
+        const u8t buffer_arg
 );
 
 /**
@@ -307,7 +307,7 @@ extern bool unstdstring_ishexchar(
  * @returns A boolean indicating the state of the operation.
  */
 extern bool unstdstring_iswhitespace(
-        const u8 buffer_arg
+        const u8t buffer_arg
 );
 
 
@@ -333,10 +333,10 @@ extern bool unstdstring_iswhitespace(
  * @retval [4] Insufficient parameter. `encoding_arg` is not a valid encoding. See `encoding_arg`.
  * @retval [5] Failure. <code>memset()</code> failed.
  */
-extern u8 _unstdstring_bufferextend(
+extern u8t _unstdstring_bufferextend(
         void *buffer_arg,
         const u32lt bytes_arg,
-        const u8 encoding_arg
+        const u8t encoding_arg
 );
 
 /**
@@ -361,10 +361,10 @@ extern u8 _unstdstring_bufferextend(
  * @retval [6] Insufficient parameter. `encoding_arg` is not a valid encoding. See `encoding_arg`.
  * @retval [7] Failure. <code>memset()</code> failed.
  */
-extern u8 _unstdstring_buffershrink(
+extern u8t _unstdstring_buffershrink(
         void *buffer_arg,
         const u32lt bytes_arg,
-        const u8 encoding_arg
+        const u8t encoding_arg
 );
 
 /**
@@ -385,7 +385,7 @@ extern u8 _unstdstring_buffershrink(
  */
 extern char *unstdstring_bufferstringinit8(
         const char *const buffer_arg,
-        u8 *const out_error_arg
+        u8t *const out_error_arg
 );
 
 /**
@@ -404,9 +404,9 @@ extern char *unstdstring_bufferstringinit8(
  * @OutParamValue [2] Failure <code>memset()</code> failed.
  * @OutParamValue [3] Failure <code>strcpy()</code> failed.
  */
-extern u16 *unstdstring_bufferstringinit16(
-        const u16 *const buffer_arg,
-        u8 *const out_error_arg
+extern u16t *unstdstring_bufferstringinit16(
+        const u16t *const buffer_arg,
+        u8t *const out_error_arg
 );
 
 /**
@@ -421,7 +421,7 @@ extern u16 *unstdstring_bufferstringinit16(
  * @retval [2] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
  * @retval [3] Failure. <code>_unstdstring_buffershrink()</code> failed.
  */
-extern u8 unstdstring_bufferclear8(
+extern u8t unstdstring_bufferclear8(
         void *const buffer_arg
 );
 
@@ -437,9 +437,9 @@ extern u8 unstdstring_bufferclear8(
  * @retval [1] Success.
  * @retval [2] Insufficient parameter. `to_buffer_arg` is NULL. See `to_buffer_arg`.
  */
-extern u8 unstdstring_pushchar8(
+extern u8t unstdstring_pushchar8(
         void *const to_buffer_arg,
-        const u8 from_buffer_arg
+        const u8t from_buffer_arg
 );
 
 /**
@@ -451,9 +451,9 @@ extern u8 unstdstring_pushchar8(
  * @retval [1] Success.
  * @retval [2] Insufficient parameter. `to_buffer_arg` is NULL. See `to_buffer_arg`.
  */
-extern u8 unstdstring_pushchar16(
+extern u8t unstdstring_pushchar16(
         void *const to_buffer_arg,
-        const u16 from_buffer_arg
+        const u16t from_buffer_arg
 );
 
 /**
@@ -469,9 +469,9 @@ extern u8 unstdstring_pushchar16(
  * @OutParamValue [1] Success.
  * @OutParamValue [2] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
  */
-extern u8 unstdstring_popchar8(
+extern u8t unstdstring_popchar8(
         void *const buffer_arg,
-        u8 *const out_error_arg
+        u8t *const out_error_arg
 );
 
 /**
@@ -487,9 +487,9 @@ extern u8 unstdstring_popchar8(
  * @OutParamValue [1] Success.
  * @OutParamValue [2] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
  */
-extern u16 unstdstring_popchar16(
+extern u16t unstdstring_popchar16(
         void *const buffer_arg,
-        u8 *const out_error_arg
+        u8t *const out_error_arg
 );
 
 /**
@@ -502,7 +502,7 @@ extern u16 unstdstring_popchar16(
  * @retval [2] Insufficient parameter. `to_buffer_arg` is NULL. See `to_buffer_arg`.
  * @retval [3] Insufficient parameter. `from_buffer_arg` is NULL. See `from_buffer_arg`.
  */
-extern u8 unstdstring_appendstr8(
+extern u8t unstdstring_appendstr8(
         void *const to_buffer_arg,
         const char *const from_buffer_arg
 );

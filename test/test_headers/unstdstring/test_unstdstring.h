@@ -27,7 +27,7 @@ void test_unstdstring_strlen8(void) {
 //! [strlen16]
 void test_unstdstring_strlen16(void) {
     // heap-allocated test
-    u16 *test_buffer_heap_allocated = (u16 *) malloc(1);
+    u16t *test_buffer_heap_allocated = (u16t *) malloc(1);
     unstdstring_pushchar16(test_buffer_heap_allocated, L'Œ');
     unstdstring_pushchar16(test_buffer_heap_allocated, L'Ɯ');
     unstdstring_pushchar16(test_buffer_heap_allocated, L'Ɯ');
@@ -539,7 +539,7 @@ void test_unstdstring_iswhitespace(void) {
 
 //! [bufferstringinit8]
 void test_unstdstring_bufferstringinit8(void) {
-    u8 out_error_result = 0;
+    u8t out_error_result = 0;
     char *test_buffer = unstdstring_bufferstringinit8("Hello World!", &out_error_result);
 
     // [Succeeds]
@@ -554,7 +554,7 @@ void test_unstdstring_bufferstringinit8(void) {
 
     free(test_buffer);
 
-    u8 out_error_result_2 = 0;
+    u8t out_error_result_2 = 0;
     char *test_buffer_2 = unstdstring_bufferstringinit8(NULL, &out_error_result_2);
 
     assert(unstdstring_strcmp8(test_buffer_2, "\0"));
@@ -572,8 +572,8 @@ void test_unstdstring_bufferstringinit8(void) {
 
 //! [bufferstringinit16]
 void test_unstdstring_bufferstringinit16(void) {
-    u8 out_error_result = 0;
-    u16 *test_buffer = unstdstring_bufferstringinit16(_unstdstring_encode_as_utf16("Hello World!"), &out_error_result);
+    u8t out_error_result = 0;
+    u16t *test_buffer = unstdstring_bufferstringinit16(_unstdstring_encode_as_utf16("Hello World!"), &out_error_result);
 
     // [Succeeds]
     assert(test_buffer != NULL);
@@ -587,8 +587,8 @@ void test_unstdstring_bufferstringinit16(void) {
 
     free(test_buffer);
 
-    u8 out_error_result_2 = 0;
-    u16 *test_buffer_2 = unstdstring_bufferstringinit16(NULL, &out_error_result_2);
+    u8t out_error_result_2 = 0;
+    u16t *test_buffer_2 = unstdstring_bufferstringinit16(NULL, &out_error_result_2);
 
     assert(unstdstring_strcmp16(test_buffer_2, _unstdstring_encode_as_utf16("\0")));
     assert(out_error_result_2 == 1);
@@ -612,7 +612,7 @@ void test_unstdstring_bufferclear8(void) {
     strcpy(test_buffer_heap_allocated, "Hello, world!");
     strcpy(test_buffer_heap_allocated_copy, test_buffer_heap_allocated);
 
-    u8 function_return_value = unstdstring_bufferclear8(test_buffer_heap_allocated);
+    u8t function_return_value = unstdstring_bufferclear8(test_buffer_heap_allocated);
 
     // [Succeeds]
     assert(unstdstring_strlen8(test_buffer_heap_allocated) != unstdstring_strlen8(test_buffer_heap_allocated_copy));
@@ -673,7 +673,7 @@ void test_unstdstring_pushchar8(void) {
 
 //! [pushchar16]
 void test_unstdstring_pushchar16(void) {
-    u16 *test_string_buffer = unstdstring_bufferstringinit16(NULL, NULL);
+    u16t *test_string_buffer = unstdstring_bufferstringinit16(NULL, NULL);
 
     // [Succeeds]
     assert(*test_string_buffer == '\0');
@@ -681,12 +681,12 @@ void test_unstdstring_pushchar16(void) {
     unstdstring_pushchar16(test_string_buffer, _unstdstring_encode_as_utf16('ÿ'));
 
     // [Succeeds]
-    assert(unstdstring_strlen16((u16 *) test_string_buffer) == 1);
+    assert(unstdstring_strlen16((u16t *) test_string_buffer) == 1);
     assert(unstdstring_strcmp8((char *) test_string_buffer, (char *) _unstdstring_encode_as_utf16("ÿ")));
 
     unstdstring_pushchar16(test_string_buffer, ' ');
 
-    assert(unstdstring_strlen16((u16 *) test_string_buffer) == 2);
+    assert(unstdstring_strlen16((u16t *) test_string_buffer) == 2);
     assert(unstdstring_strcmp8((char *) test_string_buffer, (char *) _unstdstring_encode_as_utf16("ÿ ")));
 
     // [Fails]
@@ -702,8 +702,8 @@ void test_unstdstring_pushchar16(void) {
 void test_unstdstring_popchar8(void) {
     char *test_string_buffer = unstdstring_bufferstringinit8("Hello World!", NULL);
 
-    u8 error_out_holder = 0;
-    const u8 function_return_value = unstdstring_popchar8(test_string_buffer, &error_out_holder);
+    u8t error_out_holder = 0;
+    const u8t function_return_value = unstdstring_popchar8(test_string_buffer, &error_out_holder);
 
     // [Succeeds]
     assert(function_return_value == '!');
@@ -725,12 +725,12 @@ void test_unstdstring_popchar8(void) {
 
 //! [popchar16]
 void test_unstdstring_popchar16(void) {
-    u16 *test_string_buffer = unstdstring_bufferstringinit16(_unstdstring_encode_as_utf16("Hello World!"), NULL);
+    u16t *test_string_buffer = unstdstring_bufferstringinit16(_unstdstring_encode_as_utf16("Hello World!"), NULL);
 
     unstdstring_pushchar16(test_string_buffer, _unstdstring_encode_as_utf16('Œ'));
 
-    u8 error_out_holder = 0;
-    const u16 function_return_value = unstdstring_popchar16(test_string_buffer, &error_out_holder);
+    u8t error_out_holder = 0;
+    const u16t function_return_value = unstdstring_popchar16(test_string_buffer, &error_out_holder);
 
     // [Succeeds]
     assert(function_return_value == _unstdstring_encode_as_utf16('Œ'));

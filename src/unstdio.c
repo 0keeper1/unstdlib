@@ -37,7 +37,7 @@ while ((line_bytes_arg = getline(&line_data_arg, &len, fileptr_arg)) != -1)
 #endif
 
 
-u8 unstdio_openfile(const char *const filepath_arg, const char *const mod_arg, const FILE *fileptr_arg) {
+u8t unstdio_openfile(const char *const filepath_arg, const char *const mod_arg, const FILE *fileptr_arg) {
     char *filepath_arg_realpath = NULL;
     if ((filepath_arg_realpath = realpath(filepath_arg, NULL)) == NULL) {
         return 0;
