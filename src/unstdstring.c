@@ -242,7 +242,7 @@ bool unstdstring_endswithcharignorecase8(const char *const buffer_arg, const cha
 }
 
 
-void unstdstring_tolowerstr(char *const buffer_arg) {
+void unstdstring_tolowerstr8(char *const buffer_arg) {
     for (u64lt i = 0; buffer_arg[i]; buffer_arg[i] = (char) tolower(buffer_arg[i]), i++);
 }
 

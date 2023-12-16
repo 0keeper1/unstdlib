@@ -267,8 +267,8 @@ void test_unstdstring_endswithcharignorecase8(void) {
     _notify("[+]", "`unstdstring_endswithcharignorecase8()` passed");
 }
 
-//! [tolowerstr]
-void test_unstdstring_tolowerstr(void) {
+//! [tolowerstr8]
+void test_unstdstring_tolowerstr8(void) {
     // heap-allocated test
     char *test_buffer_heap_allocated = (char *) malloc(32);
     char *const test_buffer_heap_allocated_copy = (char *) malloc(32);
@@ -276,7 +276,7 @@ void test_unstdstring_tolowerstr(void) {
     strcpy(test_buffer_heap_allocated, "Hello, world!");
     strcpy(test_buffer_heap_allocated_copy, test_buffer_heap_allocated);
 
-    unstdstring_tolowerstr(test_buffer_heap_allocated);
+    unstdstring_tolowerstr8(test_buffer_heap_allocated);
 
     // [Succeeds]
     assert(!unstdstring_strcmp8(test_buffer_heap_allocated_copy, test_buffer_heap_allocated));
@@ -288,12 +288,12 @@ void test_unstdstring_tolowerstr(void) {
 
     strcpy(test_buffer_c_array_copy, test_buffer_c_array);
 
-    unstdstring_tolowerstr(test_buffer_c_array);
+    unstdstring_tolowerstr8(test_buffer_c_array);
 
     // [Succeeds]
     assert(!unstdstring_strcmp8(test_buffer_c_array_copy, test_buffer_c_array));
 
-    _notify("[+]", "`unstdstring_tolowerstr()` passed");
+    _notify("[+]", "`unstdstring_tolowerstr8()` passed");
 }
 
 //! [tolowerstrcopy]
@@ -894,7 +894,7 @@ void test_unstdstring(void) {
     test_unstdstring_endswithcharignorecase8();
 
     //! [tolower]
-    test_unstdstring_tolowerstr();
+    test_unstdstring_tolowerstr8();
     test_unstdstring_tolowerstrcopy();
     test_unstdstring_tolowerstrarray();
 
