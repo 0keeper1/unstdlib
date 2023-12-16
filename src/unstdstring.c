@@ -268,7 +268,7 @@ char *unstdstring_tolowerstrcopy8(const char *const buffer_arg) {
 }
 
 
-void unstdstring_tolowerstrarray(char (*const buffer_arg)[]) {
+void unstdstring_tolowerstrarray8(char (*const buffer_arg)[]) {
     for (u64lt i = 0; (*buffer_arg)[i]; i++) { (*buffer_arg)[i] = (char) tolower((*buffer_arg)[i]); }
 }
 
