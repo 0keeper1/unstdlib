@@ -10,13 +10,13 @@
 /**
  * @brief Checks whether a machine is little-endian or big-endian.
  * @details `usethefuckinggoogle.com`
- * @returns A number (u8) indicating the state of the operation.
+ * @returns A number (u8t) indicating the state of the operation.
  * @retval [0] little-endian
  * @retval [1] big-endian
  */
-u8 unstdcommon_endianness(void) {
-    u8 i = 1;
-    return !((u8 *) &i)[0];
+u8t unstdcommon_endianness(void) {
+    u16t i = 0x00ff;
+    return ((u8t *) &i)[0] == 0x00;
 }
 
 #endif /* UNSTDLIB__UNSTDCOMMON_H */
