@@ -348,8 +348,8 @@ void test_unstdstring_tolowerstrarray8(void) {
     _notify("[+]", "`unstdstring_tolowerstrarray8()` passed");
 }
 
-//! [toupperstr]
-void test_unstdstring_toupperstr(void) {
+//! [toupperstr8]
+void test_unstdstring_toupperstr8(void) {
     // heap-allocated test
     char *test_buffer_heap_allocated = (char *) malloc(32);
     char *const test_buffer_heap_allocated_copy = (char *) malloc(32);
@@ -357,7 +357,7 @@ void test_unstdstring_toupperstr(void) {
     strcpy(test_buffer_heap_allocated, "Hello, world!");
     strcpy(test_buffer_heap_allocated_copy, test_buffer_heap_allocated);
 
-    unstdstring_toupperstr(test_buffer_heap_allocated);
+    unstdstring_toupperstr8(test_buffer_heap_allocated);
 
     // [Succeeds]
     assert(!unstdstring_strcmp8(test_buffer_heap_allocated_copy, test_buffer_heap_allocated));
@@ -369,12 +369,12 @@ void test_unstdstring_toupperstr(void) {
 
     strcpy(test_buffer_c_array_copy, test_buffer_c_array);
 
-    unstdstring_toupperstr(test_buffer_c_array);
+    unstdstring_toupperstr8(test_buffer_c_array);
 
     // [Succeeds]
     assert(!unstdstring_strcmp8(test_buffer_c_array_copy, test_buffer_c_array));
 
-    _notify("[+]", "`unstdstring_toupperstr()` passed");
+    _notify("[+]", "`unstdstring_toupperstr8()` passed");
 }
 
 //! [toupperstrcopy]
@@ -899,7 +899,7 @@ void test_unstdstring(void) {
     test_unstdstring_tolowerstrarray8();
 
     //! [toupper]
-    test_unstdstring_toupperstr();
+    test_unstdstring_toupperstr8();
     test_unstdstring_toupperstrcopy();
     test_unstdstring_toupperstrarray();
 

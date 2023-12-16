@@ -230,7 +230,7 @@ extern void unstdstring_tolowerstrarray8(
  * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array buffer.
  * @returns A pointer to the first character of the modified buffer.
  */
-extern void unstdstring_toupperstr(
+extern void unstdstring_toupperstr8(
         char *const buffer_arg
 );
 

@@ -273,7 +273,7 @@ void unstdstring_tolowerstrarray8(char (*const buffer_arg)[]) {
 }
 
 
-void unstdstring_toupperstr(char *const buffer_arg) {
+void unstdstring_toupperstr8(char *const buffer_arg) {
     for (u64lt i = 0; buffer_arg[i]; buffer_arg[i] = (char) toupper(buffer_arg[i]), i++);
 }
 
