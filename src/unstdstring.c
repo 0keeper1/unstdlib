@@ -489,7 +489,10 @@ char *unstdstring_bufferstringinit8(const char *const buffer_arg, u8t *const out
 
 
 u16t *unstdstring_bufferstringinit16(const u16t *const buffer_arg, u8t *const out_error_arg) {
-    u64lt size_bytes_buffer_arg = !buffer_arg ? 0 : (unstdstring_strlen16((const u16t *) buffer_arg) * 2);
+    u64lt size_bytes_buffer_arg = !buffer_arg
+                                  ? 0
+                                  : (unstdstring_strlen16((const u16t *) buffer_arg)
+                                     * _unstdstring_bufferencoding_UTF16);
 
     u16t *buffer = (u16t *) malloc(size_bytes_buffer_arg + _unstdstring_bufferencoding_UTF16);
     if (buffer == NULL) {
@@ -509,6 +512,48 @@ u16t *unstdstring_bufferstringinit16(const u16t *const buffer_arg, u8t *const ou
     if (buffer_arg) {
         if (!unstdstring_strcmp16(
                 (u16t *) memcpy((char *) buffer,
+                                (char *) buffer_arg,
+                                size_bytes_buffer_arg),
+                buffer_arg)) {
+            if (out_error_arg) {
+                *out_error_arg = 3;
+            }
+            return NULL;
+        }
+    }
+
+    if (out_error_arg) {
+        *out_error_arg = 1;
+    }
+
+    return buffer;
+}
+
+
+u32t *unstdstring_bufferstringinit32(const u32t *const buffer_arg, u8t *const out_error_arg) {
+    u64lt size_bytes_buffer_arg = !buffer_arg
+                                  ? 0
+                                  : (unstdstring_strlen32((const u32t *) buffer_arg)
+                                     * _unstdstring_bufferencoding_UTF32);
+
+    u32t *buffer = (u32t *) malloc(size_bytes_buffer_arg + _unstdstring_bufferencoding_UTF32);
+    if (buffer == NULL) {
+        if (out_error_arg) {
+            *out_error_arg = 0;
+        }
+        return NULL;
+    }
+
+    if (!memset(buffer, 0, size_bytes_buffer_arg + _unstdstring_bufferencoding_UTF32)) {
+        if (out_error_arg) {
+            *out_error_arg = 2;
+        }
+        return NULL;
+    }
+
+    if (buffer_arg) {
+        if (!unstdstring_strcmp32(
+                (u32t *) memcpy((char *) buffer,
                                 (char *) buffer_arg,
                                 size_bytes_buffer_arg),
                 buffer_arg)) {

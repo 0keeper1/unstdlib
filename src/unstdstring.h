@@ -446,6 +446,27 @@ extern u16t *unstdstring_bufferstringinit16(
 );
 
 /**
+ * @brief Declares and initializes a valid, null-terminated heap-allocated UTF-32 string buffer.
+ * @details It allocates 32 bits (4 bytes) for each character despite the character encoding.
+ * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array / constant buffer.<br>
+ *                  It gets assigned to the string (return) after declaration.<br>
+ *                  Pass `NULL` to ignore.
+ * @param out_error_arg Will contain a number (u8t) indicating the state of the operation. See `outparam` and `outvalue`s.<br>
+ *                    It's considered best practice to always check for errors (only if you do give a shit).<br>
+ *                    Pass `NULL` to ignore.
+ * @returns A pointer to the newly allocated string buffer or NULL, in case of failure.
+ * @OutParam <strong>out_error_arg</strong>
+ * @OutParamValue [0] Failure. <code>malloc()<code> failed.
+ * @OutParamValue [1] Success.
+ * @OutParamValue [2] Failure <code>memset()</code> failed.
+ * @OutParamValue [3] Failure <code>strcpy()</code> failed.
+ */
+extern u32t *unstdstring_bufferstringinit32(
+        const u32t *const buffer_arg,
+        u8t *const out_error_arg
+);
+
+/**
  * @brief Zeros all the bytes in `buffer_arg`.
  * @details This function only reallocates to 1; it does not free the `buffer_arg`,
  *          meaning that it only reallocates the buffer to the lowest size possible (that can only holds 1 byte '\0').
