@@ -134,6 +134,28 @@ void test_unstdstring_strcmp16(void) {
     _notify("[+]", "`unstdstring_strcmp16()` passed");
 }
 
+//! [strcmp32]
+void test_unstdstring_strcmp32(void) {
+    // [Succeeds]
+    assert(unstdstring_strcmp32(_unstdstring_encode_as_utf32("🤓☝️"), _unstdstring_encode_as_utf32("🤓☝️")));
+    assert(unstdstring_strcmp32(_unstdstring_encode_as_utf32("0"), _unstdstring_encode_as_utf32("0")));
+    assert(unstdstring_strcmp32(_unstdstring_encode_as_utf32("\0"), _unstdstring_encode_as_utf32("\0")));
+    assert(unstdstring_strcmp32(_unstdstring_encode_as_utf32("\x1\n"), _unstdstring_encode_as_utf32("\x1\n")));
+    assert(unstdstring_strcmp32(_unstdstring_encode_as_utf32("\x33"), _unstdstring_encode_as_utf32("\x33")));
+    assert(unstdstring_strcmp32(_unstdstring_encode_as_utf32("\n\r\r\r"),_unstdstring_encode_as_utf32("\n\r\r\r")));
+
+    // [Fails]
+    assert(!unstdstring_strcmp32(_unstdstring_encode_as_utf32("🤓☝️"), _unstdstring_encode_as_utf32("🤓☝️NO!")));
+    assert(!unstdstring_strcmp32(_unstdstring_encode_as_utf32("\10"), _unstdstring_encode_as_utf32("0")));
+    assert(!unstdstring_strcmp32(0, 0));
+    assert(!unstdstring_strcmp32(_unstdstring_encode_as_utf32("32"), _unstdstring_encode_as_utf32("0")));
+    assert(!unstdstring_strcmp32(_unstdstring_encode_as_utf32("\n\n\n\r\r\r\b"),
+                                 _unstdstring_encode_as_utf32("\n\n\n\r\r\r")));
+    assert(!unstdstring_strcmp32(NULL, NULL));
+
+    _notify("[+]", "`unstdstring_strcmp32()` passed");
+}
+
 //! [strcmpignorecase8]
 void test_unstdstring_strcmpignorecase8(void) {
     // [Succeeds]
@@ -828,6 +850,7 @@ void test_unstdstring(void) {
     test_unstdstring_charcmp32();
     test_unstdstring_strcmp8();
     test_unstdstring_strcmp16();
+    test_unstdstring_strcmp32();
     test_unstdstring_strcmpignorecase8();
 
     //! [startswith]
