@@ -81,6 +81,19 @@ void test_unstdstring_charcmp16(void) {
     _notify("[+]", "`unstdstring_charcmp16()` passed");
 }
 
+//! [charcmp16]
+void test_unstdstring_charcmp32(void) {
+    // [Succeeds]
+    assert(unstdstring_charcmp32('0', '0'));
+    assert(unstdstring_charcmp32(2, 2));
+    assert(unstdstring_charcmp32(_unstdstring_encode_as_utf32('🤓'), _unstdstring_encode_as_utf32('🤓')));
+
+    // [Fails]
+    assert(!unstdstring_charcmp32(' ', '2'));
+
+    _notify("[+]", "`unstdstring_charcmp32()` passed");
+}
+
 //! [strcmp8]
 void test_unstdstring_strcmp8(void) {
     // [Succeeds]
@@ -812,6 +825,7 @@ void test_unstdstring(void) {
     //! [compare]
     test_unstdstring_charcmp8();
     test_unstdstring_charcmp16();
+    test_unstdstring_charcmp32();
     test_unstdstring_strcmp8();
     test_unstdstring_strcmp16();
     test_unstdstring_strcmpignorecase8();
