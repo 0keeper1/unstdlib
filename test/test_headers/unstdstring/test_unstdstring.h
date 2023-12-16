@@ -39,6 +39,22 @@ void test_unstdstring_strlen16(void) {
     _notify("[+]", "`unstdstring_strlen16()` passed");
 }
 
+//! [strlen32]
+void test_unstdstring_strlen32(void) {
+    // string literal test
+    u32t *test_buffer_1 = _unstdstring_encode_as_utf32("Oh shit!");
+    assert(unstdstring_strlen32(test_buffer_1) == 8);
+
+    // [Succeeds]
+    assert(unstdstring_strlen32(_unstdstring_encode_as_utf32("Y")) == 1);
+    assert(unstdstring_strlen32(_unstdstring_encode_as_utf32(" ")) == 1);
+    assert(unstdstring_strlen32(_unstdstring_encode_as_utf32("")) == 0);
+    assert(unstdstring_strlen32(_unstdstring_encode_as_utf32("\0")) == 0);
+    assert(unstdstring_strlen32(_unstdstring_encode_as_utf32("🤓✅")) == 2);
+
+    _notify("[+]", "`unstdstring_strlen32()` passed");
+}
+
 //! [charcmp8]
 void test_unstdstring_charcmp8(void) {
     // [Succeeds]
@@ -285,7 +301,6 @@ void test_unstdstring_tolowerstrarray(void) {
     _notify("[+]", "`unstdstring_tolowerstrarray()` passed");
 }
 
-
 //! [toupperstr]
 void test_unstdstring_toupperstr(void) {
     // heap-allocated test
@@ -314,7 +329,6 @@ void test_unstdstring_toupperstr(void) {
 
     _notify("[+]", "`unstdstring_toupperstr()` passed");
 }
-
 
 //! [toupperstrcopy]
 void test_unstdstring_toupperstrcopy(void) {
@@ -427,7 +441,6 @@ void test_unstdstring_isasciichar(void) {
 
     _notify("[+]", "`unstdstring_isasciichar()` passed");
 }
-
 
 //! [isalphabeticchar]
 void test_unstdstring_isalphabeticchar(void) {
@@ -781,6 +794,7 @@ void test_unstdstring(void) {
     //! [strlen]
     test_unstdstring_strlen8();
     test_unstdstring_strlen16();
+    test_unstdstring_strlen32();
 
     //! [compare]
     test_unstdstring_charcmp8();
