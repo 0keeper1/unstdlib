@@ -85,6 +85,17 @@ extern bool unstdstring_charcmp16(
 );
 
 /**
+ *
+ * @param f_buffer_arg Should be an UTF-32 character.
+ * @param s_buffer_arg Should be a UTF-32 character.
+ * @returns True if both buffers are identical otherwise False.
+ */
+extern bool unstdstring_charcmp32(
+        const u32t f_buffer_arg,
+        const u32t s_buffer_arg
+);
+
+/**
  * @brief Checks if two UTF-8 strings are identical.
  * @details Its just a wrapper around the C's </code>strlen()</code>.
  * @param f_buffer_arg A pointer to a null-terminated buffer.
