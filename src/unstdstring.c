@@ -336,9 +336,8 @@ u8t _unstdstring_bufferextend(void *buffer_arg, const u32lt bytes_arg, const u8t
             size_buffer_arg = unstdstring_strlen16(buffer_arg);
             break;
         case _unstdstring_bufferencoding_UTF32:
-            // [under implementation]
-            //size_buffer_arg = unstdstring_strlen32(buffer_arg);
-            //break;
+            size_buffer_arg = unstdstring_strlen32(buffer_arg);
+            break;
         default:
             return 4;
     }
@@ -380,9 +379,8 @@ u8t _unstdstring_buffershrink(void *buffer_arg, const u32lt bytes_arg, const u8t
             size_buffer_arg = unstdstring_strlen16(buffer_arg);
             break;
         case _unstdstring_bufferencoding_UTF32:
-            // [under implementation]
-            //size_buffer_arg = unstdstring_strlen32(buffer_arg);
-            //break;
+            size_buffer_arg = unstdstring_strlen32(buffer_arg);
+            break;
         default:
             return 6;
     }
