@@ -47,7 +47,7 @@ while ((line_bytes_arg = getline(&line_data_arg, &len, fileptr_arg)) != -1)
  * @OutParam <strong>fileptr_arg</strong> Should be a pointer to a NULL FILE handle.
  * @OutParamValue [NULL] Failure. Refer to `retval`'s.
  * @OutParamValue [Valid Pointer] Success.
- * @returns A number (u8t ) indicating the state of the operation.
+ * @returns A number (u8t) indicating the state of the operation.
  * @retval [0] Failure. <code>realpath()</code> failed.
  * @retval [1] Success.
  * @retval [2] Failure. <code>fopen()</code> failed.
