@@ -56,6 +56,18 @@ u64lt unstdstring_strlen16(const u16t *const buffer_arg) {
 }
 
 
+u64lt unstdstring_strlen32(const u32t *const buffer_arg) {
+    if (!buffer_arg || !*buffer_arg) {
+        return 0;
+    }
+
+    u64lt len = 0;
+    while (((u32t *) buffer_arg)[++len]);
+
+    return len;
+}
+
+
 bool unstdstring_charcmp8(const u8t f_buffer_arg, const u8t s_buffer_arg) {
     return f_buffer_arg == s_buffer_arg;
 }
