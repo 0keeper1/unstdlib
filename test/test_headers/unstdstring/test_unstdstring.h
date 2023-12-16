@@ -176,7 +176,6 @@ void test_unstdstring_strcmpignorecase8(void) {
     assert(!unstdstring_strcmpignorecase8(NULL, NULL));
     assert(!unstdstring_strcmpignorecase8("Hello World!", "hello world"));
 
-
     _notify("[+]", "`unstdstring_strcmpignorecase8()` passed");
 }
 
@@ -911,7 +910,6 @@ void test_unstdstring(void) {
     test_unstdstring_isasciiextendedchar();
     test_unstdstring_isasciivisiblechar();
     test_unstdstring_isasciichar();
-
 
     test_unstdstring_isalphabeticchar();
     test_unstdstring_isalphanumericchar();
