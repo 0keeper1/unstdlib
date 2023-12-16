@@ -299,7 +299,7 @@ char *unstdstring_toupperstrcopy8(const char *const buffer_arg) {
 }
 
 
-void unstdstring_toupperstrarray(char (*const buffer_arg)[]) {
+void unstdstring_toupperstrarray8(char (*const buffer_arg)[]) {
     for (u64lt i = 0; (*buffer_arg)[i]; i++) { (*buffer_arg)[i] = (char) toupper((*buffer_arg)[i]); }
 }
 

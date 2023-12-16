@@ -248,7 +248,7 @@ extern char *unstdstring_toupperstrcopy8(
  * @param buffer_arg Should be a reference to a null-terminated c-array of characters.
  * @returns A pointer to the first character of the modified buffer.
  */
-extern void unstdstring_toupperstrarray(
+extern void unstdstring_toupperstrarray8(
         char (*const buffer_arg)[]
 );
 

@@ -414,19 +414,19 @@ void test_unstdstring_toupperstrcopy8(void) {
     _notify("[+]", "`unstdstring_toupperstrcopy8()` passed");
 }
 
-//! [toupperstrarray]
-void test_unstdstring_toupperstrarray(void) {
+//! [toupperstrarray8]
+void test_unstdstring_toupperstrarray8(void) {
     char test_buffer_c_array[] = "Hello, world!";
     char test_buffer_c_array_copy[sizeof(test_buffer_c_array)] = {'\0'};
 
     strcpy(test_buffer_c_array_copy, test_buffer_c_array);
 
-    unstdstring_toupperstrarray(&test_buffer_c_array);
+    unstdstring_toupperstrarray8(&test_buffer_c_array);
 
     // [Succeeds]
     assert(!unstdstring_strcmp8(test_buffer_c_array_copy, test_buffer_c_array));
 
-    _notify("[+]", "`unstdstring_toupperstrarray()` passed");
+    _notify("[+]", "`unstdstring_toupperstrarray8()` passed");
 }
 
 //! [isasciicontrolchar]
@@ -901,7 +901,7 @@ void test_unstdstring(void) {
     //! [toupper]
     test_unstdstring_toupperstr8();
     test_unstdstring_toupperstrcopy8();
-    test_unstdstring_toupperstrarray();
+    test_unstdstring_toupperstrarray8();
 
     //! [is]
     //! [isascii]
