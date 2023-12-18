@@ -40,7 +40,7 @@ void test_unstditertools_unstdlib_foreach_rangeM(void) {
 }
 
 
-void test_unstdinttypes(void) {
+void test_unstditertools(void) {
     test_unstditertools_unstdlib_foreach_rangeM();
 
     _notify("[+]", "`unstditertools` passed");

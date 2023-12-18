@@ -2,5 +2,5 @@
 
 
 int main(void) {
-    test_unstdinttypes();
+    test_unstditertools();
 }
