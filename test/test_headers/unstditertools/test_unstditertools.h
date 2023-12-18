@@ -4,6 +4,7 @@
 #include "../../../src/unstdinttypes.h"
 #include "../../../src/unstditertools.h"
 
+
 //! [foreach_rangeM]
 void test_unstditertools_unstdlib_foreach_rangeM(void) {
     // [Succeeds]
@@ -14,17 +15,13 @@ void test_unstditertools_unstdlib_foreach_rangeM(void) {
     unstdlib_foreach_rangeM(u8t, i, { 10, 0 }) {
         assert(!(i < 0 || i > 10));
 
-        if (i == 0) {
-            break;
-        }
+        if (i == 0) { break; }
     }
 
     unstdlib_foreach_rangeM(u8t, i, { 10, 0, 0 }) {
         assert(!(i < 0 || i > 10));
 
-        if (i == 0) {
-            break;
-        }
+        if (i == 0) { break; }
     }
 
     unstdlib_foreach_rangeM(s8t, i, { 10, -2, (s8t) -200 }) {
@@ -43,7 +40,7 @@ void test_unstditertools_unstdlib_foreach_rangeM(void) {
 }
 
 
-void test_unstditertools(void) {
+void test_unstdinttypes(void) {
     test_unstditertools_unstdlib_foreach_rangeM();
 
     _notify("[+]", "`unstditertools` passed");
