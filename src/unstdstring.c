@@ -1,8 +1,8 @@
 #include "unstdstring.h"
 
 #include <ctype.h>
-#include "unstdbool.h"
 #include "unstdinttypes.h"
+#include "unstdbool.h"
 #include <stdlib.h>
 #include <string.h>
 

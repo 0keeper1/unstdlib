@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <sys/types.h>
 #include <bits/stdint-uintn.h>
+#include <limits.h>
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -54,5 +55,35 @@ typedef int_least64_t s64lt;
 
 typedef size_t usizet;
 typedef ssize_t ssizet;
+
+typedef uintmax_t umaxt;
+typedef intmax_t smaxt;
+
+
+// [evaluators]
+/**
+ * @attention Should only be used with unsigned data types.
+ * @note      It does not work with unsigned data types.
+ * @type_arg Should be an unsigned data type.
+ * @returns The maximum value an unsigned data type of type `type_arg` can possibly hold.
+ */
+#define unstdinttypes_unsigned_maximumM(type_arg) ~(type_arg)0
+
+/**
+ * @attention Should only be used with signed data types.
+ * @note      It does not work with unsigned data types.
+ * @type_arg Should be signed data type.
+ * @returns The maximum value a signed data type of type `type_arg` can possibly hold.
+ */
+#define unstdinttypes_signed_maximumM(type_arg) (type_arg)(((umaxt)1 << sizeof (type) * CHAR_BIT - 1) - 1)
+
+/**
+ * @attention Should only be used with signed data types.
+ * @note      It does not work with unsigned data types.
+ * @type_arg Should be signed data type.
+ * @returns The minimum value a signed data type of type `type_arg` can possibly hold.
+ */
+#define unstdinttypes_signed_minimumM(type_arg) ((type_arg)-((umaxt)1 << sizeof (type) * CHAR_BIT - 1))
+
 
 #endif /* UNSTDLIB_UNSTDINTTYPES_H */

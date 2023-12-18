@@ -109,8 +109,8 @@ extern bool unstdstring_strcmp8(
 
 /**
  * @brief Checks if two UTF-16 strings are identical.
- * @details Compares `s_buffer_arg` by `f_buffer_arg`.
- *          It returns true if both `f_buffer_arg` and `s_buffer_arg` are '\0'.
+ * @details Compares `s_buffer_arg` by `f_buffer_arg`.<br><br>
+ *          It returns true if both `f_buffer_arg` and `s_buffer_arg` are '\0'.<br>
  *          It returns false in case of length inequality.
  * @param f_buffer_arg A pointer to a null-terminated buffer.
  * @param s_buffer_arg A pointer to a null-terminated buffer.
@@ -123,8 +123,8 @@ extern bool unstdstring_strcmp16(
 
 /**
  * @brief Checks if two UTF-32 strings are identical.
- * @details Compares `s_buffer_arg` by `f_buffer_arg`.
- *          It returns true if both `f_buffer_arg` and `s_buffer_arg` are '\0'.
+ * @details Compares `s_buffer_arg` by `f_buffer_arg`.<br><br>
+ *          It returns true if both `f_buffer_arg` and `s_buffer_arg` are '\0'.<br>
  *          It returns false in case of length inequality.
  * @param f_buffer_arg A pointer to a null-terminated buffer.
  * @param s_buffer_arg A pointer to a null-terminated buffer.
@@ -353,13 +353,13 @@ extern bool unstdstring_iswhitespace(
 /**
  * @internal This function should not be called directly (dont play around with it if you got no idea what you are doing).
  * @brief Extends the buffer by reallocating it according to the `bytes_arg` param.
- * @details Extends the memory `bytes_arg` bytes, then zeros-out the newly reallocated (extended) memory.
+ * @details Extends the memory `bytes_arg` bytes, then zeros-out the newly reallocated (extended) memory.<br>
  *          Be aware that it depends on <code>strlen()</code>; consider passing a buffer with (minimum_buffer_length >= 1) length.
  * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated buffer.
  * @param bytes_arg Number of bytes to extend the buffer by.<br><br>
  *                <strong>Maximum bytes_arg size</strong>: UNLIMITED (till your memory/system goes kaboom).<br>
- *                <strong>Minimum bytes_arg size</strong>: 0 (is considered meaningless, waste of time/resource operation. Why would you even wanna do that?).
- * @param encoding_arg Number of bytes for each character within the buffer.
+ *                <strong>Minimum bytes_arg size</strong>: 1.
+ * @param encoding_arg Number of bytes for each character within the buffer.<br>
  *                 (use `_unstdstring_bufferencoding` enum if you have no idea what you are doing).
  * @returns A number (u8t) indicating the state of the operation.
  * @retval [0] Failure. Failed to reallocate.
@@ -384,8 +384,8 @@ extern u8t _unstdstring_bufferextend(
  *                  <strong>Minimum buffer_arg length</strong>: 1 (should be enough to be able to get shrinked down).
  * @param bytes_arg Number of bytes to shrink the buffer by.<br><br>
  *                <strong>Maximum bytes_arg size</strong>: should be less than the size of `buffer_arg`.<br>
- *                <strong>Minimum bytes_arg size</strong>: 0 (is considered meaningless, waste of time/resource operation. Why would you even wanna do that?).
- * @param encoding_arg Number of bytes for each character within the buffer.
+ *                <strong>Minimum bytes_arg size</strong>: 1.
+ * @param encoding_arg Number of bytes for each character within the buffer.<br>
  *                 (use `_unstdstring_bufferencoding` enum if you have no idea what you are doing).
  * @returns A number (u8t) indicating the state of the operation.
  * @retval [0] Failure. Failed to reallocate.
@@ -468,7 +468,7 @@ extern u32t *unstdstring_bufferstringinit32(
 
 /**
  * @brief Zeros all the bytes in `buffer_arg`.
- * @details This function only reallocates to 1; it does not free the `buffer_arg`,
+ * @details This function only reallocates to 1 byte; it does not free the `buffer_arg`,<br>
  *          meaning that it only reallocates the buffer to the lowest size possible (that can only holds 1 byte '\0').
  * @attention Freeing the buffer is users responsibility.
  * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated buffer.
