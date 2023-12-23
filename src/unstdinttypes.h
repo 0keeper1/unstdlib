@@ -53,7 +53,7 @@ typedef int64_t s64t;
 typedef uint_least64_t u64lt;
 typedef int_least64_t s64lt;
 
-typedef size_t usizet;
+typedef size_t sizet;
 typedef ssize_t ssizet;
 
 typedef uintmax_t umaxt;
@@ -61,6 +61,13 @@ typedef intmax_t smaxt;
 
 
 // [evaluators]
+/**
+ * @brief Checks whether a data type is signed or unsigned.
+ * @type_arg Should be a data type.
+ * @returns Whether a data type is signed or unsigned.
+ */
+#define unstdinttypes_issignedM(type_arg) (((type_arg)(-1)) < ((type_arg) 0))
+
 /**
  * @attention Should only be used with unsigned data types.
  * @note      It does not work with unsigned data types.
@@ -72,18 +79,18 @@ typedef intmax_t smaxt;
 /**
  * @attention Should only be used with signed data types.
  * @note      It does not work with unsigned data types.
- * @type_arg Should be signed data type.
+ * @type_arg Should be a signed data type.
  * @returns The maximum value a signed data type of type `type_arg` can possibly hold.
  */
-#define unstdinttypes_signed_maximumM(type_arg) (type_arg)(((umaxt)1 << sizeof (type) * CHAR_BIT - 1) - 1)
+#define unstdinttypes_signed_maximumM(type_arg) unstdinttypes_issignedM(type_arg) ? (type_arg)(((umaxt)1 << (sizeof(type_arg) * CHAR_BIT - 1)) - 1) : unstdinttypes_unsigned_maximumM(type_arg)
 
 /**
  * @attention Should only be used with signed data types.
  * @note      It does not work with unsigned data types.
- * @type_arg Should be signed data type.
+ * @type_arg Should be a signed data type.
  * @returns The minimum value a signed data type of type `type_arg` can possibly hold.
  */
-#define unstdinttypes_signed_minimumM(type_arg) ((type_arg)-((umaxt)1 << sizeof (type) * CHAR_BIT - 1))
+#define unstdinttypes_signed_minimumM(type_arg) unstdinttypes_issignedM(type_arg) ? (type_arg)-((umaxt)1 << (sizeof(type_arg) * CHAR_BIT - 1)) : 0
 
 
 #endif /* UNSTDLIB_UNSTDINTTYPES_H */
