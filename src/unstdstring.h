@@ -146,6 +146,28 @@ extern bool unstdstring_strcmpignorecase8(
         const char *const s_buffer_arg
 );
 
+/**
+ *
+ * @param f_buffer_arg A pointer to a null-terminated buffer.
+ * @param s_buffer_arg A pointer to a null-terminated buffer.
+ * @returns True if both buffers are identical otherwise False.
+ */
+extern bool unstdstring_strcmpignorecase16(
+        const u16t *const f_buffer_arg,
+        const u16t *const s_buffer_arg
+);
+
+/**
+ *
+ * @param f_buffer_arg A pointer to a null-terminated buffer.
+ * @param s_buffer_arg A pointer to a null-terminated buffer.
+ * @returns True if both buffers are identical otherwise False.
+ */
+extern bool unstdstring_strcmpignorecase32(
+        const u32t *const f_buffer_arg,
+        const u32t *const s_buffer_arg
+);
+
 
 //! [startswith]
 /**

@@ -184,6 +184,70 @@ void test_unstdstring_strcmpignorecase8(void) {
     _notify("[+]", "`unstdstring_strcmpignorecase8()` passed");
 }
 
+//! [strcmpignorecase16]
+void test_unstdstring_strcmpignorecase16(void) {
+    // [Succeeds]
+    assert(unstdstring_strcmpignorecase16(
+            _unstdstring_encode_as_utf16("this is a test string that contains utf-8, utf-16 characters! <ϿϾϰԀ>"),
+            _unstdstring_encode_as_utf16("This is a test String that contains UTF-8, UTF-16 characters! <ϿϾϰԀ>")));
+    assert(unstdstring_strcmpignorecase16(_unstdstring_encode_as_utf16("0"), _unstdstring_encode_as_utf16("0")));
+    assert(unstdstring_strcmpignorecase16(_unstdstring_encode_as_utf16(""), _unstdstring_encode_as_utf16("")));
+    assert(unstdstring_strcmpignorecase16(_unstdstring_encode_as_utf16("\0"), _unstdstring_encode_as_utf16("\0")));
+    assert(unstdstring_strcmpignorecase16(_unstdstring_encode_as_utf16("\x1\n"),
+                                          _unstdstring_encode_as_utf16("\x1\n")));
+    assert(unstdstring_strcmpignorecase16(_unstdstring_encode_as_utf16("\x33"), _unstdstring_encode_as_utf16("\x33")));
+    assert(unstdstring_strcmpignorecase16(_unstdstring_encode_as_utf16("\n\n\n\r\r\r"),
+                                          _unstdstring_encode_as_utf16("\n\n\n\r\r\r")));
+    assert(unstdstring_strcmpignorecase16(_unstdstring_encode_as_utf16("\n\n\n\r\r\r"),
+                                          _unstdstring_encode_as_utf16("\n\n\n\r\r\r")));
+    assert(unstdstring_strcmpignorecase16(_unstdstring_encode_as_utf16("Hello World"),
+                                          _unstdstring_encode_as_utf16("hello world")));
+
+    // [Fails]
+    assert(!unstdstring_strcmpignorecase16(_unstdstring_encode_as_utf16("\0"), _unstdstring_encode_as_utf16("0")));
+    assert(!unstdstring_strcmpignorecase16(0, 0));
+    assert(!unstdstring_strcmpignorecase16(_unstdstring_encode_as_utf16("32"), _unstdstring_encode_as_utf16("0")));
+    assert(!unstdstring_strcmpignorecase16(_unstdstring_encode_as_utf16("\n\n\n\r\r\r\b"),
+                                           _unstdstring_encode_as_utf16("\n\n\n\r\r\r")));
+    assert(!unstdstring_strcmpignorecase16(NULL, NULL));
+    assert(!unstdstring_strcmpignorecase16(_unstdstring_encode_as_utf16("Hello World!"),
+                                           _unstdstring_encode_as_utf16("hello world")));
+
+    _notify("[+]", "`unstdstring_strcmpignorecase16()` passed");
+}
+
+//! [strcmpignorecase32]
+void test_unstdstring_strcmpignorecase32(void) {
+    // [Succeeds]
+    assert(unstdstring_strcmpignorecase32(
+            _unstdstring_encode_as_utf32("this is a test string that contains utf-8, utf-16, utf-32 characters + emojis! <ϿϾϰԀ | 🔒🔥🥶🭄🭏⼀􏿽>"),
+            _unstdstring_encode_as_utf32("This is a test String that contains UTF-8, UTF-16, UTF-32 characters + emojis! <ϿϾϰԀ | 🔒🔥🥶🭄🭏⼀􏿽>")));
+    assert(unstdstring_strcmpignorecase32(_unstdstring_encode_as_utf32("0"), _unstdstring_encode_as_utf32("0")));
+    assert(unstdstring_strcmpignorecase32(_unstdstring_encode_as_utf32(""), _unstdstring_encode_as_utf32("")));
+    assert(unstdstring_strcmpignorecase32(_unstdstring_encode_as_utf32("\0"), _unstdstring_encode_as_utf32("\0")));
+    assert(unstdstring_strcmpignorecase32(_unstdstring_encode_as_utf32("\x1\n"),
+                                          _unstdstring_encode_as_utf32("\x1\n")));
+    assert(unstdstring_strcmpignorecase32(_unstdstring_encode_as_utf32("\x33"), _unstdstring_encode_as_utf32("\x33")));
+    assert(unstdstring_strcmpignorecase32(_unstdstring_encode_as_utf32("\n\n\n\r\r\r"),
+                                          _unstdstring_encode_as_utf32("\n\n\n\r\r\r")));
+    assert(unstdstring_strcmpignorecase32(_unstdstring_encode_as_utf32("\n\n\n\r\r\r"),
+                                          _unstdstring_encode_as_utf32("\n\n\n\r\r\r")));
+    assert(unstdstring_strcmpignorecase32(_unstdstring_encode_as_utf32("Hello World"),
+                                          _unstdstring_encode_as_utf32("hello world")));
+
+    // [Fails]
+    assert(!unstdstring_strcmpignorecase32(_unstdstring_encode_as_utf32("\0"), _unstdstring_encode_as_utf32("0")));
+    assert(!unstdstring_strcmpignorecase32(0, 0));
+    assert(!unstdstring_strcmpignorecase32(_unstdstring_encode_as_utf32("32"), _unstdstring_encode_as_utf32("0")));
+    assert(!unstdstring_strcmpignorecase32(_unstdstring_encode_as_utf32("\n\n\n\r\r\r\b"),
+                                           _unstdstring_encode_as_utf32("\n\n\n\r\r\r")));
+    assert(!unstdstring_strcmpignorecase32(NULL, NULL));
+    assert(!unstdstring_strcmpignorecase32(_unstdstring_encode_as_utf32("Hello World!"),
+                                           _unstdstring_encode_as_utf32("hello world")));
+
+    _notify("[+]", "`unstdstring_strcmpignorecase32()` passed");
+}
+
 //! [startswithchar8]
 void test_unstdstring_startswithchar8(void) {
     char *test_buffer = "Hello, world!";
@@ -902,6 +966,8 @@ void test_unstdstring(void) {
     test_unstdstring_strcmp16();
     test_unstdstring_strcmp32();
     test_unstdstring_strcmpignorecase8();
+    test_unstdstring_strcmpignorecase16();
+    test_unstdstring_strcmpignorecase32();
 
     //! [startswith]
     test_unstdstring_startswithchar8();

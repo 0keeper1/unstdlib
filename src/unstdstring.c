@@ -187,6 +187,64 @@ bool unstdstring_strcmpignorecase8(const char *const f_buffer_arg, const char *c
 }
 
 
+bool unstdstring_strcmpignorecase16(const u16t *const f_buffer_arg, const u16t *const s_buffer_arg) {
+    if (!f_buffer_arg || !s_buffer_arg) {
+        return false;
+    }
+
+    if (!*f_buffer_arg) {
+        if (!*s_buffer_arg) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    u64lt length_s_buffer_arg = unstdstring_strlen16(s_buffer_arg);
+    u64lt length_f_buffer_arg = unstdstring_strlen16(f_buffer_arg);
+    if (length_s_buffer_arg != length_f_buffer_arg) {
+        return false;
+    }
+
+    for (u64lt buffer_arg_ptr = 0; ((u16t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
+        if (tolower(((u16t *) s_buffer_arg)[buffer_arg_ptr]) != tolower(((u16t *) f_buffer_arg)[buffer_arg_ptr])) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+bool unstdstring_strcmpignorecase32(const u32t *const f_buffer_arg, const u32t *const s_buffer_arg) {
+    if (!f_buffer_arg || !s_buffer_arg) {
+        return false;
+    }
+
+    if (!*f_buffer_arg) {
+        if (!*s_buffer_arg) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    u64lt length_s_buffer_arg = unstdstring_strlen32(s_buffer_arg);
+    u64lt length_f_buffer_arg = unstdstring_strlen32(f_buffer_arg);
+    if (length_s_buffer_arg != length_f_buffer_arg) {
+        return false;
+    }
+
+    for (u64lt buffer_arg_ptr = 0; ((u32t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
+        if (tolower(((u32t *) s_buffer_arg)[buffer_arg_ptr]) != tolower(((u32t *) f_buffer_arg)[buffer_arg_ptr])) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
 bool unstdstring_startswithchar8(const char *const buffer_arg, const char checkon_arg) {
     if (!buffer_arg) {
         return false;
