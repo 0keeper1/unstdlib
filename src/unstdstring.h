@@ -183,6 +183,17 @@ extern bool unstdstring_startswithchar8(
 
 /**
  *
+ * @param buffer_arg A pointer to a null-terminated buffer.
+ * @param checkon_arg The character which the function performs the operation on.
+ * @returns A boolean indicating the state of the operation.
+ */
+extern bool unstdstring_startswithchar16(
+        const u16t *const buffer_arg,
+        const u16t checkon_arg
+);
+
+/**
+ *
  * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array buffer.
  * @param checkon_arg The character which the function performs the operation on.
  * @returns A pointer to the first character of the modified buffer.
