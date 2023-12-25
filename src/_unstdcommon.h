@@ -5,6 +5,15 @@
 
 #if defined(__WIN32) || defined(__WIN64)
 #define __SHITDOWS
+#error "This library is not intended to be used on Windows platforms."
+#endif
+
+#ifdef __STDC__
+#ifdef __STDC_VERSION__
+#if (__STDC_VERSION__ < 201112L)
+#error "Compiler's version should be at least C11."
+#endif
+#endif
 #endif
 
 /**

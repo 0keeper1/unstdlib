@@ -276,24 +276,50 @@ void test_unstdstring_startswithchar16(void) {
     u16t *test_buffer_2 = _unstdstring_encode_as_utf16("ϿϾϰԀ>");
 
     // [Succeeds]
-    assert(unstdstring_startswithchar16(test_buffer, 'H'));
+    assert(unstdstring_startswithchar16(test_buffer, _unstdstring_encode_as_utf16('H')));
     assert(unstdstring_startswithchar16(test_buffer_2, _unstdstring_encode_as_utf16('Ͽ')));
 
     // [Fails]
-    assert(!unstdstring_startswithchar16(test_buffer, 'a'));
-    assert(!unstdstring_startswithchar16(NULL, 'a'));
-    assert(!unstdstring_startswithchar16(test_buffer, ' '));
-    assert(!unstdstring_startswithchar16(test_buffer, '\42'));
-    assert(!unstdstring_startswithchar16(test_buffer, '\n'));
-    assert(!unstdstring_startswithchar16(test_buffer, '\r'));
-    assert(!unstdstring_startswithchar16(test_buffer, '$'));
+    assert(!unstdstring_startswithchar16(test_buffer, _unstdstring_encode_as_utf16('a')));
+    assert(!unstdstring_startswithchar16(NULL, _unstdstring_encode_as_utf16('a')));
+    assert(!unstdstring_startswithchar16(test_buffer, _unstdstring_encode_as_utf16(' ')));
+    assert(!unstdstring_startswithchar16(test_buffer, _unstdstring_encode_as_utf16('\42')));
+    assert(!unstdstring_startswithchar16(test_buffer, _unstdstring_encode_as_utf16('\n')));
+    assert(!unstdstring_startswithchar16(test_buffer, _unstdstring_encode_as_utf16('\r')));
+    assert(!unstdstring_startswithchar16(test_buffer, _unstdstring_encode_as_utf16('$')));
     assert(!unstdstring_startswithchar16(test_buffer, 0xff));
     assert(!unstdstring_startswithchar16(test_buffer, -2));
     assert(!unstdstring_startswithchar16(test_buffer, 0));
     assert(!unstdstring_startswithchar16(test_buffer, 0));
-    assert(!unstdstring_startswithchar16(test_buffer, '\0'));
+    assert(!unstdstring_startswithchar16(test_buffer, _unstdstring_encode_as_utf16('\0')));
 
     _notify("[+]", "`unstdstring_startswithchar16()` passed");
+}
+
+//! [startswithchar32]
+void test_unstdstring_startswithchar32(void) {
+    u32t *test_buffer = _unstdstring_encode_as_utf32("Hello, world!");
+    u32t *test_buffer_2 = _unstdstring_encode_as_utf32("☝🤓🇩🇪NO!ϿϾϰԀ>");
+
+    // [Succeeds]
+    assert(unstdstring_startswithchar32(test_buffer, _unstdstring_encode_as_utf32('H')));
+    assert(unstdstring_startswithchar32(test_buffer_2, _unstdstring_encode_as_utf32('☝')));
+
+    // [Fails]
+    assert(!unstdstring_startswithchar32(test_buffer, _unstdstring_encode_as_utf32('a')));
+    assert(!unstdstring_startswithchar32(NULL, _unstdstring_encode_as_utf32('a')));
+    assert(!unstdstring_startswithchar32(test_buffer, _unstdstring_encode_as_utf32(' ')));
+    assert(!unstdstring_startswithchar32(test_buffer, _unstdstring_encode_as_utf32('\42')));
+    assert(!unstdstring_startswithchar32(test_buffer, _unstdstring_encode_as_utf32('\n')));
+    assert(!unstdstring_startswithchar32(test_buffer, _unstdstring_encode_as_utf32('\r')));
+    assert(!unstdstring_startswithchar32(test_buffer, _unstdstring_encode_as_utf32('$')));
+    assert(!unstdstring_startswithchar32(test_buffer, 0xff));
+    assert(!unstdstring_startswithchar32(test_buffer, -2));
+    assert(!unstdstring_startswithchar32(test_buffer, 0));
+    assert(!unstdstring_startswithchar32(test_buffer, 0));
+    assert(!unstdstring_startswithchar32(test_buffer, _unstdstring_encode_as_utf32('\0')));
+
+    _notify("[+]", "`unstdstring_startswithchar32()` passed");
 }
 
 //! [startswithcharignorecase8]
@@ -998,6 +1024,7 @@ void test_unstdstring(void) {
     //! [startswith]
     test_unstdstring_startswithchar8();
     test_unstdstring_startswithchar16();
+    test_unstdstring_startswithchar32();
     test_unstdstring_startswithcharignorecase8();
 
     //! [endswith]

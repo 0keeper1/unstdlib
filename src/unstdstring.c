@@ -279,6 +279,23 @@ bool unstdstring_startswithchar16(const u16t *const buffer_arg, const u16t check
 }
 
 
+bool unstdstring_startswithchar32(const u32t *const buffer_arg, const u32t checkon_arg) {
+    if (!buffer_arg) {
+        return false;
+    }
+
+    if (!*buffer_arg) {
+        if (!checkon_arg) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    return *buffer_arg == checkon_arg;
+}
+
+
 bool unstdstring_startswithcharignorecase8(const char *const buffer_arg, const char checkon_arg) {
     if (!buffer_arg) {
         return false;
