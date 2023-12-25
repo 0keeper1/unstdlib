@@ -220,8 +220,10 @@ void test_unstdstring_strcmpignorecase16(void) {
 void test_unstdstring_strcmpignorecase32(void) {
     // [Succeeds]
     assert(unstdstring_strcmpignorecase32(
-            _unstdstring_encode_as_utf32("this is a test string that contains utf-8, utf-16, utf-32 characters + emojis! <ϿϾϰԀ | 🔒🔥🥶🭄🭏⼀􏿽>"),
-            _unstdstring_encode_as_utf32("This is a test String that contains UTF-8, UTF-16, UTF-32 characters + emojis! <ϿϾϰԀ | 🔒🔥🥶🭄🭏⼀􏿽>")));
+            _unstdstring_encode_as_utf32(
+                    "this is a test string that contains utf-8, utf-16, utf-32 characters + emojis! <ϿϾϰԀ | 🔒🔥🥶🭄🭏⼀􏿽>"),
+            _unstdstring_encode_as_utf32(
+                    "This is a test String that contains UTF-8, UTF-16, UTF-32 characters + emojis! <ϿϾϰԀ | 🔒🔥🥶🭄🭏⼀􏿽>")));
     assert(unstdstring_strcmpignorecase32(_unstdstring_encode_as_utf32("0"), _unstdstring_encode_as_utf32("0")));
     assert(unstdstring_strcmpignorecase32(_unstdstring_encode_as_utf32(""), _unstdstring_encode_as_utf32("")));
     assert(unstdstring_strcmpignorecase32(_unstdstring_encode_as_utf32("\0"), _unstdstring_encode_as_utf32("\0")));
@@ -1055,18 +1057,23 @@ void test_unstdstring(void) {
     test_unstdstring_ishexchar();
     test_unstdstring_iswhitespace();
 
-
-    //! [string]
+    //! [stringinit]
     test_unstdstring_bufferstringinit8();
     test_unstdstring_bufferstringinit16();
     test_unstdstring_bufferstringinit32();
     test_unstdstring_bufferclear8();
+
+    //! [push]
     test_unstdstring_pushchar8();
     test_unstdstring_pushchar16();
+
+    //! [pop]
     test_unstdstring_popchar8();
     test_unstdstring_popchar16();
+
+    //! [append]
     test_unstdstring_appendstr8();
 
-
+    
     _notify("[+]", "`unstdstring` passed");
 }
