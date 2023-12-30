@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.25)
-project(. C)
+project(unstdlib C)
 
 set(CMAKE_C_STANDARD 11)
 
@@ -9,7 +9,7 @@ set(CMAKE_C_STANDARD 11)
 
 # ------------------------ [ unstdlib files ] ------------------------
 set(locals_unstdlib
-        src/lib.h
+        src/unstdlib.h
         src/_unstdcommon.h
         )
 
