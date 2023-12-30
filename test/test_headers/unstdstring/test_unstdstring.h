@@ -32,9 +32,9 @@ void test_unstdstring_strlen16(void) {
 
     // heap-allocated test
     u16t *test_buffer_heap_allocated = (u16t *) malloc(1);
-    unstdstring_pushchar16(test_buffer_heap_allocated, L'Œ');
-    unstdstring_pushchar16(test_buffer_heap_allocated, L'Ɯ');
-    unstdstring_pushchar16(test_buffer_heap_allocated, L'Ɯ');
+    unstdstring_pushbackchar16(test_buffer_heap_allocated, L'Œ');
+    unstdstring_pushbackchar16(test_buffer_heap_allocated, L'Ɯ');
+    unstdstring_pushbackchar16(test_buffer_heap_allocated, L'Ɯ');
 
     // [Succeeds]
     assert(unstdstring_strlen16(test_buffer_heap_allocated) == 3);
@@ -900,20 +900,20 @@ void test_unstdstring_pushbackchar8(void) {
     _notify("[+]", "`unstdstring_pushbackchar8()` passed");
 }
 
-//! [pushchar16]
-void test_unstdstring_pushchar16(void) {
+//! [pushbackchar16]
+void test_unstdstring_pushbackchar16(void) {
     u16t *test_string_buffer = unstdstring_bufferstringinit16(NULL, NULL);
 
     // [Succeeds]
     assert(*test_string_buffer == '\0');
 
-    unstdstring_pushchar16(test_string_buffer, _unstdstring_encode_as_utf16('ÿ'));
+    unstdstring_pushbackchar16(test_string_buffer, _unstdstring_encode_as_utf16('ÿ'));
 
     // [Succeeds]
     assert(unstdstring_strlen16((u16t *) test_string_buffer) == 1);
     assert(unstdstring_strcmp8((char *) test_string_buffer, (char *) _unstdstring_encode_as_utf16("ÿ")));
 
-    unstdstring_pushchar16(test_string_buffer, ' ');
+    unstdstring_pushbackchar16(test_string_buffer, ' ');
 
     assert(unstdstring_strlen16((u16t *) test_string_buffer) == 2);
     assert(unstdstring_strcmp8((char *) test_string_buffer, (char *) _unstdstring_encode_as_utf16("ÿ ")));
@@ -924,7 +924,7 @@ void test_unstdstring_pushchar16(void) {
 
     free(test_string_buffer);
 
-    _notify("[+]", "`unstdstring_pushchar16()` passed");
+    _notify("[+]", "`unstdstring_pushbackchar16()` passed");
 }
 
 //! [popchar8]
@@ -956,7 +956,7 @@ void test_unstdstring_popchar8(void) {
 void test_unstdstring_popchar16(void) {
     u16t *test_string_buffer = unstdstring_bufferstringinit16(_unstdstring_encode_as_utf16("Hello World!"), NULL);
 
-    unstdstring_pushchar16(test_string_buffer, _unstdstring_encode_as_utf16('Œ'));
+    unstdstring_pushbackchar16(test_string_buffer, _unstdstring_encode_as_utf16('Œ'));
 
     u8t error_out_holder = 0;
     const u16t function_return_value = unstdstring_popchar16(test_string_buffer, &error_out_holder);

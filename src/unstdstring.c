@@ -734,7 +734,7 @@ u8t unstdstring_pushbackchar8(char *const to_buffer_arg, const u8t from_buffer_a
 }
 
 
-u8t unstdstring_pushchar16(u16t *const to_buffer_arg, const u16t from_buffer_arg) {
+u8t unstdstring_pushbackchar16(u16t *const to_buffer_arg, const u16t from_buffer_arg) {
     if (!to_buffer_arg) {
         return 2;
     }

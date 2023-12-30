@@ -553,7 +553,7 @@ extern u8t unstdstring_pushbackchar8(
  * @retval [1] Success.
  * @retval [2] Insufficient parameter. `to_buffer_arg` is NULL. See `to_buffer_arg`.
  */
-extern u8t unstdstring_pushchar16(
+extern u8t unstdstring_pushbackchar16(
         u16t *const to_buffer_arg,
         const u16t from_buffer_arg
 );
