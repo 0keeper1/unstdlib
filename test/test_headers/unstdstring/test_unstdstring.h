@@ -927,6 +927,32 @@ void test_unstdstring_pushbackchar16(void) {
     _notify("[+]", "`unstdstring_pushbackchar16()` passed");
 }
 
+//! [pushbackstr8]
+void test_unstdstring_pushbackstr8(void) {
+    char *test_string_buffer = unstdstring_bufferstringinit8("Hello", NULL);
+
+    unstdstring_pushbackstr8(test_string_buffer, " my world");
+
+    // [Succeeds]
+    assert(unstdstring_strlen8(test_string_buffer) == 14);
+    assert(unstdstring_strcmp8(test_string_buffer, "Hello my world"));
+    free(test_string_buffer);
+
+    char *test_string_buffer_2 = unstdstring_bufferstringinit8("\x01 - \xFF", NULL);
+
+    unstdstring_pushbackstr8(test_string_buffer_2, "Ɵ");
+
+    assert(unstdstring_strcmp8(test_string_buffer_2, "\x01 - \xFFƟ"));
+
+    free(test_string_buffer_2);
+
+    // [Fails]
+    assert(test_string_buffer != 0);
+    assert(!unstdstring_endswithchar8(test_string_buffer, 'o'));
+
+    _notify("[+]", "`unstdstring_pushbackstr8()` passed");
+}
+
 //! [popbackchar8]
 void test_unstdstring_popbackchar8(void) {
     char *test_string_buffer = unstdstring_bufferstringinit8("Hello World!", NULL);
@@ -977,32 +1003,6 @@ void test_unstdstring_popbackchar16(void) {
     free(test_string_buffer);
 
     _notify("[+]", "`unstdstring_popbackchar16()` passed");
-}
-
-//! [appendstr8]
-void test_unstdstring_appendstr8(void) {
-    char *test_string_buffer = unstdstring_bufferstringinit8("Hello", NULL);
-
-    unstdstring_appendstr8(test_string_buffer, " my world");
-
-    // [Succeeds]
-    assert(unstdstring_strlen8(test_string_buffer) == 14);
-    assert(unstdstring_strcmp8(test_string_buffer, "Hello my world"));
-    free(test_string_buffer);
-
-    char *test_string_buffer_2 = unstdstring_bufferstringinit8("\x01 - \xFF", NULL);
-
-    unstdstring_appendstr8(test_string_buffer_2, "Ɵ");
-
-    assert(unstdstring_strcmp8(test_string_buffer_2, "\x01 - \xFFƟ"));
-
-    free(test_string_buffer_2);
-
-    // [Fails]
-    assert(test_string_buffer != 0);
-    assert(!unstdstring_endswithchar8(test_string_buffer, 'o'));
-
-    _notify("[+]", "`unstdstring_appendstr8()` passed");
 }
 
 
@@ -1064,15 +1064,17 @@ void test_unstdstring(void) {
     test_unstdstring_bufferclear8();
 
     //! [push]
+    //! [char]
     test_unstdstring_pushbackchar8();
     test_unstdstring_pushbackchar16();
 
+    //! [str]
+    test_unstdstring_pushbackstr8();
+
     //! [pop]
+    //! [char]
     test_unstdstring_popbackchar8();
     test_unstdstring_popbackchar16();
-
-    //! [append]
-    test_unstdstring_appendstr8();
 
     
     _notify("[+]", "`unstdstring` passed");

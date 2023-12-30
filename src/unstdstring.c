@@ -752,6 +752,31 @@ u8t unstdstring_pushbackchar16(u16t *const to_buffer_arg, const u16t from_buffer
 }
 
 
+u8t unstdstring_pushbackstr8(char *const to_buffer_arg, const char *const from_buffer_arg) {
+    if (!to_buffer_arg) {
+        return 2;
+    }
+
+    if (!from_buffer_arg) {
+        return 3;
+    }
+
+    if (!*from_buffer_arg) {
+        return 4;
+    }
+
+    u64lt length_from_buffer_arg_temp = unstdstring_strlen8(from_buffer_arg);
+
+    if (!_unstdstring_bufferextend(to_buffer_arg, length_from_buffer_arg_temp, _unstdstring_bufferencoding_UTF8)) {
+        return 0;
+    }
+
+    strcat(to_buffer_arg, from_buffer_arg);
+
+    return 1;
+}
+
+
 u8t unstdstring_popbackchar8(char *const buffer_arg, u8t *const out_error_arg) {
     if (!buffer_arg) {
         if (out_error_arg) {
@@ -813,29 +838,4 @@ u16t unstdstring_popbackchar16(u16t *const buffer_arg, u8t *const out_error_arg)
     }
 
     return temp_char_holder;
-}
-
-
-u8t unstdstring_appendstr8(char *const to_buffer_arg, const char *const from_buffer_arg) {
-    if (!to_buffer_arg) {
-        return 2;
-    }
-
-    if (!from_buffer_arg) {
-        return 3;
-    }
-
-    if (!*from_buffer_arg) {
-        return 4;
-    }
-
-    u64lt length_from_buffer_arg_temp = unstdstring_strlen8(from_buffer_arg);
-
-    if (!_unstdstring_bufferextend(to_buffer_arg, length_from_buffer_arg_temp, _unstdstring_bufferencoding_UTF8)) {
-        return 0;
-    }
-
-    strcat(to_buffer_arg, from_buffer_arg);
-
-    return 1;
 }

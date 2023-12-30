@@ -607,7 +607,7 @@ extern u16t unstdstring_popbackchar16(
  * @retval [3] Insufficient parameter. `from_buffer_arg` is NULL. See `from_buffer_arg`.
  * @retval [4] Insufficient parameter. `from_buffer_arg` is an empty string. See `from_buffer_arg`.
  */
-extern u8t unstdstring_appendstr8(
+extern u8t unstdstring_pushbackstr8(
         char *const to_buffer_arg,
         const char *const from_buffer_arg
 );
