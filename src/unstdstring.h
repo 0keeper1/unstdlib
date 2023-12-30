@@ -527,6 +527,23 @@ extern u8t unstdstring_bufferclear8(
         char *const buffer_arg
 );
 
+/**
+ * @brief Zeros all the bytes in `buffer_arg`.
+ * @details This function only reallocates to 2 byte; it does not free the `buffer_arg`,<br>
+ *          meaning that it only reallocates the buffer to the lowest size possible (that can only holds 2 bytes '\0').
+ * @attention Freeing the buffer is users responsibility.
+ * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated buffer.
+ * @returns A number (u8t) indicating the state of the operation.
+ * @retval [0] Failure. <code>memset()</code> failed.
+ * @retval [1] Success.
+ * @retval [2] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
+ * @retval [3] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
+ * @retval [4] Failure. <code>_unstdstring_buffershrink()</code> failed.
+ */
+extern u8t unstdstring_bufferclear16(
+        u16t *const buffer_arg
+);
+
 
 //! [add / remove]
 //! [pop / push]

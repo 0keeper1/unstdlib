@@ -873,6 +873,47 @@ void test_unstdstring_bufferclear8(void) {
     _notify("[+]", "`unstdstring_bufferclear8()` passed");
 }
 
+//! [bufferclear16]
+void test_unstdstring_bufferclear16(void) {
+    // heap-allocated test
+    u16t *test_buffer_heap_allocated = (u16t *) malloc(32);
+    u16t *const test_buffer_heap_allocated_copy = (u16t *) malloc(32);
+
+    strcpy((char *) test_buffer_heap_allocated, "Hello, world!");
+    strcpy((char *) test_buffer_heap_allocated_copy, (const char *) test_buffer_heap_allocated);
+
+    u8t function_return_value = unstdstring_bufferclear16(test_buffer_heap_allocated);
+
+    // [Succeeds]
+    assert(unstdstring_strlen16(test_buffer_heap_allocated) != unstdstring_strlen16(test_buffer_heap_allocated_copy));
+    assert(!unstdstring_strcmp16(test_buffer_heap_allocated, test_buffer_heap_allocated_copy));
+    assert(function_return_value == 1);
+
+    // [Fails]
+    assert(function_return_value != 2);
+
+    free(test_buffer_heap_allocated_copy);
+    free(test_buffer_heap_allocated);
+
+    // heap-allocated test - 2
+    u16t *test_buffer_heap_allocated_2 = (u16t *) malloc(32);
+    strcpy((char *) test_buffer_heap_allocated_2, "Hello, world!");
+
+    unsigned char function_return_value_2 = unstdstring_bufferclear16(test_buffer_heap_allocated_2);
+
+    // [Fails]
+    assert(!(function_return_value_2 == 3));
+    assert(!(function_return_value_2 == 0));
+
+    // [Succeeds]
+    assert(function_return_value_2 == 1);
+    assert(!*test_buffer_heap_allocated_2);
+
+    free(test_buffer_heap_allocated_2);
+
+    _notify("[+]", "`unstdstring_bufferclear16()` passed");
+}
+
 //! [pushbackchar8]
 void test_unstdstring_pushbackchar8(void) {
     char *test_string_buffer = unstdstring_bufferstringinit8(NULL, NULL);
@@ -1062,6 +1103,7 @@ void test_unstdstring(void) {
     test_unstdstring_bufferstringinit16();
     test_unstdstring_bufferstringinit32();
     test_unstdstring_bufferclear8();
+    test_unstdstring_bufferclear16();
 
     //! [push]
     //! [char]

@@ -561,6 +561,12 @@ u8t _unstdstring_buffershrink(void *buffer_arg, const u32lt bytes_arg, const u8t
         return 5;
     }
 
+    if (!memset(buffer_arg + size_buffer_arg * encoding_arg - bytes_arg * encoding_arg,
+                0,
+                bytes_arg * encoding_arg + encoding_arg)) {
+        return 7;
+    }
+
     char *realloc_result = (char *) realloc(
             (void *) buffer_arg,
             size_buffer_arg == bytes_arg
@@ -569,12 +575,6 @@ u8t _unstdstring_buffershrink(void *buffer_arg, const u32lt bytes_arg, const u8t
     );
     if (!realloc_result) {
         return 0;
-    }
-
-    if (!memset(buffer_arg + size_buffer_arg * encoding_arg - bytes_arg * encoding_arg,
-                0,
-                bytes_arg * encoding_arg + encoding_arg)) {
-        return 7;
     }
 
     return 1;
@@ -713,6 +713,22 @@ u8t unstdstring_bufferclear8(char *const buffer_arg) {
             buffer_arg,
             unstdstring_strlen8(buffer_arg),
             _unstdstring_bufferencoding_UTF8) == 1 ? 1 : 4;
+}
+
+
+u8t unstdstring_bufferclear16(u16t *const buffer_arg) {
+    if (!buffer_arg) {
+        return 2;
+    }
+
+    if (!*buffer_arg) {
+        return 3;
+    }
+
+    return _unstdstring_buffershrink(
+            buffer_arg,
+            unstdstring_strlen16(buffer_arg),
+            _unstdstring_bufferencoding_UTF16) == 1 ? 1 : 4;
 }
 
 
