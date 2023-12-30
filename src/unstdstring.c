@@ -716,7 +716,7 @@ u8t unstdstring_bufferclear8(char *const buffer_arg) {
 }
 
 
-u8t unstdstring_pushchar8(char *const to_buffer_arg, const u8t from_buffer_arg) {
+u8t unstdstring_pushbackchar8(char *const to_buffer_arg, const u8t from_buffer_arg) {
     if (!to_buffer_arg) {
         return 2;
     }

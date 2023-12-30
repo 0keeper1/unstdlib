@@ -873,20 +873,20 @@ void test_unstdstring_bufferclear8(void) {
     _notify("[+]", "`unstdstring_bufferclear8()` passed");
 }
 
-//! [pushchar8]
-void test_unstdstring_pushchar8(void) {
+//! [pushbackchar8]
+void test_unstdstring_pushbackchar8(void) {
     char *test_string_buffer = unstdstring_bufferstringinit8(NULL, NULL);
 
     // [Succeeds]
     assert(*test_string_buffer == '\0');
 
-    unstdstring_pushchar8(test_string_buffer, '!');
+    unstdstring_pushbackchar8(test_string_buffer, '!');
 
     // [Succeeds]
     assert(unstdstring_strlen8(test_string_buffer) == 1);
     assert(unstdstring_strcmp8(test_string_buffer, "!"));
 
-    unstdstring_pushchar8(test_string_buffer, ' ');
+    unstdstring_pushbackchar8(test_string_buffer, ' ');
 
     assert(unstdstring_strlen8(test_string_buffer) == 2);
     assert(unstdstring_strcmp8(test_string_buffer, "! "));
@@ -897,7 +897,7 @@ void test_unstdstring_pushchar8(void) {
 
     free(test_string_buffer);
 
-    _notify("[+]", "`unstdstring_pushchar8()` passed");
+    _notify("[+]", "`unstdstring_pushbackchar8()` passed");
 }
 
 //! [pushchar16]
