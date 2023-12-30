@@ -927,12 +927,12 @@ void test_unstdstring_pushbackchar16(void) {
     _notify("[+]", "`unstdstring_pushbackchar16()` passed");
 }
 
-//! [popchar8]
-void test_unstdstring_popchar8(void) {
+//! [popbackchar8]
+void test_unstdstring_popbackchar8(void) {
     char *test_string_buffer = unstdstring_bufferstringinit8("Hello World!", NULL);
 
     u8t error_out_holder = 0;
-    const u8t function_return_value = unstdstring_popchar8(test_string_buffer, &error_out_holder);
+    const u8t function_return_value = unstdstring_popbackchar8(test_string_buffer, &error_out_holder);
 
     // [Succeeds]
     assert(function_return_value == '!');
@@ -940,7 +940,7 @@ void test_unstdstring_popchar8(void) {
     assert(unstdstring_strlen8(test_string_buffer) == 11);
     assert(unstdstring_strcmp8(test_string_buffer, "Hello World"));
 
-    assert(unstdstring_popchar8(test_string_buffer, NULL) == 'd');
+    assert(unstdstring_popbackchar8(test_string_buffer, NULL) == 'd');
     assert(unstdstring_strlen8(test_string_buffer) == 10);
 
     // [Fails]
@@ -949,7 +949,7 @@ void test_unstdstring_popchar8(void) {
 
     free(test_string_buffer);
 
-    _notify("[+]", "`unstdstring_popchar8()` passed");
+    _notify("[+]", "`unstdstring_popbackchar8()` passed");
 }
 
 //! [popchar16]
@@ -1064,11 +1064,11 @@ void test_unstdstring(void) {
     test_unstdstring_bufferclear8();
 
     //! [push]
-    test_unstdstring_pushchar8();
-    test_unstdstring_pushchar16();
+    test_unstdstring_pushbackchar8();
+    test_unstdstring_pushbackchar16();
 
     //! [pop]
-    test_unstdstring_popchar8();
+    test_unstdstring_popbackchar8();
     test_unstdstring_popchar16();
 
     //! [append]
