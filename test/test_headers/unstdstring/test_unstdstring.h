@@ -952,14 +952,14 @@ void test_unstdstring_popbackchar8(void) {
     _notify("[+]", "`unstdstring_popbackchar8()` passed");
 }
 
-//! [popchar16]
-void test_unstdstring_popchar16(void) {
+//! [popbackchar16]
+void test_unstdstring_popbackchar16(void) {
     u16t *test_string_buffer = unstdstring_bufferstringinit16(_unstdstring_encode_as_utf16("Hello World!"), NULL);
 
     unstdstring_pushbackchar16(test_string_buffer, _unstdstring_encode_as_utf16('Œ'));
 
     u8t error_out_holder = 0;
-    const u16t function_return_value = unstdstring_popchar16(test_string_buffer, &error_out_holder);
+    const u16t function_return_value = unstdstring_popbackchar16(test_string_buffer, &error_out_holder);
 
     // [Succeeds]
     assert(function_return_value == _unstdstring_encode_as_utf16('Œ'));
@@ -967,7 +967,7 @@ void test_unstdstring_popchar16(void) {
     assert(unstdstring_strlen16(test_string_buffer) == 12);
     assert(unstdstring_strcmp16(test_string_buffer, _unstdstring_encode_as_utf16("Hello World!")));
 
-    assert(unstdstring_popchar16(test_string_buffer, NULL) == '!');
+    assert(unstdstring_popbackchar16(test_string_buffer, NULL) == '!');
     assert(unstdstring_strlen16(test_string_buffer) == 11);
 
     // [Fails]
@@ -976,7 +976,7 @@ void test_unstdstring_popchar16(void) {
 
     free(test_string_buffer);
 
-    _notify("[+]", "`unstdstring_popchar16()` passed");
+    _notify("[+]", "`unstdstring_popbackchar16()` passed");
 }
 
 //! [appendstr8]
@@ -1069,7 +1069,7 @@ void test_unstdstring(void) {
 
     //! [pop]
     test_unstdstring_popbackchar8();
-    test_unstdstring_popchar16();
+    test_unstdstring_popbackchar16();
 
     //! [append]
     test_unstdstring_appendstr8();

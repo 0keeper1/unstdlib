@@ -591,7 +591,7 @@ extern u8t unstdstring_popbackchar8(
  * @OutParamValue [2] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
  * @OutParamValue [3] Insufficient parameter. `buffer_arg` is an empty string. See `buffer_arg`.
  */
-extern u16t unstdstring_popchar16(
+extern u16t unstdstring_popbackchar16(
         u16t *const buffer_arg,
         u8t *const out_error_arg
 );

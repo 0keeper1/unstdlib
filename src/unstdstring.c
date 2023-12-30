@@ -784,7 +784,7 @@ u8t unstdstring_popbackchar8(char *const buffer_arg, u8t *const out_error_arg) {
 }
 
 
-u16t unstdstring_popchar16(u16t *const buffer_arg, u8t *const out_error_arg) {
+u16t unstdstring_popbackchar16(u16t *const buffer_arg, u8t *const out_error_arg) {
     if (!buffer_arg) {
         if (out_error_arg) {
             *out_error_arg = 2;
