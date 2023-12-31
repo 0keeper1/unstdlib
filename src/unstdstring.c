@@ -1,347 +1,857 @@
 #include "unstdstring.h"
 
 #include <ctype.h>
-#include <stdbool.h>
+#include "unstdinttypes.h"
+#include "unstdbool.h"
 #include <stdlib.h>
 #include <string.h>
 
 
-bool unstdstring_charcmp(const u8 fBufferArg, const u8 sBufferArg) {
-    return fBufferArg == sBufferArg;
-}
+/**
+ * @brief Good Stuff, dont mind me.
+ */
+#ifndef __unstdstring_bufferencoding
+#define __unstdstring_bufferencoding
+typedef enum : u8t {
+    _unstdstring_bufferencoding_UTF8 = 1,
+    _unstdstring_bufferencoding_UTF16 = 2,
+    _unstdstring_bufferencoding_UTF32 = 4
+} _unstdstring_bufferencoding;
 
 
-bool unstdstring_strcmp(const char *const fBufferArg, const char *const sBufferArg) {
-    return fBufferArg != NULL && sBufferArg != NULL ? !strcmp(fBufferArg, sBufferArg) : false;
-}
+#define _unstdstring_encode_as_utf8(string_arg) u8##string_arg
+#define _unstdstring_encode_as_utf16(string_arg) u##string_arg
+#define _unstdstring_encode_as_utf32(string_arg) U##string_arg
+#define _unstdstring_encode_as_widechar(string_arg) L##string_arg
+#define _unstdstring_encode_as_raw(string_arg) R##string_arg
+
+#define _unstdstring_encode_as_raw_utf8(string_arg) u8R##string_arg
+#define _unstdstring_encode_as_raw_utf16(string_arg) uR##string_arg
+#define _unstdstring_encode_as_raw_utf32(string_arg) UR##string_arg
+#define _unstdstring_encode_as_raw_widechar(string_arg) LR##string_arg
+#endif /* __unstdstring_bufferencoding */
 
 
-bool unstdstring_strcmpignorecase(const char *const fBufferArg, const char *const sBufferArg) {
-    if (fBufferArg == NULL && sBufferArg == NULL) {
-        return false;
-    }
-
-    char *lowered_fBufferArg = unstdstring_tolowerstrcopy(fBufferArg);
-    char *lowered_sBufferArg = unstdstring_tolowerstrcopy(sBufferArg);
-    bool strcmp_result = unstdstring_strcmp(lowered_fBufferArg, lowered_sBufferArg);
-    free(lowered_sBufferArg);
-    free(lowered_fBufferArg);
-    return strcmp_result;
-}
-
-
-bool unstdstring_startswithchar(const char *const bufferArg, const char checkOnArg) {
-    if (bufferArg == NULL) {
-        return false;
-    }
-
-    if (strlen(bufferArg) < 1) {
-        return false;
-    }
-
-    return *bufferArg == checkOnArg;
-}
-
-
-bool unstdstring_startswithcharignorecase(const char *const bufferArg, const char checkOnArg) {
-    if (bufferArg == NULL) {
-        return false;
-    }
-
-    if (strlen(bufferArg) < 1) {
-        return false;
-    }
-
-    return tolower(*bufferArg) == tolower(checkOnArg);
-}
-
-
-bool unstdstring_endswithchar(const char *const bufferArg, const char checkOnArg) {
-    if (bufferArg == NULL) {
-        return false;
-    }
-
-    if (strlen(bufferArg) < 1) {
-        return false;
-    }
-
-    return bufferArg[strlen(bufferArg) - 1] == checkOnArg;
-}
-
-
-bool unstdstring_endswithcharignorecase(const char *const bufferArg, const char checkOnArg) {
-    if (bufferArg == NULL) {
-        return false;
-    }
-
-    if (strlen(bufferArg) < 1) {
-        return false;
-    }
-
-    return tolower(bufferArg[strlen(bufferArg) - 1]) == tolower(checkOnArg);
-}
-
-
-void unstdstring_tolowerstr(char *const bufferArg) {
-    for (size_t i = 0; bufferArg[i] != '\0'; bufferArg[i] = (char) tolower(bufferArg[i]), i++);
-}
-
-
-char *unstdstring_tolowerstrcopy(const char *const bufferArg) {
-    if (bufferArg == NULL) {
-        return NULL;
-    }
-
-    char *allocationPtr = (char *) calloc(strlen(bufferArg) + 1, sizeof(char));
-    if (allocationPtr == NULL) {
-        return NULL;
-    }
-
-    for (size_t i = 0; bufferArg[i] != '\0'; allocationPtr[i] = (char) tolower(bufferArg[i]), i++) {
-        if (bufferArg[i] == '\0') { allocationPtr[i] = '\0'; }
-    }
-
-    return allocationPtr;
-}
-
-
-void unstdstring_tolowerstrarray(char (*const bufferArg)[]) {
-    for (size_t i = 0; (*bufferArg)[i]; i++) { (*bufferArg)[i] = (char) tolower((*bufferArg)[i]); }
-}
-
-
-void unstdstring_toupperstr(char *const bufferArg) {
-    for (size_t i = 0; bufferArg[i] != '\0'; bufferArg[i] = (char) toupper(bufferArg[i]), i++);
-}
-
-
-char *unstdstring_toupperstrcopy(const char *const bufferArg) {
-    if (bufferArg == NULL) {
-        return NULL;
-    }
-
-    char *allocationPtr = (char *) calloc(strlen(bufferArg) + 1, sizeof(char));
-    if (allocationPtr == NULL) {
-        return NULL;
-    }
-
-    for (size_t i = 0; bufferArg[i] != '\0'; allocationPtr[i] = (char) toupper(bufferArg[i]), i++) {
-        if (bufferArg[i] == '\0') { allocationPtr[i] = '\0'; }
-    }
-
-    return allocationPtr;
-}
-
-
-void unstdstring_toupperstrarray(char (*const bufferArg)[]) {
-    for (size_t i = 0; (*bufferArg)[i]; i++) { (*bufferArg)[i] = (char) toupper((*bufferArg)[i]); }
-}
-
-
-bool unstdstring_isasciicontrolchar(const u8 bufferArg) {
-    return bufferArg >= 0 && bufferArg <= 31 || bufferArg == 127;
-}
-
-
-bool unstdstring_isasciiprintablechar(const u8 bufferArg) {
-    return bufferArg >= 32 && bufferArg <= 126;
-}
-
-
-bool unstdstring_isasciiextendedchar(const u8 bufferArg) {
-    return bufferArg >= 128 && bufferArg <= 255;
-}
-
-
-bool unstdstring_isalphabeticchar(const u8 bufferArg) {
-    return bufferArg >= 'a' && bufferArg <= 'z' || bufferArg >= 'A' && bufferArg <= 'Z';
-}
-
-
-bool unstdstring_isalphanumericchar(const u8 bufferArg) {
-    return unstdstring_isalphabeticchar(bufferArg) || bufferArg >= '0' && bufferArg <= '9';
-}
-
-
-bool unstdstring_isdigitchar(const u8 bufferArg) {
-    return bufferArg >= '0' && bufferArg <= '9';
-}
-
-
-bool unstdstring_ishexchar(const u8 bufferArg) {
-    return unstdstring_isdigitchar(bufferArg) || bufferArg >= 'a' && bufferArg <= 'f' ||
-           bufferArg >= 'A' && bufferArg <= 'F';
-}
-
-
-bool unstdstring_iswhitespace(const u8 bufferArg) {
-    return bufferArg == 32 || bufferArg == 9
-           || bufferArg == 10 || bufferArg == 11
-           || bufferArg == 12 || bufferArg == 13;
-}
-
-
-u8 _unstdstring_bufferextend(void *bufferArg, const u64 sizeArg) {
-    if (bufferArg == NULL) {
-        return 2;
-    }
-
-    if (sizeArg < 1) {
-        return 3;
-    }
-
-    const size_t size_bufferArg = strlen(bufferArg);
-    char *realloc_result = (char *) realloc(
-            (void *) bufferArg,
-            size_bufferArg + sizeArg + 1
-    );
-    if (realloc_result == NULL) {
+u64lt unstdstring_strlen8(const char *const buffer_arg) {
+    if (!buffer_arg || !*buffer_arg) {
         return 0;
     }
 
-    if (memset(bufferArg + size_bufferArg, 0, sizeArg + 1) == NULL) {
-        return 4;
-    }
+    u64lt len = 0;
+    while (buffer_arg[++len]);
 
-    return 1;
+    return len;
 }
 
 
-u8 _unstdstring_buffershrink(void *bufferArg, const u64 sizeArg) {
-    if (bufferArg == NULL) {
+u64lt unstdstring_strlen16(const u16t *const buffer_arg) {
+    if (!buffer_arg || !*buffer_arg) {
+        return 0;
+    }
+
+    u64lt len = 0;
+    while (((u16t *) buffer_arg)[++len]);
+
+    return len;
+}
+
+
+u64lt unstdstring_strlen32(const u32t *const buffer_arg) {
+    if (!buffer_arg || !*buffer_arg) {
+        return 0;
+    }
+
+    u64lt len = 0;
+    while (((u32t *) buffer_arg)[++len]);
+
+    return len;
+}
+
+
+bool unstdstring_charcmp8(const u8t f_buffer_arg, const u8t s_buffer_arg) {
+    return f_buffer_arg == s_buffer_arg;
+}
+
+
+bool unstdstring_charcmp16(const u16t f_buffer_arg, const u16t s_buffer_arg) {
+    return f_buffer_arg == s_buffer_arg;
+}
+
+
+bool unstdstring_charcmp32(const u32t f_buffer_arg, const u32t s_buffer_arg) {
+    return f_buffer_arg == s_buffer_arg;
+}
+
+
+bool unstdstring_strcmp8(const char *const f_buffer_arg, const char *const s_buffer_arg) {
+    if (!f_buffer_arg || !s_buffer_arg) {
+        return false;
+    }
+
+    if (!*f_buffer_arg) {
+        if (!*s_buffer_arg) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    return !strcmp(f_buffer_arg, s_buffer_arg);
+}
+
+
+bool unstdstring_strcmp16(const u16t *const f_buffer_arg, const u16t *const s_buffer_arg) {
+    if (!f_buffer_arg || !s_buffer_arg) {
+        return false;
+    }
+
+    if (!*f_buffer_arg) {
+        if (!*s_buffer_arg) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    u64lt length_s_buffer_arg = unstdstring_strlen16(s_buffer_arg);
+    u64lt length_f_buffer_arg = unstdstring_strlen16(f_buffer_arg);
+    if (length_s_buffer_arg != length_f_buffer_arg) {
+        return false;
+    }
+
+    for (u64lt buffer_arg_ptr = 0; ((u16t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
+        if (((u16t *) s_buffer_arg)[buffer_arg_ptr] != ((u16t *) f_buffer_arg)[buffer_arg_ptr]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+bool unstdstring_strcmp32(const u32t *const f_buffer_arg, const u32t *const s_buffer_arg) {
+    if (!f_buffer_arg || !s_buffer_arg) {
+        return false;
+    }
+
+    if (!*f_buffer_arg) {
+        if (!*s_buffer_arg) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    u64lt length_s_buffer_arg = unstdstring_strlen32(s_buffer_arg);
+    u64lt length_f_buffer_arg = unstdstring_strlen32(f_buffer_arg);
+    if (length_s_buffer_arg != length_f_buffer_arg) {
+        return false;
+    }
+
+    for (u64lt buffer_arg_ptr = 0; ((u32t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
+        if (((u32t *) s_buffer_arg)[buffer_arg_ptr] != ((u32t *) f_buffer_arg)[buffer_arg_ptr]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+bool unstdstring_strcmpignorecase8(const char *const f_buffer_arg, const char *const s_buffer_arg) {
+    if (!f_buffer_arg || !s_buffer_arg) {
+        return false;
+    }
+
+    if (!*f_buffer_arg) {
+        if (!*s_buffer_arg) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    u64lt length_s_buffer_arg = unstdstring_strlen8(s_buffer_arg);
+    u64lt length_f_buffer_arg = unstdstring_strlen8(f_buffer_arg);
+    if (length_s_buffer_arg != length_f_buffer_arg) {
+        return false;
+    }
+
+    for (u64lt buffer_arg_ptr = 0; ((u8t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
+        if (tolower(((u8t *) s_buffer_arg)[buffer_arg_ptr]) != tolower(((u8t *) f_buffer_arg)[buffer_arg_ptr])) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+bool unstdstring_strcmpignorecase16(const u16t *const f_buffer_arg, const u16t *const s_buffer_arg) {
+    if (!f_buffer_arg || !s_buffer_arg) {
+        return false;
+    }
+
+    if (!*f_buffer_arg) {
+        if (!*s_buffer_arg) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    u64lt length_s_buffer_arg = unstdstring_strlen16(s_buffer_arg);
+    u64lt length_f_buffer_arg = unstdstring_strlen16(f_buffer_arg);
+    if (length_s_buffer_arg != length_f_buffer_arg) {
+        return false;
+    }
+
+    for (u64lt buffer_arg_ptr = 0; ((u16t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
+        if (tolower(((u16t *) s_buffer_arg)[buffer_arg_ptr]) != tolower(((u16t *) f_buffer_arg)[buffer_arg_ptr])) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+bool unstdstring_strcmpignorecase32(const u32t *const f_buffer_arg, const u32t *const s_buffer_arg) {
+    if (!f_buffer_arg || !s_buffer_arg) {
+        return false;
+    }
+
+    if (!*f_buffer_arg) {
+        if (!*s_buffer_arg) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    u64lt length_s_buffer_arg = unstdstring_strlen32(s_buffer_arg);
+    u64lt length_f_buffer_arg = unstdstring_strlen32(f_buffer_arg);
+    if (length_s_buffer_arg != length_f_buffer_arg) {
+        return false;
+    }
+
+    for (u64lt buffer_arg_ptr = 0; ((u32t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
+        if (tolower(((u32t *) s_buffer_arg)[buffer_arg_ptr]) != tolower(((u32t *) f_buffer_arg)[buffer_arg_ptr])) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+bool unstdstring_startswithchar8(const char *const buffer_arg, const char checkon_arg) {
+    if (!buffer_arg) {
+        return false;
+    }
+
+    if (!*buffer_arg) {
+        if (!checkon_arg) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    return *buffer_arg == checkon_arg;
+}
+
+
+bool unstdstring_startswithchar16(const u16t *const buffer_arg, const u16t checkon_arg) {
+    if (!buffer_arg) {
+        return false;
+    }
+
+    if (!*buffer_arg) {
+        if (!checkon_arg) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    return *buffer_arg == checkon_arg;
+}
+
+
+bool unstdstring_startswithchar32(const u32t *const buffer_arg, const u32t checkon_arg) {
+    if (!buffer_arg) {
+        return false;
+    }
+
+    if (!*buffer_arg) {
+        if (!checkon_arg) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    return *buffer_arg == checkon_arg;
+}
+
+
+bool unstdstring_startswithcharignorecase8(const char *const buffer_arg, const char checkon_arg) {
+    if (!buffer_arg) {
+        return false;
+    }
+
+    if (!*buffer_arg) {
+        if (!checkon_arg) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    return tolower(*buffer_arg) == tolower(checkon_arg);
+}
+
+
+bool unstdstring_endswithchar8(const char *const buffer_arg, const char checkon_arg) {
+    if (!buffer_arg) {
+        return false;
+    }
+
+    if (!*buffer_arg) {
+        if (!checkon_arg) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    if (unstdstring_strlen8(buffer_arg) < 1) {
+        return false;
+    }
+
+    return buffer_arg[unstdstring_strlen8(buffer_arg) - 1] == checkon_arg;
+}
+
+
+bool unstdstring_endswithcharignorecase8(const char *const buffer_arg, const char checkon_arg) {
+    if (!buffer_arg) {
+        return false;
+    }
+
+    if (!*buffer_arg) {
+        if (!checkon_arg) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    if (unstdstring_strlen8(buffer_arg) < 1) {
+        return false;
+    }
+
+    return tolower(buffer_arg[unstdstring_strlen8(buffer_arg) - 1]) == tolower(checkon_arg);
+}
+
+
+void unstdstring_tolowerstr8(char *const buffer_arg) {
+    if (!buffer_arg || !*buffer_arg) {
+        return;
+    }
+
+    for (u64lt i = 0; buffer_arg[i]; buffer_arg[i] = (char) tolower(buffer_arg[i]), i++);
+}
+
+
+char *unstdstring_tolowerstrcopy8(const char *const buffer_arg) {
+    if (!buffer_arg || !*buffer_arg) {
+        return NULL;
+    }
+
+    u64lt length_buffer_arg = unstdstring_strlen8(buffer_arg);
+    if (length_buffer_arg < 1) {
+        return NULL;
+    }
+
+    char *allocationPtr = (char *) calloc(length_buffer_arg + 1, sizeof(char));
+    if (!allocationPtr) {
+        return NULL;
+    }
+
+    for (u64lt i = 0; buffer_arg[i]; allocationPtr[i] = (char) tolower(buffer_arg[i]), i++);
+
+    return allocationPtr;
+}
+
+
+void unstdstring_tolowerstrarray8(char (*const buffer_arg)[]) {
+    if (!buffer_arg || !*buffer_arg) {
+        return;
+    }
+
+    for (u64lt i = 0; (*buffer_arg)[i]; i++) { (*buffer_arg)[i] = (char) tolower((*buffer_arg)[i]); }
+}
+
+
+void unstdstring_toupperstr8(char *const buffer_arg) {
+    if (!buffer_arg || !*buffer_arg) {
+        return;
+    }
+
+    for (u64lt i = 0; buffer_arg[i]; buffer_arg[i] = (char) toupper(buffer_arg[i]), i++);
+}
+
+
+char *unstdstring_toupperstrcopy8(const char *const buffer_arg) {
+    if (!buffer_arg || !*buffer_arg) {
+        return NULL;
+    }
+
+    u64lt length_buffer_arg = unstdstring_strlen8(buffer_arg);
+    if (length_buffer_arg < 1) {
+        return NULL;
+    }
+
+    char *allocationPtr = (char *) calloc(length_buffer_arg + 1, sizeof(char));
+    if (!allocationPtr) {
+        return NULL;
+    }
+
+    for (u64lt i = 0; buffer_arg[i]; allocationPtr[i] = (char) toupper(buffer_arg[i]), i++);
+
+    return allocationPtr;
+}
+
+
+void unstdstring_toupperstrarray8(char (*const buffer_arg)[]) {
+    if (!buffer_arg || !*buffer_arg) {
+        return;
+    }
+
+    for (u64lt i = 0; (*buffer_arg)[i]; i++) { (*buffer_arg)[i] = (char) toupper((*buffer_arg)[i]); }
+}
+
+
+bool unstdstring_isasciicontrolchar(const u8t buffer_arg) {
+    return buffer_arg >= 0 && buffer_arg <= 31 || buffer_arg == 127;
+}
+
+
+bool unstdstring_isasciiprintablechar(const u8t buffer_arg) {
+    return buffer_arg >= 32 && buffer_arg <= 126;
+}
+
+
+bool unstdstring_isasciiextendedchar(const u8t buffer_arg) {
+    return buffer_arg >= 128 && buffer_arg <= 255;
+}
+
+bool unstdstring_isasciivisiblechar(const u8t buffer_arg) {
+    return unstdstring_isasciiprintablechar(buffer_arg)
+           || unstdstring_isasciiextendedchar(buffer_arg);
+}
+
+bool unstdstring_isasciichar(const u8t buffer_arg) {
+    return buffer_arg >= 0 && buffer_arg <= 255;
+}
+
+bool unstdstring_isalphabeticchar(const u8t buffer_arg) {
+    return buffer_arg >= 'a' && buffer_arg <= 'z'
+           || buffer_arg >= 'A' && buffer_arg <= 'Z';
+}
+
+
+bool unstdstring_isalphanumericchar(const u8t buffer_arg) {
+    return unstdstring_isalphabeticchar(buffer_arg)
+           || buffer_arg >= '0' && buffer_arg <= '9';
+}
+
+
+bool unstdstring_isdigitchar(const u8t buffer_arg) {
+    return buffer_arg >= '0' && buffer_arg <= '9';
+}
+
+
+bool unstdstring_ishexchar(const u8t buffer_arg) {
+    return unstdstring_isdigitchar(buffer_arg)
+           || buffer_arg >= 'a' && buffer_arg <= 'f'
+           || buffer_arg >= 'A' && buffer_arg <= 'F';
+}
+
+
+bool unstdstring_iswhitespace(const u8t buffer_arg) {
+    return buffer_arg == 32 || buffer_arg == 9
+           || buffer_arg == 10 || buffer_arg == 11
+           || buffer_arg == 12 || buffer_arg == 13;
+}
+
+
+u8t _unstdstring_bufferextend(void *buffer_arg, const u32lt bytes_arg, const u8t encoding_arg) {
+    if (!buffer_arg) {
         return 2;
     }
 
-    if (sizeArg < 1) {
+    if (bytes_arg < 1) {
         return 3;
     }
 
-    const size_t size_bufferArg = strlen(bufferArg);
-    if (size_bufferArg < 1) {
-        return 4;
+    u64lt size_buffer_arg;
+    switch (encoding_arg) {
+        case _unstdstring_bufferencoding_UTF8:
+            size_buffer_arg = !*(char *) buffer_arg ? 0 : unstdstring_strlen8(buffer_arg);
+            break;
+        case _unstdstring_bufferencoding_UTF16:
+            size_buffer_arg = !*(u16t *) buffer_arg ? 0 : unstdstring_strlen16(buffer_arg);
+            break;
+        case _unstdstring_bufferencoding_UTF32:
+            size_buffer_arg = !*(u32t *) buffer_arg ? 0 : unstdstring_strlen32(buffer_arg);
+            break;
+        default:
+            return 4;
     }
 
-    if (sizeArg > size_bufferArg) {
+    char *realloc_result = (char *) realloc(
+            (void *) buffer_arg,
+            size_buffer_arg * encoding_arg + bytes_arg * encoding_arg + encoding_arg
+    );
+    if (!realloc_result) {
+        return 0;
+    }
+
+    if (!memset(buffer_arg + size_buffer_arg * encoding_arg,
+                0,
+                bytes_arg * encoding_arg + encoding_arg)) {
         return 5;
     }
 
-    char *realloc_result = (char *) realloc(
-            (void *) bufferArg,
-            size_bufferArg == sizeArg ? 1 : size_bufferArg - sizeArg
-    );
-    if (realloc_result == NULL) {
-        return 0;
+    return 1;
+}
+
+
+u8t _unstdstring_buffershrink(void *buffer_arg, const u32lt bytes_arg, const u8t encoding_arg) {
+    if (!buffer_arg) {
+        return 2;
     }
 
-    if (memset(bufferArg + size_bufferArg - sizeArg, 0, sizeArg + 1) == NULL) {
-        return 6;
+    if (bytes_arg < 1) {
+        return 3;
+    }
+
+    u64lt size_buffer_arg;
+    switch (encoding_arg) {
+        case _unstdstring_bufferencoding_UTF8:
+            size_buffer_arg = !*(char *) buffer_arg ? 0 : unstdstring_strlen8(buffer_arg);
+            break;
+        case _unstdstring_bufferencoding_UTF16:
+            size_buffer_arg = !*(u16t *) buffer_arg ? 0 : unstdstring_strlen16(buffer_arg);
+            break;
+        case _unstdstring_bufferencoding_UTF32:
+            size_buffer_arg = !*(u32t *) buffer_arg ? 0 : unstdstring_strlen32(buffer_arg);
+            break;
+        default:
+            return 6;
+    }
+
+    if (size_buffer_arg < 1) {
+        return 4;
+    }
+
+    if (bytes_arg > size_buffer_arg) {
+        return 5;
+    }
+
+    if (!memset(buffer_arg + size_buffer_arg * encoding_arg - bytes_arg * encoding_arg,
+                0,
+                bytes_arg * encoding_arg + encoding_arg)) {
+        return 7;
+    }
+
+    char *realloc_result = (char *) realloc(
+            (void *) buffer_arg,
+            size_buffer_arg == bytes_arg
+            ? encoding_arg
+            : size_buffer_arg * encoding_arg - bytes_arg * encoding_arg - encoding_arg
+    );
+    if (!realloc_result) {
+        return 0;
     }
 
     return 1;
 }
 
 
-char *unstdstring_bufferstringinit(const char *const bufferArg, u8 *const outErrorArg) {
-    char *buffer = NULL;
+char *unstdstring_bufferstringinit8(const char *const buffer_arg, u8t *const out_error_arg) {
+    u64lt size_buffer_arg = !buffer_arg || !*buffer_arg ? 0 : unstdstring_strlen8(buffer_arg);
 
-    size_t size_bufferArg = bufferArg == NULL ? 0 : strlen(bufferArg);
-
-    buffer = (char *) malloc(size_bufferArg + 1);
-    if (buffer == NULL) {
-        if (outErrorArg != NULL) {
-            *outErrorArg = 0;
-            return NULL;
+    char *buffer = (char *) malloc(size_buffer_arg + _unstdstring_bufferencoding_UTF8);
+    if (!buffer) {
+        if (out_error_arg) {
+            *out_error_arg = 0;
         }
+        return NULL;
     }
 
-    if (memset(buffer, 0, size_bufferArg + 1) == NULL) {
-        if (outErrorArg != NULL) {
-            *outErrorArg = 2;
-            return NULL;
+    if (!memset(buffer, 0, size_buffer_arg + _unstdstring_bufferencoding_UTF8)) {
+        if (out_error_arg) {
+            *out_error_arg = 2;
         }
+        return NULL;
     }
 
-    if (bufferArg != NULL) {
-        if (!unstdstring_strcmp(strcpy(buffer, bufferArg), bufferArg)) {
-            if (outErrorArg != NULL) {
-                *outErrorArg = 3;
-                return NULL;
+    if (buffer_arg && *buffer_arg) {
+        if (!unstdstring_strcmp8(strcpy(buffer, buffer_arg), buffer_arg)) {
+            if (out_error_arg) {
+                *out_error_arg = 3;
             }
+            return NULL;
         }
     }
 
-    if (outErrorArg != NULL) {
-        *outErrorArg = 1;
+    if (out_error_arg) {
+        *out_error_arg = 1;
     }
 
     return buffer;
 }
 
 
-u8 unstdstring_bufferclear(void *const bufferArg) {
-    if (bufferArg == NULL) {
-        return 2;
+u16t *unstdstring_bufferstringinit16(const u16t *const buffer_arg, u8t *const out_error_arg) {
+    u64lt size_bytes_buffer_arg = !buffer_arg || !*buffer_arg
+                                  ? 0
+                                  : (unstdstring_strlen16((const u16t *) buffer_arg)
+                                     * _unstdstring_bufferencoding_UTF16);
+
+    u16t *buffer = (u16t *) malloc(size_bytes_buffer_arg + _unstdstring_bufferencoding_UTF16);
+    if (!buffer) {
+        if (out_error_arg) {
+            *out_error_arg = 0;
+        }
+        return NULL;
     }
 
-    return _unstdstring_buffershrink(bufferArg, strlen(bufferArg)) == 1 ? 1 : 3;
+    if (!memset(buffer, 0, size_bytes_buffer_arg + _unstdstring_bufferencoding_UTF16)) {
+        if (out_error_arg) {
+            *out_error_arg = 2;
+        }
+        return NULL;
+    }
+
+    if (buffer_arg && *buffer_arg) {
+        if (!unstdstring_strcmp16(
+                (u16t *) memcpy((char *) buffer,
+                                (char *) buffer_arg,
+                                size_bytes_buffer_arg),
+                buffer_arg)) {
+            if (out_error_arg) {
+                *out_error_arg = 3;
+            }
+            return NULL;
+        }
+    }
+
+    if (out_error_arg) {
+        *out_error_arg = 1;
+    }
+
+    return buffer;
 }
 
 
-u8 unstdstring_pushchar8(void *const toBufferArg, const u8 fromBufferArg) {
-    if (toBufferArg == NULL) {
+u32t *unstdstring_bufferstringinit32(const u32t *const buffer_arg, u8t *const out_error_arg) {
+    u64lt size_bytes_buffer_arg = !buffer_arg || !*buffer_arg
+                                  ? 0
+                                  : (unstdstring_strlen32((const u32t *) buffer_arg)
+                                     * _unstdstring_bufferencoding_UTF32);
+
+    u32t *buffer = (u32t *) malloc(size_bytes_buffer_arg + _unstdstring_bufferencoding_UTF32);
+    if (!buffer) {
+        if (out_error_arg) {
+            *out_error_arg = 0;
+        }
+        return NULL;
+    }
+
+    if (!memset(buffer, 0, size_bytes_buffer_arg + _unstdstring_bufferencoding_UTF32)) {
+        if (out_error_arg) {
+            *out_error_arg = 2;
+        }
+        return NULL;
+    }
+
+    if (buffer_arg && *buffer_arg) {
+        if (!unstdstring_strcmp32(
+                (u32t *) memcpy((char *) buffer,
+                                (char *) buffer_arg,
+                                size_bytes_buffer_arg),
+                buffer_arg)) {
+            if (out_error_arg) {
+                *out_error_arg = 3;
+            }
+            return NULL;
+        }
+    }
+
+    if (out_error_arg) {
+        *out_error_arg = 1;
+    }
+
+    return buffer;
+}
+
+
+u8t unstdstring_bufferclear8(char *const buffer_arg) {
+    if (!buffer_arg) {
         return 2;
     }
 
-    if (_unstdstring_bufferextend(toBufferArg, 1) != 1) {
+    if (!*buffer_arg) {
+        return 3;
+    }
+
+    return _unstdstring_buffershrink(
+            buffer_arg,
+            unstdstring_strlen8(buffer_arg),
+            _unstdstring_bufferencoding_UTF8) == 1 ? 1 : 4;
+}
+
+
+u8t unstdstring_bufferclear16(u16t *const buffer_arg) {
+    if (!buffer_arg) {
+        return 2;
+    }
+
+    if (!*buffer_arg) {
+        return 3;
+    }
+
+    return _unstdstring_buffershrink(
+            buffer_arg,
+            unstdstring_strlen16(buffer_arg),
+            _unstdstring_bufferencoding_UTF16) == 1 ? 1 : 4;
+}
+
+
+u8t unstdstring_pushbackchar8(char *const to_buffer_arg, const u8t from_buffer_arg) {
+    if (!to_buffer_arg) {
+        return 2;
+    }
+
+    if (_unstdstring_bufferextend(to_buffer_arg, 1, _unstdstring_bufferencoding_UTF8) != 1) {
         return 0;
     }
-    const size_t size_toBufferArg = strlen(toBufferArg);
 
-    ((u8 *) toBufferArg)[size_toBufferArg] = fromBufferArg;
-    ((u8 *) toBufferArg)[size_toBufferArg + 1] = 0;
+    const u64lt size_to_buffer_arg = unstdstring_strlen8(to_buffer_arg);
+
+    ((u8t *) to_buffer_arg)[size_to_buffer_arg] = from_buffer_arg;
+    ((u8t *) to_buffer_arg)[size_to_buffer_arg + 1] = 0;
+
     return 1;
 }
 
 
-u8 unstdstring_popchar8(void *const bufferArg, u8 *const outErrorArg) {
-    if (bufferArg == NULL) {
-        if (outErrorArg != NULL) {
-            *outErrorArg = 2;
-            return 0;
+u8t unstdstring_pushbackchar16(u16t *const to_buffer_arg, const u16t from_buffer_arg) {
+    if (!to_buffer_arg) {
+        return 2;
+    }
+
+    if (_unstdstring_bufferextend(to_buffer_arg, 1, _unstdstring_bufferencoding_UTF16) != 1) {
+        return 0;
+    }
+
+    const u64lt size_to_buffer_arg = unstdstring_strlen16(to_buffer_arg);
+
+    ((u16t *) to_buffer_arg)[size_to_buffer_arg] = from_buffer_arg;
+    ((u16t *) to_buffer_arg)[size_to_buffer_arg + 1] = 0;
+
+    return 1;
+}
+
+
+u8t unstdstring_pushbackstr8(char *const to_buffer_arg, const char *const from_buffer_arg) {
+    if (!to_buffer_arg) {
+        return 2;
+    }
+
+    if (!from_buffer_arg) {
+        return 3;
+    }
+
+    if (!*from_buffer_arg) {
+        return 4;
+    }
+
+    u64lt length_from_buffer_arg_temp = unstdstring_strlen8(from_buffer_arg);
+
+    if (!_unstdstring_bufferextend(to_buffer_arg, length_from_buffer_arg_temp, _unstdstring_bufferencoding_UTF8)) {
+        return 0;
+    }
+
+    strcat(to_buffer_arg, from_buffer_arg);
+
+    return 1;
+}
+
+
+u8t unstdstring_popbackchar8(char *const buffer_arg, u8t *const out_error_arg) {
+    if (!buffer_arg) {
+        if (out_error_arg) {
+            *out_error_arg = 2;
         }
+        return 0;
     }
 
-    u8 temp_char_holder = ((u8 *) bufferArg)[strlen(bufferArg) - 1];
-
-    if (_unstdstring_buffershrink(bufferArg, 1) != 1) {
-        if (outErrorArg != NULL) {
-            *outErrorArg = 0;
-            return 0;
+    if (!*buffer_arg) {
+        if (out_error_arg) {
+            *out_error_arg = 3;
         }
+        return 0;
     }
 
-    if (outErrorArg != NULL) {
-        *outErrorArg = 1;
+    u8t temp_char_holder = ((u8t *) buffer_arg)[unstdstring_strlen8(buffer_arg) - 1];
+
+    if (_unstdstring_buffershrink(buffer_arg, 1, _unstdstring_bufferencoding_UTF8) != 1) {
+        if (out_error_arg) {
+            *out_error_arg = 0;
+        }
+        return 0;
     }
+
+    if (out_error_arg) {
+        *out_error_arg = 1;
+    }
+
     return temp_char_holder;
 }
 
 
-u8 unstdstring_appendstr(void *const toBufferArg, const char *const fromBufferArg) {
-    if (toBufferArg == NULL) {
-        return 2;
-    }
-
-    if (fromBufferArg == NULL) {
-        return 3;
-    }
-
-    size_t length_fromBufferArg_temp = strlen(fromBufferArg);
-    if (!_unstdstring_bufferextend(toBufferArg, length_fromBufferArg_temp)) {
+u16t unstdstring_popbackchar16(u16t *const buffer_arg, u8t *const out_error_arg) {
+    if (!buffer_arg) {
+        if (out_error_arg) {
+            *out_error_arg = 2;
+        }
         return 0;
     }
 
-    strcat(toBufferArg, fromBufferArg);
+    if (!*buffer_arg) {
+        if (out_error_arg) {
+            *out_error_arg = 3;
+        }
+        return 0;
+    }
 
-    return 1;
+    u16t temp_char_holder = ((u16t *) buffer_arg)[unstdstring_strlen16(buffer_arg) - 1];
+
+    if (_unstdstring_buffershrink(buffer_arg, 1, _unstdstring_bufferencoding_UTF16) != 1) {
+        if (out_error_arg) {
+            *out_error_arg = 0;
+        }
+        return 0;
+    }
+
+    if (out_error_arg) {
+        *out_error_arg = 1;
+    }
+
+    return temp_char_holder;
 }
