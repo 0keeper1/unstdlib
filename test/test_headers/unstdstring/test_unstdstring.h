@@ -879,7 +879,7 @@ void test_unstdstring_bufferclear16(void) {
     u16t *test_buffer_heap_allocated = (u16t *) malloc(32);
     u16t *const test_buffer_heap_allocated_copy = (u16t *) malloc(32);
 
-    strcpy((char *) test_buffer_heap_allocated, "Hello, world!");
+    strcpy((char *) test_buffer_heap_allocated, (const char *) _unstdstring_encode_as_utf16("Hello, world! ϿϾϰԀ>"));
     strcpy((char *) test_buffer_heap_allocated_copy, (const char *) test_buffer_heap_allocated);
 
     u8t function_return_value = unstdstring_bufferclear16(test_buffer_heap_allocated);
@@ -1118,6 +1118,6 @@ void test_unstdstring(void) {
     test_unstdstring_popbackchar8();
     test_unstdstring_popbackchar16();
 
-    
+
     _notify("[+]", "`unstdstring` passed");
 }

@@ -3,5 +3,6 @@
 
 int main(void) {
     test_unstdlib_all();
+
     _notify("[+]", "`unstdlib` successfully passed all the tests");
 }

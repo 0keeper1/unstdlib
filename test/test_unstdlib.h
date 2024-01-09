@@ -9,6 +9,7 @@
 #include "test_headers/unstdstring/test_unstdstring.h"
 #include "test_headers/unstdpair/test_unstdpair.h"
 #include "test_headers/unstdio/test_unstdio.h"
+#include "test_headers/unstdvector/test_unstdvector.h"
 
 
 void test_unstdlib_all(void) {
@@ -19,6 +20,7 @@ void test_unstdlib_all(void) {
     test_unstdstring();
     test_unstdpair();
     test_unstdio();
+    test_unstdvector();
 }
 
 #endif /* UNSTDLIB_TEST_UNSTDLIB_H */
