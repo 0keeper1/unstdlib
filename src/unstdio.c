@@ -136,6 +136,7 @@ u8t unstdio_isregularfile(const char *const filepath_arg) {
     if (!*filepath_arg) {
         return 3;
     }
+
     struct stat path_stat;
     if (stat(filepath_arg, &path_stat)) {
         return 4;
