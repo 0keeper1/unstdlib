@@ -113,7 +113,7 @@ void test_unstdio_isregularfile(void) {
     // Trying to pass empty filepath.
     assert(unstdio_isregularfile("") == 3);
 
-    _notify("[+]", "`unstdio_doesfileexist()` passed");
+    _notify("[+]", "`unstdio_isregularfile()` passed");
 }
 
 
