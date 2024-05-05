@@ -96,7 +96,7 @@ typedef struct unstdvector_metadata_t {
     ((vector_arg) ? _unstdvector_vec_to_baseM(vector_arg)->elem_destructor : NULL)
 
 /**
- * @brief Checks weather a vector is empty.
+ * @brief Checks whether a vector is empty.
  * @param vector_arg A vector
  * @returns non-zero if empty, zero if non-empty
  */
