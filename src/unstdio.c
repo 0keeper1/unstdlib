@@ -15,8 +15,8 @@
 /**
  * @brief Reads lines of bytes from the file pointer `fileptr_arg`
  *        and writes the content of the line to the buffer `line_data_arg`
- *        and the bytes of the line to line_bytes_arg.
- * @attention It should be used like any other scope-based loop. See `example`.
+ *        and the bytes of the line to `line_bytes_arg`.
+ * @attention It should be used almost like any other scope-based loop. See `example`.
  * @param line_data_arg Will be declared and assigned.
  * @param line_bytes_arg Will be declared and assigned.
  * @example
@@ -27,17 +27,19 @@
  *     // Error handling
  * }
  *
- * <strong>unstdio_freadlinesM</strong>(line, bytes, fileptr_as_read) {
+ * <strong>unstdio_freadlinesM</strong>(line, bytes, fileptr_as_read, {
  *     printf("Retrieved bytes of the current line %zu:\n", bytes);
  *     printf("line content: %s\n", line);
- * }
+ * })
  * </pre>
  */
-#define unstdio_freadlinesM(line_data_arg, line_bytes_arg, fileptr_arg)         \
-__ssize_t line_bytes_arg;                                                       \
-size_t len = 0;                                                                 \
-char *line_data_arg = NULL;                                                     \
-while ((line_bytes_arg = getline(&line_data_arg, &len, fileptr_arg)) != -1)
+#define unstdio_freadlinesM(line_data_arg, line_bytes_arg, fileptr_arg, body_arg)    \
+{                                                                                    \
+ssizet line_bytes_arg;                                                               \
+sizet len = 0;                                                                       \
+char *line_data_arg = NULL;                                                          \
+while ((line_bytes_arg = getline(&line_data_arg, &len, fileptr_arg)) != -1) body_arg \
+}
 #endif
 
 

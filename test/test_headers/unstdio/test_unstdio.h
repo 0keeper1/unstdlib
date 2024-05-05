@@ -2,6 +2,7 @@
 
 // Headers
 #include "../../../src/unstdinttypes.h"
+#include "../../../src/unstdstring.h"
 #include "../../../src/unstdio.h"
 
 
@@ -190,6 +191,37 @@ void test_unstdio_getfilesize(void) {
     _notify("[+]", "`unstdio_getfilesize()` passed");
 }
 
+//! [freadlinesM]
+void test_unstdio_freadlinesM(void) {
+    FILE *fileptr = NULL;
+
+    // [Succeeds]
+    // Creating a new file.
+    assert(unstdio_openfile("test_stringliteral.txt", "w+", &fileptr) == 1);
+
+    // Writing a few lines of data into the previously created/opened file.
+    fprintf(fileptr, "%s\n%s\n\n%s",
+            "Hello world!",
+            "This is line number two!",
+            "01100111 01100101 01110100 00100000 01100001 00100000 01101010 01101111 01100010");
+    fflush(fileptr);
+    unstdio_closefile(fileptr);
+
+    // Trying to access thee previously created file with read permission.
+    assert(unstdio_openfile("test_stringliteral.txt", "r", &fileptr) == 1);
+
+    unstdio_freadlinesM(ldata, lbytes, fileptr, {
+        assert(lbytes == 13 || lbytes == 25 || lbytes == 1 || lbytes == 80);
+        assert(unstdstring_strcmp8("Hello world!\n", ldata)
+               || unstdstring_strcmp8("This is line number two!\n", ldata)
+               || unstdstring_strcmp8("\n", ldata)
+               ||
+               unstdstring_strcmp8("01100111 01100101 01110100 00100000 01100001 00100000 01101010 01101111 01100010",
+                                   ldata));
+    })
+
+    _notify("[+]", "`unstdio_freadlinesM()` passed");
+}
 
 void test_unstdio(void) {
     test_unstdio_openfile();
@@ -200,6 +232,7 @@ void test_unstdio(void) {
     test_unstdio_doesfileexist();
     test_unstdio_isregularfile();
     test_unstdio_getfilesize();
+    test_unstdio_freadlinesM();
 
     _notify("[+]", "`unstdio` passed");
 }
