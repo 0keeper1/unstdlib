@@ -26,7 +26,7 @@
  *                  <strong>Minimum step size</strong>: 0.<br>
  *                  You are allowed to put any number for start or end as long as it can fit trough `type_arg`.
  */
-#define unstdlib_foreach_rangeM(type_arg, iterator_arg, ...)                     \
+#define unstditertools_foreach_rangeM(type_arg, iterator_arg, ...)                     \
 for (type_arg iterator_arg = ((type_arg[3])__VA_ARGS__)[0];                      \
       ((type_arg[3])__VA_ARGS__)[0] < ((type_arg[3])__VA_ARGS__)[1]              \
       ? iterator_arg <= ((type_arg[3])__VA_ARGS__)[1]                            \
