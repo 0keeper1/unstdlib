@@ -6,6 +6,7 @@
 #include <dirent.h>
 #include <errno.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "unstdinttypes.h"
@@ -68,13 +69,30 @@ u8t unstdio_openfile(
 );
 
 /**
+ * @brief Checks if a file descriptor is open/valid.
+ * @param filedescriptor_arg Should be a non-negative integer.
+ * @returns True if `filedescriptor_arg` is open/valid otherwise False.
+ */
+bool unstdio_isfdvalid(const s32t filedescriptor_arg);
+
+/**
+ * @brief Checks if a file stream is open/valid.
+ * @param fileptr_arg Should be a valid pointer to a FILE handle.
+ * @returns True if `fileptr_arg` is open/valid otherwise False.
+ */
+inline bool unstdio_isfilestreamvalid(FILE *const fileptr_arg);
+
+/**
  * @brief Closes `fileptr_arg` file descriptor.
  * @param fileptr_arg Should be a valid pointer to a valid FILE handle.
  * @returns A number (u8t) indicating the state of the operation.
  * @retval [0] Failure. <code>fclose()</code> failed.
  * @retval [1] Success.
+ * @retval [2] Insufficient parameter. `fileptr_arg` is NULL. See `fileptr_arg`.
+ * @retval [3] Insufficient parameter. `fileptr_arg` is invalid or closed.
+ *         Further execution might cause double-close thus resulting in UB(undefined behavior). See `fileptr_arg`.
  */
-s64t unstdio_closefile(FILE *const fileptr_arg);
+u8t unstdio_closefile(FILE *const fileptr_arg);
 
 /**
  * @brief Removes a file.
@@ -88,9 +106,7 @@ s64t unstdio_closefile(FILE *const fileptr_arg);
  * @retval [4] Failure. <code>unstdio_doesfileexist()</code> failed.
  * @retval [5] Failure. The specified `filepath_arg` doesn't exist.
  */
-u8t unstdio_removefile(
-        const char *const filepath_arg
-);
+u8t unstdio_removefile(const char *const filepath_arg);
 
 /**
  * @brief Checks whether `filepath_arg` file exists or not.
@@ -124,7 +140,7 @@ u8t unstdio_isregularfile(const char *const filepath_arg);
  * @returns A number (s64t) indicating the state of the operation.
  * @retval [>=0] The number of bytes in the file pointed to by `fileptr_arg`.
  * @retval [-1] Insufficient parameter. `filepath_arg` is NULL. See `filepath_arg`.
- * @retval [-2] Insufficient parameter. `filepath_arg` is an empty string. See `filepath_arg`.
+ * @retval [-2] Insufficient parameter. `fileptr_arg` is invalid or closed.
  * @retval [-3] Failure. <code>fseek()</code> failed.
  * @retval [-4] Failure. <code>ftell()</code> failed.
  */

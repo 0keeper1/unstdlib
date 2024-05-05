@@ -72,9 +72,21 @@ u8t unstdio_openfile(const char *const filepath_arg, const char *const mod_arg, 
     return 1;
 }
 
-s64t unstdio_closefile(FILE *const fileptr_arg) {
+bool unstdio_isfdvalid(const s32t filedescriptor_arg) {
+    return fcntl(filedescriptor_arg, F_GETFD) != -1 || errno != EBADF;
+}
+
+bool unstdio_isfilestreamvalid(FILE *const fileptr_arg) {
+    return unstdio_isfdvalid(fileptr_arg->_fileno);
+}
+
+u8t unstdio_closefile(FILE *const fileptr_arg) {
     if (!fileptr_arg) {
         return 2;
+    }
+
+    if (!unstdio_isfdvalid(fileptr_arg->_fileno)) {
+        return 3;
     }
 
     if (fclose(fileptr_arg) != 0) {
@@ -148,6 +160,10 @@ u8t unstdio_isregularfile(const char *const filepath_arg) {
 s64t unstdio_getfilesize(FILE *const fileptr_arg) {
     if (!fileptr_arg) {
         return -1;
+    }
+
+    if (!unstdio_isfdvalid(fileptr_arg->_fileno)) {
+        return -2;
     }
 
     if (fseek(fileptr_arg, 0, SEEK_END) < 0) {

@@ -1,4 +1,3 @@
-#include <fcntl.h>
 #include "../../_test_common.h"
 
 // Headers
@@ -19,6 +18,7 @@ void test_unstdio_openfile(void) {
     assert(unstdio_openfile("test_stringliteral.txt", "r", &fileptr) == 1);
     fclose(fileptr);
 
+    // [Fails]
     // Trying to access a non-existent file.
     assert(unstdio_openfile("abc000.000", "r", &fileptr) == 0);
 
@@ -26,6 +26,44 @@ void test_unstdio_openfile(void) {
     assert(unstdio_openfile("abc000.000", "r", NULL) == 6);
 
     _notify("[+]", "`unstdio_openfile()` passed");
+}
+
+//! [isfdvalid]
+void test_unstdio_isfdvalid(void) {
+    FILE *fileptr = NULL;
+
+    // [Succeeds]
+    // Creating a new file.
+    assert(unstdio_openfile("test_stringliteral.txt", "w", &fileptr) == 1);
+
+    // Trying to check the previously created/opened file.
+    assert(unstdio_isfdvalid(fileptr->_fileno));
+
+    // [Fails]
+    // Trying to check on a closed file.
+    fclose(fileptr);
+    assert(!unstdio_isfdvalid(fileptr->_fileno));
+
+    _notify("[+]", "`unstdio_isfdvalid()` passed");
+}
+
+//! [isfilestreamvalid]
+void test_unstdio_isfilestreamvalid(void) {
+    FILE *fileptr = NULL;
+
+    // [Succeeds]
+    // Creating a new file.
+    assert(unstdio_openfile("test_stringliteral.txt", "w", &fileptr) == 1);
+
+    // Trying to check the previously created/opened file.
+    assert(unstdio_isfilestreamvalid(fileptr));
+
+    // [Fails]
+    // Trying to check on a closed file.
+    fclose(fileptr);
+    assert(!unstdio_isfilestreamvalid(fileptr));
+
+    _notify("[+]", "`unstdio_isfdvalid()` passed");
 }
 
 //! [closefile]
@@ -39,8 +77,12 @@ void test_unstdio_closefile(void) {
     // Trying to close the previously created/opened file.
     assert(unstdio_closefile(fileptr) == 1);
 
+    // [Fails]
     // Trying to pass NULL file handle.
     assert(unstdio_closefile(NULL) == 2);
+
+    // Trying to double-close a file handle.
+    assert(unstdio_closefile(fileptr) == 3);
 
     _notify("[+]", "`unstdio_closefile()` passed");
 }
@@ -57,6 +99,7 @@ void test_unstdio_removefile(void) {
     // Trying to remove the previously created/opened file.
     assert(unstdio_removefile("test_stringliteral.txt") == 1);
 
+    // [Fails]
     // Trying to remove a non-existent file.
     assert(unstdio_removefile("abc000.000") == 5);
 
@@ -81,6 +124,7 @@ void test_unstdio_doesfileexist(void) {
     // Trying to perform search on the previously created/opened file.
     assert(unstdio_doesfileexist("test_stringliteral.txt") == 1);
 
+    // [Fails]
     // Trying to check a non-existent file.
     assert(unstdio_doesfileexist("abc000.000") == 0);
 
@@ -105,6 +149,7 @@ void test_unstdio_isregularfile(void) {
     // Trying to perform search on the previously created/opened file.
     assert(unstdio_isregularfile("test_stringliteral.txt") == 1);
 
+    // [Fails]
     // Trying to check a non-existent file.
     assert(unstdio_isregularfile("abc000.000") == 4);
 
@@ -132,12 +177,13 @@ void test_unstdio_getfilesize(void) {
     // Trying to perform search on the previously created/opened file.
     assert(unstdio_getfilesize(fileptr) == 12);
 
+    // [Fails]
     // Trying to pass NULL file stream.
     assert(unstdio_getfilesize(NULL) == -1);
 
     // Trying to pass closed/invalid file stream.
-    // (function under implementation...)
-//    assert(unstdio_isregularfile("") == 3);
+    unstdio_closefile(fileptr);
+    assert(unstdio_getfilesize(fileptr) == -2);
 
     unstdio_closefile(fileptr);
 
@@ -147,6 +193,8 @@ void test_unstdio_getfilesize(void) {
 
 void test_unstdio(void) {
     test_unstdio_openfile();
+    test_unstdio_isfdvalid();
+    test_unstdio_isfilestreamvalid();
     test_unstdio_closefile();
     test_unstdio_removefile();
     test_unstdio_doesfileexist();
