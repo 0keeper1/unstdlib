@@ -1,3 +1,4 @@
+#include <fcntl.h>
 #include "../../_test_common.h"
 
 // Headers
@@ -116,6 +117,33 @@ void test_unstdio_isregularfile(void) {
     _notify("[+]", "`unstdio_isregularfile()` passed");
 }
 
+//! [getfilesize]
+void test_unstdio_getfilesize(void) {
+    FILE *fileptr = NULL;
+
+    // [Succeeds]
+    // Creating a new file.
+    assert(unstdio_openfile("test_stringliteral.txt", "w+", &fileptr) == 1);
+
+    // Writing 12 bytes of data into the previously created/opened file.
+    fprintf(fileptr, "%s", "Hello world!");
+    fflush(fileptr);
+
+    // Trying to perform search on the previously created/opened file.
+    assert(unstdio_getfilesize(fileptr) == 12);
+
+    // Trying to pass NULL file stream.
+    assert(unstdio_getfilesize(NULL) == -1);
+
+    // Trying to pass closed/invalid file stream.
+    // (function under implementation...)
+//    assert(unstdio_isregularfile("") == 3);
+
+    unstdio_closefile(fileptr);
+
+    _notify("[+]", "`unstdio_getfilesize()` passed");
+}
+
 
 void test_unstdio(void) {
     test_unstdio_openfile();
@@ -123,7 +151,7 @@ void test_unstdio(void) {
     test_unstdio_removefile();
     test_unstdio_doesfileexist();
     test_unstdio_isregularfile();
-
+    test_unstdio_getfilesize();
 
     _notify("[+]", "`unstdio` passed");
 }

@@ -146,6 +146,10 @@ u8t unstdio_isregularfile(const char *const filepath_arg) {
 }
 
 s64t unstdio_getfilesize(FILE *const fileptr_arg) {
+    if (!fileptr_arg) {
+        return -1;
+    }
+
     if (fseek(fileptr_arg, 0, SEEK_END) < 0) {
         return -3;
     }
