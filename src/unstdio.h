@@ -3,6 +3,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <dirent.h>
+#include <errno.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include "unstdinttypes.h"
 #include "unstdbool.h"
 
@@ -44,31 +49,85 @@ while ((line_bytes_arg = getline(&line_data_arg, &len, fileptr_arg)) != -1)
  * @param filepath_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array buffer
  *                     containing a path to the desired file.
  * @param mod_arg The usual modes that you would pass to <code>fopen()</code> function.
- * @OutParam <strong>fileptr_arg</strong> Should be a pointer to a NULL FILE handle.
+ * @OutParam <strong>fileptr_arg</strong> Should be a pointer to a NULL FILE handle. Pass NULL to ignore.
  * @OutParamValue [NULL] Failure. Refer to `retval`'s.
  * @OutParamValue [Valid Pointer] Success.
  * @returns A number (u8t) indicating the state of the operation.
- * @retval [0] Failure. <code>realpath()</code> failed.
+ * @retval [0] Failure. <code>fopen()</code> failed.
  * @retval [1] Success.
- * @retval [2] Failure. <code>fopen()</code> failed.
+ * @retval [2] Insufficient parameter. `filepath_arg` is NULL. See `filepath_arg`.
+ * @retval [3] Insufficient parameter. `filepath_arg` is an empty string. See `filepath_arg`.
+ * @retval [4] Insufficient parameter. `mod_arg` is NULL. See `mod_arg`.
+ * @retval [5] Insufficient parameter. `mod_arg` is an empty string. See `mod_arg`.
+ * @retval [6] Insufficient parameter. `fileptr_arg` is NULL. See `fileptr_arg`.
  */
-u8t  unstdio_openfile(
+u8t unstdio_openfile(
         const char *const filepath_arg,
         const char *const mod_arg,
-        const FILE *fileptr_arg
+        FILE **fileptr_arg
 );
 
 /**
- * @brief Gets the size of a file in bytes excluding the null-terminators
- *        (kinda like the number of characters in a file).
+ * @brief Closes `fileptr_arg` file descriptor.
  * @param fileptr_arg Should be a valid pointer to a valid FILE handle.
- * @returns A number (s32lt) indicating the state of the operation.
- * @retval [>=0] The number of bytes in the file pointed to by `fileptr_arg`.
- * @retval [-1] Failure. <code>fseek()</code> failed.
- * @retval [-2] Failure. <code>ftell()</code> failed.
+ * @returns A number (u8t) indicating the state of the operation.
+ * @retval [0] Failure. <code>fclose()</code> failed.
+ * @retval [1] Success.
  */
-s32lt unstdio_getfilesize(
-        FILE *const fileptr_arg
+s64t unstdio_closefile(FILE *const fileptr_arg);
+
+/**
+ * @brief Removes a file.
+ * @param fileptr_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array buffer
+ *                     containing a path to the desired file.
+ * @returns A number (u8t) indicating the state of the operation.
+ * @retval [0] Failure. <code>remove()</code> failed.
+ * @retval [1] Success.
+ * @retval [2] Insufficient parameter. `filepath_arg` is NULL. See `filepath_arg`.
+ * @retval [3] Insufficient parameter. `filepath_arg` is an empty string. See `filepath_arg`.
+ * @retval [4] Failure. <code>unstdio_doesfileexist()</code> failed.
+ * @retval [5] Failure. The specified `filepath_arg` doesn't exist.
+ */
+u8t unstdio_removefile(
+        const char *const filepath_arg
 );
+
+/**
+ * @brief Checks whether `filepath_arg` file exists or not.
+ * @param fileptr_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array buffer
+ *                     containing a path to the desired file.
+ * @returns A number (u8t) indicating the state of the operation.
+ * @retval [0] False
+ * @retval [1] True.
+ * @retval [2] Insufficient parameter. `filepath_arg` is NULL. See `filepath_arg`.
+ * @retval [3] Insufficient parameter. `filepath_arg` is an empty string. See `filepath_arg`.
+ * @retval [4] Failure. <code>access()</code> failed.
+ */
+u8t unstdio_doesfileexist(const char *const filepath_arg);
+
+/**
+ * @brief Checks whether `filepath_arg` is a file or not.
+ * @param fileptr_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array buffer
+ *                     containing a path to the desired file.
+ * @returns A number (u8t) indicating the state of the operation.
+ * @retval [0] False
+ * @retval [1] True.
+ * @retval [2] Insufficient parameter. `filepath_arg` is NULL. See `filepath_arg`.
+ * @retval [3] Insufficient parameter. `filepath_arg` is an empty string. See `filepath_arg`.
+ * @retval [4] Failure. <code>stat()</code> failed.
+ */
+u8t unstdio_isregularfile(const char *const filepath_arg);
+
+/**
+ * @brief Gets the size of a file in bytes excluding the null-terminators.
+ * @param fileptr_arg Should be a valid pointer to a valid FILE handle.
+ * @returns A number (s64t) indicating the state of the operation.
+ * @retval [>=0] The number of bytes in the file pointed to by `fileptr_arg`.
+ * @retval [-1] Insufficient parameter. `filepath_arg` is NULL. See `filepath_arg`.
+ * @retval [-2] Insufficient parameter. `filepath_arg` is an empty string. See `filepath_arg`.
+ * @retval [-3] Failure. <code>fseek()</code> failed.
+ * @retval [-4] Failure. <code>ftell()</code> failed.
+ */
+s64t unstdio_getfilesize(FILE *const fileptr_arg);
 
 #endif //UNSTDLIB_UNSTDIO_H

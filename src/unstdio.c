@@ -2,6 +2,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <dirent.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include "unstdinttypes.h"
 #include "unstdbool.h"
 
@@ -37,34 +41,121 @@ while ((line_bytes_arg = getline(&line_data_arg, &len, fileptr_arg)) != -1)
 #endif
 
 
-u8t unstdio_openfile(const char *const filepath_arg, const char *const mod_arg, const FILE *fileptr_arg) {
-    char *filepath_arg_realpath = NULL;
-    if ((filepath_arg_realpath = realpath(filepath_arg, NULL)) == NULL) {
-        return 0;
-    }
-
-    FILE *file_ptr = NULL;
-    if ((file_ptr = fopen(filepath_arg_realpath, mod_arg)) == NULL) {
+u8t unstdio_openfile(const char *const filepath_arg, const char *const mod_arg, FILE **fileptr_arg) {
+    if (!filepath_arg) {
         return 2;
     }
 
-    fileptr_arg = file_ptr;
+    if (!*filepath_arg) {
+        return 3;
+    }
+
+    if (!mod_arg) {
+        return 4;
+    }
+
+    if (!*mod_arg) {
+        return 5;
+    }
+
+    if (!fileptr_arg) {
+        return 6;
+    }
+
+    FILE *file_ptr = NULL;
+    if ((file_ptr = fopen(filepath_arg, mod_arg)) == NULL) {
+        return 0;
+    }
+
+    *fileptr_arg = file_ptr;
 
     return 1;
 }
 
-s32lt unstdio_getfilesize(FILE *const fileptr_arg) {
-    if (fseek(fileptr_arg, 0, SEEK_END) < 0) {
-        return -1;
+s64t unstdio_closefile(FILE *const fileptr_arg) {
+    if (!fileptr_arg) {
+        return 2;
     }
 
-    s32lt filesize;
-    if (ftell(fileptr_arg) < 0) {
-        return -2;
+    if (fclose(fileptr_arg) != 0) {
+        return 0;
+    }
+
+    return 1;
+}
+
+u8t unstdio_removefile(const char *const filepath_arg) {
+    if (!filepath_arg) {
+        return 2;
+    }
+
+    if (!*filepath_arg) {
+        return 3;
+    }
+
+    u8t doesfileexist_result = unstdio_doesfileexist(filepath_arg);
+    if (doesfileexist_result == 2) {
+        return 4;
+    } else if (doesfileexist_result == 0) {
+        return 5;
+    }
+
+    if (remove(filepath_arg) < 0) {
+        return 0;
+    }
+
+    return 1;
+}
+
+u8t unstdio_doesfileexist(const char *const filepath_arg) {
+    if (!filepath_arg) {
+        return 2;
+    }
+
+    if (!*filepath_arg) {
+        return 3;
+    }
+
+    s32t access_result = access(filepath_arg, F_OK);
+    if (access_result >= 0) {
+        return 1;
+    } else {
+        if (errno == ENOENT) {
+            return 0;
+        } else {
+            return 4;
+        }
+    }
+}
+
+u8t unstdio_isregularfile(const char *const filepath_arg) {
+    if (!filepath_arg) {
+        return 2;
+    }
+
+    if (!*filepath_arg) {
+        return 3;
+    }
+    struct stat path_stat;
+    if (stat(filepath_arg, &path_stat)) {
+        return 4;
+    }
+
+    return S_ISREG(path_stat.st_mode);
+}
+
+s64t unstdio_getfilesize(FILE *const fileptr_arg) {
+    if (fseek(fileptr_arg, 0, SEEK_END) < 0) {
+        return -3;
+    }
+
+    s64t filesize;
+    if ((filesize = ftell(fileptr_arg)) < 0) {
+        return -4;
     }
 
     if (fseek(fileptr_arg, 0, SEEK_SET) < 0) {
-        return -1;
+        return -3;
     }  /* same as `rewind(fileptr_arg)` */
 
     return filesize;
