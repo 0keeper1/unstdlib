@@ -605,8 +605,8 @@ void test_unstdstring_isasciivisiblechar(void) {
 //! [isasciichar]
 void test_unstdstring_isasciichar(void) {
     // [Succeeds]
-    for (unsigned char ascii_buffer = 0x00; ascii_buffer <= 0xFE;) {
-        assert(unstdstring_isasciichar(++ascii_buffer));
+    for (unsigned char ascii_buffer = 0x00; ascii_buffer <= 0xFE; ++ascii_buffer) {
+        assert(unstdstring_isasciichar(ascii_buffer));
     }
 
     _notify("[+]", "`unstdstring_isasciichar()` passed");
