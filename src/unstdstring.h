@@ -4,28 +4,23 @@
 #include "unstdinttypes.h"
 #include "unstdbool.h"
 
+
 /**
  * @brief Good Stuff, dont mind me.
  */
 #ifndef __unstdstring_bufferencoding
 #define __unstdstring_bufferencoding
-typedef enum : u8t {
-    _unstdstring_bufferencoding_UTF8 = 1,
-    _unstdstring_bufferencoding_UTF16 = 2,
-    _unstdstring_bufferencoding_UTF32 = 4
-} _unstdstring_bufferencoding;
-
-
 #define _unstdstring_encode_as_utf8(string_arg) u8##string_arg
 #define _unstdstring_encode_as_utf16(string_arg) u##string_arg
 #define _unstdstring_encode_as_utf32(string_arg) U##string_arg
+
 #define _unstdstring_encode_as_widechar(string_arg) L##string_arg
 #define _unstdstring_encode_as_raw(string_arg) R##string_arg
+#define _unstdstring_encode_as_raw_widechar(string_arg) LR##string_arg
 
 #define _unstdstring_encode_as_raw_utf8(string_arg) u8R##string_arg
 #define _unstdstring_encode_as_raw_utf16(string_arg) uR##string_arg
 #define _unstdstring_encode_as_raw_utf32(string_arg) UR##string_arg
-#define _unstdstring_encode_as_raw_widechar(string_arg) LR##string_arg
 #endif /* __unstdstring_bufferencoding */
 
 
