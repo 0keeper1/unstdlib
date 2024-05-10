@@ -78,7 +78,7 @@ bool unstdio_isfdvalid(const s32t filedescriptor_arg) {
     return fcntl(filedescriptor_arg, F_GETFD) != -1 || errno != EBADF;
 }
 
-bool unstdio_isfilestreamvalid(FILE *const fileptr_arg) {
+bool unstdio_isfilestreamvalid(const FILE *const fileptr_arg) {
     return unstdio_isfdvalid(fileptr_arg->_fileno);
 }
 
