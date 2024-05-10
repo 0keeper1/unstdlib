@@ -62,7 +62,7 @@ while ((line_bytes_arg = getline(&line_data_arg, &len, fileptr_arg)) != -1) body
  * @retval [5] Insufficient parameter. `mod_arg` is an empty string. See `mod_arg`.
  * @retval [6] Insufficient parameter. `fileptr_arg` is NULL. See `fileptr_arg`.
  */
-u8t unstdio_openfile(
+extern u8t unstdio_openfile(
         const char *const filepath_arg,
         const char *const mod_arg,
         FILE **fileptr_arg
@@ -73,14 +73,14 @@ u8t unstdio_openfile(
  * @param filedescriptor_arg Should be a non-negative integer.
  * @returns True if `filedescriptor_arg` is open/valid otherwise False.
  */
-bool unstdio_isfdvalid(const s32t filedescriptor_arg);
+extern bool unstdio_isfdvalid(const s32t filedescriptor_arg);
 
 /**
  * @brief Checks if a file stream is open/valid.
  * @param fileptr_arg Should be a valid pointer to a FILE handle.
  * @returns True if `fileptr_arg` is open/valid otherwise False.
  */
-inline bool unstdio_isfilestreamvalid(const FILE *const fileptr_arg);
+extern inline bool unstdio_isfilestreamvalid(const FILE *const fileptr_arg);
 
 /**
  * @brief Closes `fileptr_arg` file descriptor.
@@ -92,7 +92,7 @@ inline bool unstdio_isfilestreamvalid(const FILE *const fileptr_arg);
  * @retval [3] Insufficient parameter. `fileptr_arg` is invalid or closed.
  *         Further execution might cause double-close thus resulting in UB(undefined behavior). See `fileptr_arg`.
  */
-u8t unstdio_closefile(FILE *const fileptr_arg);
+extern u8t unstdio_closefile(FILE *const fileptr_arg);
 
 /**
  * @brief Removes a file.
@@ -106,7 +106,7 @@ u8t unstdio_closefile(FILE *const fileptr_arg);
  * @retval [4] Failure. <code>unstdio_doesfileexist()</code> failed.
  * @retval [5] Failure. The specified `filepath_arg` doesn't exist.
  */
-u8t unstdio_removefile(const char *const filepath_arg);
+extern u8t unstdio_removefile(const char *const filepath_arg);
 
 /**
  * @brief Checks whether `filepath_arg` file exists or not.
@@ -119,7 +119,7 @@ u8t unstdio_removefile(const char *const filepath_arg);
  * @retval [3] Insufficient parameter. `filepath_arg` is an empty string. See `filepath_arg`.
  * @retval [4] Failure. <code>access()</code> failed.
  */
-u8t unstdio_doesfileexist(const char *const filepath_arg);
+extern u8t unstdio_doesfileexist(const char *const filepath_arg);
 
 /**
  * @brief Checks whether `filepath_arg` is a file or not.
@@ -132,7 +132,7 @@ u8t unstdio_doesfileexist(const char *const filepath_arg);
  * @retval [3] Insufficient parameter. `filepath_arg` is an empty string. See `filepath_arg`.
  * @retval [4] Failure. <code>stat()</code> failed.
  */
-u8t unstdio_isregularfile(const char *const filepath_arg);
+extern u8t unstdio_isregularfile(const char *const filepath_arg);
 
 /**
  * @brief Gets the size of a file in bytes excluding the null-terminators.
@@ -144,6 +144,6 @@ u8t unstdio_isregularfile(const char *const filepath_arg);
  * @retval [-3] Failure. <code>fseek()</code> failed.
  * @retval [-4] Failure. <code>ftell()</code> failed.
  */
-s64t unstdio_getfilesize(FILE *const fileptr_arg);
+extern s64t unstdio_getfilesize(FILE *const fileptr_arg);
 
 #endif //UNSTDLIB_UNSTDIO_H
