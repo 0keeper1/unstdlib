@@ -218,7 +218,7 @@ void test_unstdio_freadlinesM(void) {
                ||
                unstdstring_strcmp8("01100111 01100101 01110100 00100000 01100001 00100000 01101010 01101111 01100010",
                                    ldata));
-    })
+    });
 
     _notify("[+]", "`unstdio_freadlinesM()` passed");
 }

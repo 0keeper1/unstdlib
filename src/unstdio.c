@@ -33,13 +33,13 @@
  * })
  * </pre>
  */
-#define unstdio_freadlinesM(line_data_arg, line_bytes_arg, fileptr_arg, body_arg)    \
-{                                                                                    \
-ssizet line_bytes_arg;                                                               \
-sizet len = 0;                                                                       \
-char *line_data_arg = NULL;                                                          \
-while ((line_bytes_arg = getline(&line_data_arg, &len, fileptr_arg)) != -1) body_arg \
-}
+#define unstdio_freadlinesM(line_data_arg, line_bytes_arg, fileptr_arg, body_arg)            \
+    do {                                                                                     \
+        ssizet line_bytes_arg;                                                               \
+        sizet len = 0;                                                                       \
+        char *line_data_arg = NULL;                                                          \
+        while ((line_bytes_arg = getline(&line_data_arg, &len, fileptr_arg)) != -1) body_arg \
+    } while (0)
 #endif
 
 
