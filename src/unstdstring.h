@@ -641,8 +641,7 @@ extern u8t unstdstring_pushbackstr8(
  * @OutParamValue [2] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
  * @OutParamValue [3] Insufficient parameter. `buffer_arg` is an empty string. See `buffer_arg`.
  * @OutParamValue [4] Failure. `start_arg` out_of_range.
- * @OutParamValue [5] Failure. <code>_unstdstring_bufferextend()</code> failed.
- * @OutParamValue [6] Failure. <code>unstdstring_bufferstringinit8()</code> failed.
+ * @OutParamValue [5] Failure. <code>calloc()</code> failed.
  */
 extern char *unstdstring_substrcopy8(
         char *const buffer_arg,

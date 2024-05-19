@@ -882,7 +882,6 @@ char *unstdstring_substrcopy8(char *const buffer_arg,
             *out_error_arg = 4;
         }
         return NULL;
-
     }
 
     u64lt substr_len = (span_arg <= 0 || span_arg >= buffer_arg_len - start_arg
@@ -891,6 +890,13 @@ char *unstdstring_substrcopy8(char *const buffer_arg,
 
     char *buffer = calloc(substr_len + 1,
                           _unstdstring_bufferencoding_UTF8);
+
+    if (!buffer) {
+        if (out_error_arg) {
+            *out_error_arg = 5;
+        }
+        return NULL;
+    }
 
     memcpy(buffer, &buffer_arg[start_arg], substr_len);
 
