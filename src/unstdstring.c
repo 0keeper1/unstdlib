@@ -856,3 +856,47 @@ u16t unstdstring_popbackchar16(u16t *const buffer_arg, u8t *const out_error_arg)
 
     return temp_char_holder;
 }
+
+char *unstdstring_substrcopy8(char *const buffer_arg,
+                              const u32lt start_arg,
+                              const u32lt span_arg,
+                              u8t *const out_error_arg) {
+    if (!buffer_arg) {
+        if (out_error_arg) {
+            *out_error_arg = 2;
+        }
+        return NULL;
+    }
+
+    if (!*buffer_arg) {
+        if (out_error_arg) {
+            *out_error_arg = 3;
+        }
+        return NULL;
+    }
+
+    u64lt buffer_arg_len = unstdstring_strlen8(buffer_arg);
+
+    if (buffer_arg_len <= start_arg) {
+        if (out_error_arg) {
+            *out_error_arg = 4;
+        }
+        return NULL;
+
+    }
+
+    u64lt substr_len = (span_arg <= 0 || span_arg >= buffer_arg_len - start_arg
+                        ? buffer_arg_len - start_arg
+                        : span_arg) * _unstdstring_bufferencoding_UTF8;
+
+    char *buffer = calloc(substr_len + 1,
+                          _unstdstring_bufferencoding_UTF8);
+
+    memcpy(buffer, &buffer_arg[start_arg], substr_len);
+
+    if (out_error_arg) {
+        *out_error_arg = 1;
+    }
+
+    return buffer;
+}

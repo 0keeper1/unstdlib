@@ -452,7 +452,7 @@ extern u8t _unstdstring_buffershrink(
  *                    It's considered best practice to always check for errors.<br>
  *                    Pass `NULL` to ignore.
  * @returns A pointer to the newly allocated string buffer or NULL, in case of failure.
- * @OutParam <strong>out_error_arg</strong>
+ * @OutParam <strong>out_error_arg</strong> A number (u8t) indicating the state of the operation.
  * @OutParamValue [0] Failure. <code>malloc()<code> failed.
  * @OutParamValue [1] Success.
  * @OutParamValue [2] Failure <code>memset()</code> failed.
@@ -473,11 +473,11 @@ extern char *unstdstring_bufferstringinit8(
  *                    It's considered best practice to always check for errors.<br>
  *                    Pass `NULL` to ignore.
  * @returns A pointer to the newly allocated string buffer or NULL, in case of failure.
- * @OutParam <strong>out_error_arg</strong>
+ * @OutParam <strong>out_error_arg</strong> A number (u8t) indicating the state of the operation.
  * @OutParamValue [0] Failure. <code>malloc()<code> failed.
  * @OutParamValue [1] Success.
  * @OutParamValue [2] Failure <code>memset()</code> failed.
- * @OutParamValue [3] Failure <code>strcpy()</code> failed.
+ * @OutParamValue [3] Failure <code>memcpy()</code> failed.
  */
 extern u16t *unstdstring_bufferstringinit16(
         const u16t *const buffer_arg,
@@ -494,11 +494,11 @@ extern u16t *unstdstring_bufferstringinit16(
  *                    It's considered best practice to always check for errors.<br>
  *                    Pass `NULL` to ignore.
  * @returns A pointer to the newly allocated string buffer or NULL, in case of failure.
- * @OutParam <strong>out_error_arg</strong>
+ * @OutParam <strong>out_error_arg</strong> A number (u8t) indicating the state of the operation.
  * @OutParamValue [0] Failure. <code>malloc()<code> failed.
  * @OutParamValue [1] Success.
  * @OutParamValue [2] Failure <code>memset()</code> failed.
- * @OutParamValue [3] Failure <code>strcpy()</code> failed.
+ * @OutParamValue [3] Failure <code>memcpy()</code> failed.
  */
 extern u32t *unstdstring_bufferstringinit32(
         const u32t *const buffer_arg,
@@ -578,7 +578,7 @@ extern u8t unstdstring_pushbackchar16(
  * @returns The popped character from end-of-the-buffer or 0 in case of failure which is not very reliable.<br>
  *          It's best practice to always check for errors.<br>
  *          See `out_error_arg`.
- * @OutParam <strong>out_error_arg</strong>
+ * @OutParam <strong>out_error_arg</strong> A number (u8t) indicating the state of the operation.
  * @OutParamValue [0] Failure. <code>_unstdstring_buffershrink()</code> failed.
  * @OutParamValue [1] Success.
  * @OutParamValue [2] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
@@ -597,7 +597,7 @@ extern u8t unstdstring_popbackchar8(
  * @returns The popped character from end-of-the-buffer or 0 in case of failure which is not very reliable.<br>
  *          It's best practice to always check for errors.<br>
  *          See `out_error_arg`.
- * @OutParam <strong>out_error_arg</strong>
+ * @OutParam <strong>out_error_arg</strong> A number (u8t) indicating the state of the operation.
  * @OutParamValue [0] Failure. <code>_unstdstring_buffershrink()</code> failed.
  * @OutParamValue [1] Success.
  * @OutParamValue [2] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
@@ -622,6 +622,33 @@ extern u16t unstdstring_popbackchar16(
 extern u8t unstdstring_pushbackstr8(
         char *const to_buffer_arg,
         const char *const from_buffer_arg
+);
+
+/**
+ * @brief Returns an specific part of the `buffer_arg` as an allocated copy.
+ * @param buffer_arg Should be a pointer to a valid, null-terminated heap-allocated buffer.
+ * @param start_arg Position of the first character to be copied as a substring.<br>
+ *                  If this is greater than or equal to the `buffer_arg` length,<br>
+ *                  it returns NULL and throws out_of_range. See `OutParamValue`
+ * @param span_arg Number of characters to include in the substring<br>
+ *                 (if the string is shorter or `span_arg` is zero or it goes out of index,<br>
+ *                 as many characters as possible are read).
+ * @returns A pointer to portion of the `buffer_arg` that starts at position `start_arg`<br>
+ *          and spans `span_arg` characters. Returns NULL in case of failure.
+ * @OutParam <strong>out_error_arg</strong> A number (u8t) indicating the state of the operation.
+ * @OutParamValue [0] Failure. <code>malloc()<code> failed.
+ * @OutParamValue [1] Success.
+ * @OutParamValue [2] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
+ * @OutParamValue [3] Insufficient parameter. `buffer_arg` is an empty string. See `buffer_arg`.
+ * @OutParamValue [4] Failure. `start_arg` out_of_range.
+ * @OutParamValue [5] Failure. <code>_unstdstring_bufferextend()</code> failed.
+ * @OutParamValue [6] Failure. <code>unstdstring_bufferstringinit8()</code> failed.
+ */
+extern char *unstdstring_substrcopy8(
+        char *const buffer_arg,
+        const u32lt start_arg,
+        const u32lt span_arg,
+        u8t *const out_error_arg
 );
 
 #endif /* UNSTDLIB_UNSTDSTRING_H */

@@ -1046,6 +1046,46 @@ void test_unstdstring_popbackchar16(void) {
     _notify("[+]", "`unstdstring_popbackchar16()` passed");
 }
 
+//! [substrcopy8]
+void test_unstdstring_substrcopy8(void) {
+    char *test_string_buffer = unstdstring_bufferstringinit8("Hello World!", NULL);
+
+
+    u8t error_out_holder = 0;
+    char *function_return_value = unstdstring_substrcopy8(test_string_buffer, 3, 0, &error_out_holder);
+
+    // [Succeeds]
+    assert(unstdstring_strlen8(function_return_value) == 9);
+    assert(unstdstring_strcmp8(function_return_value, "lo World!"));
+    assert(error_out_holder == 1);
+
+    // 2nd test
+    free(function_return_value);
+    error_out_holder = 0;
+    function_return_value = unstdstring_substrcopy8(test_string_buffer,
+                                                    unstdstring_strlen8(test_string_buffer),
+                                                    0,
+                                                    &error_out_holder);
+    assert(error_out_holder == 4);
+    assert(function_return_value == NULL);
+
+    // 3rd test
+    free(function_return_value);
+    error_out_holder = 0;
+    function_return_value = unstdstring_substrcopy8(test_string_buffer,
+                                                    unstdstring_strlen8(test_string_buffer) - 1,
+                                                    1,
+                                                    &error_out_holder);
+    assert(unstdstring_strlen8(function_return_value) == 1);
+    assert(unstdstring_strcmp8(function_return_value, "!"));
+    assert(error_out_holder == 1);
+
+    free(test_string_buffer);
+    free(function_return_value);
+
+    _notify("[+]", "`unstdstring_substrcopy8()` passed");
+}
+
 
 void test_unstdstring(void) {
     //! [strlen]
@@ -1117,6 +1157,9 @@ void test_unstdstring(void) {
     //! [char]
     test_unstdstring_popbackchar8();
     test_unstdstring_popbackchar16();
+
+    //! [substr]
+    test_unstdstring_substrcopy8();
 
 
     _notify("[+]", "`unstdstring` passed");
