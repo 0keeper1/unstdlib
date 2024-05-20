@@ -5,7 +5,7 @@
 
 
 //! [unsigned_maximumM]
-void test_unstdinttypes_unstdinttypes_unsigned_maximumM(void) {
+void test_unstdinttypes_unsigned_maximumM(void) {
     // [Succeeds]
     u8t test_1 = unstdinttypes_unsigned_maximumM(u8t);
     assert(test_1 > 0);
@@ -23,7 +23,7 @@ void test_unstdinttypes_unstdinttypes_unsigned_maximumM(void) {
 }
 
 //! [signed_minimumM]
-void test_unstdinttypes_unstdinttypes_signed_minimumM(void) {
+void test_unstdinttypes_signed_minimumM(void) {
     // [Succeeds]
     u8t test_1 = unstdinttypes_signed_minimumM(u8t);
     assert(test_1 == 0);
@@ -41,7 +41,7 @@ void test_unstdinttypes_unstdinttypes_signed_minimumM(void) {
 }
 
 //! [signed_maximumM]
-void test_unstdinttypes_unstdinttypes_signed_maximumM(void) {
+void test_unstdinttypes_signed_maximumM(void) {
     // [Succeeds]
     u8t test_1 = unstdinttypes_signed_maximumM(u8t);
     assert(test_1 > 0);
@@ -60,9 +60,9 @@ void test_unstdinttypes_unstdinttypes_signed_maximumM(void) {
 
 
 void test_unstdinttypes(void) {
-    test_unstdinttypes_unstdinttypes_unsigned_maximumM();
-    test_unstdinttypes_unstdinttypes_signed_minimumM();
-    test_unstdinttypes_unstdinttypes_signed_maximumM();
+    test_unstdinttypes_unsigned_maximumM();
+    test_unstdinttypes_signed_minimumM();
+    test_unstdinttypes_signed_maximumM();
 
     _notify("[+]", "`unstdinttypes` passed");
 }

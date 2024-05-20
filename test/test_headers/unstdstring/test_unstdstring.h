@@ -1052,7 +1052,10 @@ void test_unstdstring_substrcopy8(void) {
 
 
     u8t error_out_holder = 0;
-    char *function_return_value = unstdstring_substrcopy8(test_string_buffer, 3, 0, &error_out_holder);
+    char *function_return_value = unstdstring_substrcopy8(test_string_buffer,
+                                                          3,
+                                                          0,
+                                                          &error_out_holder);
 
     // [Succeeds]
     assert(unstdstring_strlen8(function_return_value) == 9);
