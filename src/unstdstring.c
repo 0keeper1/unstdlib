@@ -237,7 +237,7 @@ bool unstdstring_strcmpignorecase32(const u32t *const f_buffer_arg, const u32t *
     }
 
     for (u64lt buffer_arg_ptr = 0; ((u32t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
-        if (tolower(((u32t *) s_buffer_arg)[buffer_arg_ptr]) != tolower(((u32t *) f_buffer_arg)[buffer_arg_ptr])) {
+        if (tolower(((s32t *) s_buffer_arg)[buffer_arg_ptr]) != tolower(((s32t *) f_buffer_arg)[buffer_arg_ptr])) {
             return false;
         }
     }
@@ -848,7 +848,7 @@ u8t unstdstring_pushbackstr8(char *const to_buffer_arg, const char *const from_b
 
     u64lt length_from_buffer_arg_temp = unstdstring_strlen8(from_buffer_arg);
 
-    if (!_unstdstring_bufferextend(to_buffer_arg, length_from_buffer_arg_temp, _unstdstring_bufferencoding_UTF8)) {
+    if (_unstdstring_bufferextend(to_buffer_arg, length_from_buffer_arg_temp, _unstdstring_bufferencoding_UTF8) != 1) {
         return 5;
     }
 
