@@ -29,31 +29,5 @@ void unstdinternal_state_based_arg_assignment(
         const sizet bytes_arg
 );
 
-#define unstdinternal_state_based_arg_assignmentM(arg_arg, value_arg, type_arg) \
-do {                                                                            \
-    void **temp_arg = (void **) arg_arg;                                        \
-    switch (unstdinternal_check_arg_state(temp_arg)) {                          \
-        case UNSTDINTERNAL_ARG_STATE_POINTER_TO_VARIABLE_PASSED:                \
-        *arg_arg = value_arg;                                                   \
-        /* memcpy(*arg_arg, &value_arg, bytes_arg); */                          \
-        break;                                                                  \
-    case UNSTDINTERNAL_ARG_STATE_POINTER_TO_NULL_PASSED:                        \
-        /* Static assignment */                                                 \
-        /* *((unsigned char *) arg_arg) = value_arg; */                         \
-        *((type_arg *) arg_arg) = value_arg;                                    \
-        /* Dynamic assignment */                                                \
-        /* *((typeof(**arg_arg) *) arg_arg) = value_arg; */                     \
-        /* memcpy(arg_arg, &value_arg, bytes_arg); */                           \
-        break;                                                                  \
-    case UNSTDINTERNAL_ARG_STATE_DIRECT_NULL_PASSED:                            \
-    default:                                                                    \
-        break;                                                                  \
-    }                                                                           \
-} while (0)
-
-int outerrsetu8(unsigned char **out_error_arg, unsigned char value);
-
-void dop(unsigned char **out_error_arg);
-
 
 #endif

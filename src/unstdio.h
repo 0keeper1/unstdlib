@@ -55,13 +55,13 @@
  * @param mod_arg The usual modes that you would pass to <code>fopen()</code> function.
  * @param <strong>fileptr_arg</strong> Should be a pointer to a NULL FILE handle. Pass NULL to ignore.
  * @returns A number (u8t) indicating the state of the operation.
- * @retval [0] Failure. <code>fopen()</code> failed.
  * @retval [1] Success.
  * @retval [2] Insufficient parameter. `filepath_arg` is NULL. See `filepath_arg`.
  * @retval [3] Insufficient parameter. `filepath_arg` is an empty string. See `filepath_arg`.
  * @retval [4] Insufficient parameter. `mod_arg` is NULL. See `mod_arg`.
  * @retval [5] Insufficient parameter. `mod_arg` is an empty string. See `mod_arg`.
  * @retval [6] Insufficient parameter. `fileptr_arg` is NULL. See `fileptr_arg`.
+ * @retval [7] Failure. <code>fopen()</code> failed.
  */
 extern u8t unstdio_openfile(
         const char *const filepath_arg,
@@ -87,11 +87,11 @@ extern inline bool unstdio_isfilestreamvalid(const FILE *const fileptr_arg);
  * @brief Closes `fileptr_arg` file descriptor.
  * @param fileptr_arg Should be a valid pointer to a valid FILE handle.
  * @returns A number (u8t) indicating the state of the operation.
- * @retval [0] Failure. <code>fclose()</code> failed.
  * @retval [1] Success.
  * @retval [2] Insufficient parameter. `fileptr_arg` is NULL. See `fileptr_arg`.
  * @retval [3] Insufficient parameter. `fileptr_arg` is invalid or closed.
- *         Further execution might cause double-close thus resulting in UB(undefined behavior). See `fileptr_arg`.
+ *         Further execution might cause double-close thus resulting an UB(undefined behavior). See `fileptr_arg`.
+ * @retval [4] Failure. <code>fclose()</code> failed.
  */
 extern u8t unstdio_closefile(FILE *const fileptr_arg);
 
@@ -100,12 +100,12 @@ extern u8t unstdio_closefile(FILE *const fileptr_arg);
  * @param fileptr_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array buffer
  *                     containing a path to the desired file.
  * @returns A number (u8t) indicating the state of the operation.
- * @retval [0] Failure. <code>remove()</code> failed.
  * @retval [1] Success.
  * @retval [2] Insufficient parameter. `filepath_arg` is NULL. See `filepath_arg`.
  * @retval [3] Insufficient parameter. `filepath_arg` is an empty string. See `filepath_arg`.
  * @retval [4] Failure. <code>unstdio_doesfileexist()</code> failed.
  * @retval [5] Failure. The specified `filepath_arg` doesn't exist.
+ * @retval [6] Failure. <code>remove()</code> failed.
  */
 extern u8t unstdio_removefile(const char *const filepath_arg);
 

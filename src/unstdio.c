@@ -69,7 +69,7 @@ u8t unstdio_openfile(const char *const filepath_arg, const char *const mod_arg, 
 
     FILE *file_ptr = NULL;
     if ((file_ptr = fopen(filepath_arg, mod_arg)) == NULL) {
-        return 0;
+        return 7;
     }
 
     *fileptr_arg = file_ptr;
@@ -95,7 +95,7 @@ u8t unstdio_closefile(FILE *const fileptr_arg) {
     }
 
     if (fclose(fileptr_arg) != 0) {
-        return 0;
+        return 4;
     }
 
     return 1;
@@ -118,7 +118,7 @@ u8t unstdio_removefile(const char *const filepath_arg) {
     }
 
     if (remove(filepath_arg) < 0) {
-        return 0;
+        return 6;
     }
 
     return 1;
