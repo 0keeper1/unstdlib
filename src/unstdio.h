@@ -49,7 +49,7 @@
 
 //! [file operations]
 /**
- * @brief Opens a file in a more fancy shit way.
+ * @brief Opens a file with enhanced error handling.
  * @param filepath_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array buffer
  *                     containing a path to the desired file.
  * @param mod_arg The usual modes that you would pass to <code>fopen()</code> function.
