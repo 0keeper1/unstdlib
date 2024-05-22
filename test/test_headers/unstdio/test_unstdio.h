@@ -21,7 +21,7 @@ void test_unstdio_openfile(void) {
 
     // [Fails]
     // Trying to access a non-existent file.
-    assert(unstdio_openfile("abc000.000", "r", &fileptr) == 0);
+    assert(unstdio_openfile("abc000.000", "r", &fileptr) == 7);
 
     // Trying to pass NULL file handle.
     assert(unstdio_openfile("abc000.000", "r", NULL) == 6);
