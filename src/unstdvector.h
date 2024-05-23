@@ -33,8 +33,8 @@
 typedef void (*unstdvector_elem_destructor_t)(void *elem);
 
 typedef struct unstdvector_metadata_t {
-    size_t size;
-    size_t capacity;
+    sizet size;
+    sizet capacity;
     unstdvector_elem_destructor_t elem_destructor;
 } unstdvector_metadata_t;
 
@@ -73,18 +73,18 @@ typedef struct unstdvector_metadata_t {
 /**
  * @brief Gets the current capacity of the vector.
  * @param vector_arg A vector.
- * @returns The capacity as a size_t.
+ * @returns The capacity as a sizet.
  */
 #define unstdvector_capacityM(vector_arg) \
-    ((vector_arg) ? _unstdvector_vec_to_baseM(vector_arg)->capacity : (size_t)0)
+    ((vector_arg) ? _unstdvector_vec_to_baseM(vector_arg)->capacity : (sizet)0)
 
 /**
  * @brief Gets the current size of the vector.
  * @param vec_arg A vector.
- * @returns The size as a size_t.
+ * @returns The size as a sizet.
  */
 #define unstdvector_sizeM(vec) \
-    ((vec) ? _unstdvector_vec_to_baseM(vec)->size : (size_t)0)
+    ((vec) ? _unstdvector_vec_to_baseM(vec)->size : (sizet)0)
 
 /**
  * @brief Get the element destructor function used<br>
@@ -115,7 +115,7 @@ typedef struct unstdvector_metadata_t {
  */
 #define unstdvector_reserveM(vector_arg, n_arg)                  \
     do {                                                         \
-        size_t unstdv_cap__ = unstdvector_capacityM(vector_arg); \
+        sizet unstdv_cap__ = unstdvector_capacityM(vector_arg); \
         if (unstdv_cap__ < (n_arg)) {                            \
             _unstdvector_growM((vector_arg), (n_arg));           \
         }                                                        \
@@ -146,7 +146,7 @@ typedef struct unstdvector_metadata_t {
 #define unstdvector_eraseM(vector_arg, index_arg)                                                           \
     do {                                                                                                    \
         if (vector_arg) {                                                                                   \
-            const size_t unstdv_sz__ = unstdvector_sizeM(vector_arg);                                       \
+            const sizet unstdv_sz__ = unstdvector_sizeM(vector_arg);                                       \
             if ((index_arg) < unstdv_sz__) {                                                                \
                 unstdvector_elem_destructor_t elem_destructor__ = unstdvector_elem_destructorM(vector_arg); \
                 if (elem_destructor__) {                                                                    \
@@ -171,7 +171,7 @@ typedef struct unstdvector_metadata_t {
         if (vector_arg) {                                                                               \
             unstdvector_elem_destructor_t elem_destructor__ = unstdvector_elem_destructorM(vector_arg); \
             if (elem_destructor__) {                                                                    \
-                size_t i__;                                                                             \
+                sizet i__;                                                                             \
                 for (i__ = 0; i__ < unstdvector_sizeM(vector_arg); ++i__) {                             \
                     elem_destructor__(&(vector_arg)[i__]);                                              \
                 }                                                                                       \
@@ -191,7 +191,7 @@ typedef struct unstdvector_metadata_t {
             void *p1__ = _unstdvector_vec_to_baseM(vector_arg);                                         \
             unstdvector_elem_destructor_t elem_destructor__ = unstdvector_elem_destructorM(vector_arg); \
             if (elem_destructor__) {                                                                    \
-                size_t i__;                                                                             \
+                sizet i__;                                                                             \
                 for (i__ = 0; i__ < unstdvector_sizeM(vector_arg); ++i__) {                             \
                     elem_destructor__(&(vector_arg)[i__]);                                              \
                 }                                                                                       \
@@ -242,7 +242,7 @@ typedef struct unstdvector_metadata_t {
  */
 #define unstdvector_pushbackM(vector_arg, value_arg)                                        \
     do {                                                                                    \
-        size_t unstdv_cap__ = unstdvector_capacityM(vector_arg);                            \
+        sizet unstdv_cap__ = unstdvector_capacityM(vector_arg);                            \
         if (unstdv_cap__ <= unstdvector_sizeM(vector_arg)) {                                \
             _unstdvector_growM((vector_arg), unstdvector_compute_next_growM(unstdv_cap__)); \
         }                                                                                   \
@@ -258,7 +258,7 @@ typedef struct unstdvector_metadata_t {
  */
 #define unstdvector_pushback_logarithmicM(vector_arg, value_arg)                                        \
     do {                                                                                                \
-        size_t unstdv_cap__ = unstdvector_capacityM(vector_arg);                                        \
+        sizet unstdv_cap__ = unstdvector_capacityM(vector_arg);                                        \
         if (unstdv_cap__ <= unstdvector_sizeM(vector_arg)) {                                            \
             _unstdvector_growM((vector_arg), unstdvector_compute_next_grow_logarithmicM(unstdv_cap__)); \
         }                                                                                               \
@@ -275,7 +275,7 @@ typedef struct unstdvector_metadata_t {
  */
 #define unstdvector_insertM(vector_arg, position_arg, value_arg)                             \
     do {                                                                                     \
-        size_t unstdv_cap__ = unstdvector_capacityM(vector_arg);                             \
+        sizet unstdv_cap__ = unstdvector_capacityM(vector_arg);                             \
         if (unstdv_cap__ <= unstdvector_sizeM(vector_arg)) {                                 \
             _unstdvector_growM((vector_arg), unstdvector_compute_next_growM(unstdv_cap__));  \
         }                                                                                    \
@@ -298,7 +298,7 @@ typedef struct unstdvector_metadata_t {
  */
 #define unstdvector_insert_logarithmicM(vector_arg, position_arg, value_arg)                            \
     do {                                                                                                \
-        size_t unstdv_cap__ = unstdvector_capacityM(vector_arg);                                        \
+        sizet unstdv_cap__ = unstdvector_capacityM(vector_arg);                                        \
         if (unstdv_cap__ <= unstdvector_sizeM(vector_arg)) {                                            \
             _unstdvector_growM((vector_arg), unstdvector_compute_next_grow_logarithmicM(unstdv_cap__)); \
         }                                                                                               \
@@ -405,7 +405,7 @@ typedef struct unstdvector_metadata_t {
  */
 #define _unstdvector_growM(vector_arg, count_arg)                                                        \
     do {                                                                                                 \
-        const size_t unstdv_sz__ = (count_arg) * sizeof(*(vector_arg)) + sizeof(unstdvector_metadata_t); \
+        const sizet unstdv_sz__ = (count_arg) * sizeof(*(vector_arg)) + sizeof(unstdvector_metadata_t); \
         if (vector_arg) {                                                                                \
             void *unstdv_p1__ = _unstdvector_vec_to_baseM(vector_arg);                                   \
             void *unstdv_p2__ = realloc(unstdv_p1__, unstdv_sz__);                                       \
@@ -429,7 +429,7 @@ typedef struct unstdvector_metadata_t {
 #define unstdvector_shrink_to_fitM(vector_arg)                         \
     do {                                                               \
         if (vector_arg) {                                              \
-            const size_t unstdv_sz___ = unstdvector_sizeM(vector_arg); \
+            const sizet unstdv_sz___ = unstdvector_sizeM(vector_arg); \
             _unstdvector_growM(vector_arg, unstdv_sz___);              \
         }                                                              \
     } while (0)
@@ -453,7 +453,7 @@ typedef struct unstdvector_metadata_t {
 #define unstdvector_for_eachM(vector_arg, func_arg)               \
     do {                                                          \
         if ((vector_arg) && (func_arg) != NULL) {                 \
-            size_t i;                                             \
+            sizet i;                                             \
             for (i = 0; i < unstdvector_sizeM(vector_arg); i++) { \
                 func_arg((vector_arg)[i]);                        \
             }                                                     \
