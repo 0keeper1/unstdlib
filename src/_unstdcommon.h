@@ -16,6 +16,32 @@
 #endif
 #endif
 
+#define unstdcommon_is_compiler_gccM (!defined(__clang__) \
+    && (defined(__GNUC__)                                 \
+    || defined(__GNUC_MINOR__)                            \
+    || defined(__GNUC_PATCHLEVEL__)))
+
+#define unstdcommon_is_compiler_clangM (defined(__clang__) \
+    || defined(__clang_major__)                            \
+    || defined(__clang_minor__)                            \
+    || defined(__clang_patchlevel__))
+
+#if (!defined(__clang__)              \
+    && (defined(__GNUC__)             \
+    || defined(__GNUC_MINOR__)        \
+    || defined(__GNUC_PATCHLEVEL__)))
+#define UNSTDCOMMON_COMPILER_TYPE_GCC
+#elif (defined(__clang__)             \
+    || defined(__clang_major__)       \
+    || defined(__clang_minor__)       \
+    || defined(__clang_patchlevel__))
+#define UNSTDCOMMON_COMPILER_TYPE_CLANG
+#else
+#define UNSTDCOMMON_COMPILER_TYPE_UNKNOWN
+#endif
+
+
+
 /**
  * @brief Checks whether a machine is little-endian or big-endian.
  * @details It first, stores a 2 continues bytes into memory, then fetches the first byte of it.
@@ -23,9 +49,6 @@
  * @retval [0] little-endian
  * @retval [1] big-endian
  */
-u8t unstdcommon_endianness(void) {
-    u16t i = 0x00ff;
-    return ((u8t *) &i)[0] == 0x00;
-}
+u8t unstdcommon_endianness(void);
 
 #endif /* UNSTDLIB__UNSTDCOMMON_H */

@@ -105,7 +105,7 @@ typedef struct unstdvector_metadata_t {
 
 /**
  * @brief Requests that the vector capacity be at least enough<br>
- *        to contain n elements. 
+ *        to contain n elements.
  * @details If n is greater than the current vector capacity, the<br>
  *          function causes the container to reallocate its storage increasing its<br>
  *          capacity to n (or greater).

@@ -11,9 +11,26 @@
 - **Rich Function Support**: Functions that support a wide range of data types, providing versatility and flexibility.
 - **Comprehensive Documentation**: Each function comes with complete documentation to facilitate easy usage and integration.
 
+## Build
+
+To build unstdlib, follow these steps:
+
+1. **Ensure you have CMake installed.** If not, download and install it from [cmake.org](https://cmake.org/).
+2. **Open your terminal and navigate to the project directory.**
+3. **Run the following command:**
+   ```sh
+   cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -G "Unix Makefiles" -S ./ -B ./cmake-build-release
+   ```
+4. **Build the project by running:**
+   ```sh
+   cmake --build ./cmake-build-release
+   ```
+
+This will configure and build the project in the `cmake-build-release` directory.
+
 ## Getting Started
 
-Currently in active development, unstdlib welcomes contributions and feedback from the community. Stay tuned for upcoming releases:)
+Currently in active development, unstdlib welcomes contributions and feedback from the community. Stay tuned for upcoming releases :)
 
 ## Contributing
 

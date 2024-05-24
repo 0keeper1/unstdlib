@@ -12,6 +12,7 @@
 #include "_unstdcommon.h"
 #include "unstdbool.h"
 #include "unstdinttypes.h"
+#include "unstdinternal.h"
 #include "unstdio.h"
 #include "unstditertools.h"
 #include "unstdmemory.h"

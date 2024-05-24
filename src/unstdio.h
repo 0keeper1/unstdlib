@@ -81,7 +81,7 @@ extern bool unstdio_isfdvalid(const s32t filedescriptor_arg);
  * @param fileptr_arg Should be a valid pointer to a FILE handle.
  * @returns True if `fileptr_arg` is open/valid otherwise False.
  */
-extern inline bool unstdio_isfilestreamvalid(const FILE *const fileptr_arg);
+extern bool unstdio_isfilestreamvalid(const FILE *const fileptr_arg);
 
 /**
  * @brief Closes `fileptr_arg` file descriptor.

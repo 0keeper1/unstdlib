@@ -51,7 +51,7 @@ u64lt unstdstring_strlen16(const u16t *const buffer_arg) {
     }
 
     u64lt len = 0;
-    while (((u16t *) buffer_arg)[++len]);
+    while (((const u16t *) buffer_arg)[++len]);
 
     return len;
 }
@@ -63,7 +63,7 @@ u64lt unstdstring_strlen32(const u32t *const buffer_arg) {
     }
 
     u64lt len = 0;
-    while (((u32t *) buffer_arg)[++len]);
+    while (((const u32t *) buffer_arg)[++len]);
 
     return len;
 }
@@ -120,8 +120,8 @@ bool unstdstring_strcmp16(const u16t *const f_buffer_arg, const u16t *const s_bu
         return false;
     }
 
-    for (u64lt buffer_arg_ptr = 0; ((u16t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
-        if (((u16t *) s_buffer_arg)[buffer_arg_ptr] != ((u16t *) f_buffer_arg)[buffer_arg_ptr]) {
+    for (u64lt buffer_arg_ptr = 0; ((const u16t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
+        if (((const u16t *) s_buffer_arg)[buffer_arg_ptr] != ((const u16t *) f_buffer_arg)[buffer_arg_ptr]) {
             return false;
         }
     }
@@ -149,8 +149,8 @@ bool unstdstring_strcmp32(const u32t *const f_buffer_arg, const u32t *const s_bu
         return false;
     }
 
-    for (u64lt buffer_arg_ptr = 0; ((u32t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
-        if (((u32t *) s_buffer_arg)[buffer_arg_ptr] != ((u32t *) f_buffer_arg)[buffer_arg_ptr]) {
+    for (u64lt buffer_arg_ptr = 0; ((const u32t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
+        if (((const u32t *) s_buffer_arg)[buffer_arg_ptr] != ((const u32t *) f_buffer_arg)[buffer_arg_ptr]) {
             return false;
         }
     }
@@ -178,8 +178,9 @@ bool unstdstring_strcmpignorecase8(const char *const f_buffer_arg, const char *c
         return false;
     }
 
-    for (u64lt buffer_arg_ptr = 0; ((u8t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
-        if (tolower(((u8t *) s_buffer_arg)[buffer_arg_ptr]) != tolower(((u8t *) f_buffer_arg)[buffer_arg_ptr])) {
+    for (u64lt buffer_arg_ptr = 0; ((const u8t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
+        if (tolower(((const u8t *) s_buffer_arg)[buffer_arg_ptr]) !=
+            tolower(((const u8t *) f_buffer_arg)[buffer_arg_ptr])) {
             return false;
         }
     }
@@ -207,8 +208,9 @@ bool unstdstring_strcmpignorecase16(const u16t *const f_buffer_arg, const u16t *
         return false;
     }
 
-    for (u64lt buffer_arg_ptr = 0; ((u16t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
-        if (tolower(((u16t *) s_buffer_arg)[buffer_arg_ptr]) != tolower(((u16t *) f_buffer_arg)[buffer_arg_ptr])) {
+    for (u64lt buffer_arg_ptr = 0; ((const u16t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
+        if (tolower(((const u16t *) s_buffer_arg)[buffer_arg_ptr]) !=
+            tolower(((const u16t *) f_buffer_arg)[buffer_arg_ptr])) {
             return false;
         }
     }
@@ -236,8 +238,9 @@ bool unstdstring_strcmpignorecase32(const u32t *const f_buffer_arg, const u32t *
         return false;
     }
 
-    for (u64lt buffer_arg_ptr = 0; ((u32t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
-        if (tolower(((s32t *) s_buffer_arg)[buffer_arg_ptr]) != tolower(((s32t *) f_buffer_arg)[buffer_arg_ptr])) {
+    for (u64lt buffer_arg_ptr = 0; ((const u32t *) s_buffer_arg)[buffer_arg_ptr]; buffer_arg_ptr++) {
+        if (tolower(((const s32t *) s_buffer_arg)[buffer_arg_ptr]) !=
+            tolower(((const s32t *) f_buffer_arg)[buffer_arg_ptr])) {
             return false;
         }
     }
@@ -520,7 +523,7 @@ u8t _unstdstring_bufferextend(void *buffer_arg, const u32lt bytes_arg, const u8t
         return 5;
     }
 
-    if (!memset(buffer_arg + size_buffer_arg * encoding_arg,
+    if (!memset((char *) buffer_arg + size_buffer_arg * encoding_arg,
                 0,
                 bytes_arg * encoding_arg + encoding_arg)) {
         return 6;
@@ -562,7 +565,7 @@ u8t _unstdstring_buffershrink(void *buffer_arg, const u32lt bytes_arg, const u8t
         return 5;
     }
 
-    if (!memset(buffer_arg + size_buffer_arg * encoding_arg - bytes_arg * encoding_arg,
+    if (!memset((char *) buffer_arg + size_buffer_arg * encoding_arg - bytes_arg * encoding_arg,
                 0,
                 bytes_arg * encoding_arg + encoding_arg)) {
         return 7;
@@ -620,7 +623,7 @@ char *unstdstring_bufferstringinit8(const char *const buffer_arg, u8t *const out
 u16t *unstdstring_bufferstringinit16(const u16t *const buffer_arg, u8t *const out_error_arg) {
     u64lt size_bytes_buffer_arg = !buffer_arg || !*buffer_arg
                                   ? 0
-                                  : (unstdstring_strlen16((const u16t *) buffer_arg)
+                                  : (unstdstring_strlen16((const u16t *const) buffer_arg)
                                      * _unstdstring_bufferencoding_UTF16);
 
     u16t *buffer = (u16t *) malloc(size_bytes_buffer_arg + _unstdstring_bufferencoding_UTF16);
@@ -640,8 +643,8 @@ u16t *unstdstring_bufferstringinit16(const u16t *const buffer_arg, u8t *const ou
 
     if (buffer_arg && *buffer_arg) {
         if (!unstdstring_strcmp16(
-                (u16t *) memcpy((char *) buffer,
-                                (char *) buffer_arg,
+                (u16t *) memcpy((u16t *) buffer,
+                                (const u16t *const) buffer_arg,
                                 size_bytes_buffer_arg),
                 buffer_arg)) {
             if (out_error_arg) {
@@ -662,7 +665,7 @@ u16t *unstdstring_bufferstringinit16(const u16t *const buffer_arg, u8t *const ou
 u32t *unstdstring_bufferstringinit32(const u32t *const buffer_arg, u8t *const out_error_arg) {
     u64lt size_bytes_buffer_arg = !buffer_arg || !*buffer_arg
                                   ? 0
-                                  : (unstdstring_strlen32((const u32t *) buffer_arg)
+                                  : (unstdstring_strlen32((const u32t *const) buffer_arg)
                                      * _unstdstring_bufferencoding_UTF32);
 
     u32t *buffer = (u32t *) malloc(size_bytes_buffer_arg + _unstdstring_bufferencoding_UTF32);
@@ -682,8 +685,8 @@ u32t *unstdstring_bufferstringinit32(const u32t *const buffer_arg, u8t *const ou
 
     if (buffer_arg && *buffer_arg) {
         if (!unstdstring_strcmp32(
-                (u32t *) memcpy((char *) buffer,
-                                (char *) buffer_arg,
+                (u32t *) memcpy((u32t *) buffer,
+                                (const u32t *) buffer_arg,
                                 size_bytes_buffer_arg),
                 buffer_arg)) {
             if (out_error_arg) {
