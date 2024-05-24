@@ -223,6 +223,12 @@ void test_unstdio_freadlinesM(void) {
     _notify("[+]", "`unstdio_freadlinesM()` passed");
 }
 
+//! cleans up the created files
+void test__unstdio_clean_up(void) {
+    assert(unstdio_removefile("test_stringliteral.txt") == 1);
+}
+
+
 void test_unstdio(void) {
     test_unstdio_openfile();
     test_unstdio_isfdvalid();
@@ -233,6 +239,8 @@ void test_unstdio(void) {
     test_unstdio_isregularfile();
     test_unstdio_getfilesize();
     test_unstdio_freadlinesM();
+
+    test__unstdio_clean_up();
 
     _notify("[+]", "`unstdio` passed");
 }
