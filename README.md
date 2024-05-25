@@ -1,44 +1,93 @@
 # unstdlib
 
-**unstdlib** is a modern and evolving C (un)standard library designed to enhance productivity and performance in C
+> An unstandard C library.
+
+**unstdlib** is a fairly modern and evolving C (un)standard library designed to enhance productivity in C
 programming. By providing a robust set of abstractions and utilities, unstdlib aims to simplify common tasks and reduce
 boilerplate code, allowing developers to focus on writing efficient and maintainable code.
 
-## Key Features
+## Table of Contents
 
-- **Enhanced Abstractions**: Intuitive abstractions for common data structures and algorithms to streamline development.
-- **Performance-Oriented**: Optimized for speed and memory efficiency as much as possible, ensuring minimal overhead.
-- **Ease of Use**: Designed with simplicity in mind, making C development more accessible and enjoyable.
-- **Modular Design**: Flexible and modular architecture, enabling developers to use only the components they need.
-- **Rich Function Support**: Functions that support a wide range of data types, providing versatility and flexibility.
-- **Comprehensive Documentation**: Each function comes with complete documentation to facilitate easy usage and
-  integration.
+- [Getting started](#getting-started)
+- [Updates](#updates)
+- [Build](#build)
+- [Installation](#install)
+- [Tests](#tests)
+- [Documentation](#documentation)
+
+<br>
+
+## Getting started
+
+Currently in semi-active development, Stay tuned for upcoming releases :)
+
+## Updates
+
+#### Check [`devel`](https://github.com/HeavySin/unstdlib/tree/devel) for recent commits.
 
 ## Build
 
 To build unstdlib, follow these steps:
 
-1. **Ensure you have CMake installed.** If not, download and install it from [cmake.org](https://cmake.org/).
+1. **Ensure you have [CMake](https://cmake.org/) and [GCC](https://gcc.gnu.org/) installed.**
 2. **Open your terminal and navigate to the project directory.**
 3. **Run the following command:**
-   ```sh
-   cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -G "Unix Makefiles" -S ./ -B ./cmake-build-release
-   ```
-4. **Build the project by running:**
-   ```sh
-   cmake --build ./cmake-build-release
+   ```shell
+   chmod +x ./build.sh && ./build.sh -build
    ```
 
-This will configure and build the project in the `cmake-build-release` directory.
+This only builds the project as Release and moves libraries **(&ast;.so&ast; | &ast;.a)** and headers **(&ast;.h)** to
+the `build` directory per default.
 
-## Getting Started
+## Install
 
-Currently in active development, unstdlib welcomes contributions and feedback from the community. Stay tuned for
-upcoming releases :)
+```shell
+./build -install
+```
+
+Builds the project as Release and moves libraries **(&ast;.so&ast; | &ast;.a)** and headers **(&ast;.h)** to
+`/usr/local/lib` and `/usr/local/include/unstdlib` directories respectively, per default.
+
+## Documentation
+
+Documentation is provided for each function specifically in the header files.
+<br>
+Each function is documented with comments explaining its purpose, parameters, and return value.
+
+For detailed information on each function, please refer to the corresponding header file.
+
+
+---
+
+## Tests
+
+**unstdlib** has been tested on Arch Linux kernel `6.7.6-zen1-1-zen`. You can run the unit tests
+manually by executing the following command:
+
+```shell
+./build -test
+```
+
+## More
+
+For more information on available options, execute:
+
+```shell
+./build -h
+```
+
+## Uninstall
+
+Changed your mind? Simply run:
+
+```shell
+./build -uninstall
+```
 
 ## Compatibility
 
-**unstdlib** is based on GCC version 11. Ensure that you have GCC 11 installed on your system to avoid compatibility
+**unstdlib** is based on GCC version 11. Ensure that you have [GCC GNU 11](https://gcc.gnu.org/) installed on your
+system to avoid compatibility
 issues.
 
 ## Contributing
