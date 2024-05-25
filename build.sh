@@ -50,25 +50,37 @@ else
 fi
 
 # ------------------ [installation check] ------------------
-# Help menu function
-print_help() {
-  echo "Usage: $0 [OPTIONS] [LIB_FILES_DESTINATION_PATH] [HEADER_FILES_DESTINATION_PATH]"
-  echo "Options:"
-  echo "  -install  : Build the project as Release and move libraries and headers to [LIB_FILES_DESTINATION_PATH] [HEADER_FILES_DESTINATION_PATH]"
-  echo "  -uninstall: Removes the project by searching in default paths [LIB_FILES_DESTINATION_PATH] [HEADER_FILES_DESTINATION_PATH]"
-  echo "  -test     : Build the project as Debug and run executables in ./cmake-build-debug"
-  echo "  -h        : Show this help message"
-  echo "Arguments:"
-  echo "  LIB_FILES_DESTINATION_PATH      : Path to where the libraries should be installed. Default is /usr/local/lib"
-  echo "  HEADER_FILES_DESTINATION_PATH  : Path to where the headers should be installed. Default is /usr/local/include/unstdlib"
-}
-
 # Default paths
 LIB_FILES_DESTINATION_PATH="/usr/local/lib"
 HEADER_FILES_SOURCE_PATH="./src"
 HEADER_FILES_DESTINATION_PATH="/usr/local/include/unstdlib"
+BUILD_PATH="./build"
 TEST_MODE=false
 INSTALL_MODE=false
+BUILD_MODE=false
+
+# Help menu function
+print_help() {
+  echo "Usage: $0 [OPTIONS] [LIB_FILES_DESTINATION_PATH] [HEADER_FILES_DESTINATION_PATH]"
+  echo "Options:"
+  echo "  -install   <dst_lib_folder> <dst_header_folder> : Build the project as Release and"
+  echo "                                                    move libraries and headers to"
+  echo "                                                   [LIB_FILES_DESTINATION_PATH] [HEADER_FILES_DESTINATION_PATH]"
+
+  echo "  -uninstall <dst_lib_folder> <dst_header_folder> : Removes the project by searching in"
+  echo "                                                    default paths [LIB_FILES_DESTINATION_PATH] [HEADER_FILES_DESTINATION_PATH]"
+
+  echo "  -build     <dst_build_folder>                   : Only build the project as Release and"
+  echo "                                                    move libraries and headers to [BUILD_PATH]"
+
+  echo "  -cleanup   : Removes the built project folders."
+  echo "  -test      : Build the project as Debug and run executables in ./cmake-build-debug"
+  echo "  -h         : Show this help message"
+  echo "Arguments:"
+  echo "  LIB_FILES_DESTINATION_PATH    : Path to where the libraries should be installed. default=\"$LIB_FILES_DESTINATION_PATH\""
+  echo "  HEADER_FILES_DESTINATION_PATH : Path to where the headers should be installed.   default=\"$HEADER_FILES_DESTINATION_PATH\""
+  echo "  BUILD_PATH                    : Path to where the libraries and headers should be installed upon -build. default=\"$BUILD_PATH\""
+}
 
 # Function to prompt the user to confirm paths
 confirm_paths() {
@@ -90,6 +102,14 @@ is_dir_empty() {
     return 1
   else
     return 0
+  fi
+}
+
+invalid_path() {
+  if [[ "$1" == */ ]]; then
+    return 0
+  else
+    return 1
   fi
 }
 
@@ -117,6 +137,47 @@ case $1 in
     HEADER_FILES_DESTINATION_PATH_SPECIFIED=true
   fi
   shift
+  ;;
+-build)
+  BUILD_MODE=true
+  if [[ ! "$BUILD_PATH_SPECIFIED" && "$2" ]]; then
+    BUILD_PATH="$2"
+    BUILD_PATH_SPECIFIED=true
+  fi
+
+  if invalid_path "$BUILD_PATH"; then
+    last_copy=$BUILD_PATH
+    echo "Bad path detected, fixing the path..."
+    while invalid_path "$BUILD_PATH"; do
+      BUILD_PATH=${BUILD_PATH::-1}
+    done
+    echo "Path fixed."
+    echo "$last_copy -changed-to-> $BUILD_PATH"
+  fi
+
+  cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -G "Unix Makefiles" -S ./ -B "$BUILD_PATH"
+
+  echo "Building the project..."
+  cmake --build "$BUILD_PATH"
+
+  # Find and delete all files that do not have .so, .so.*, or .a extensions
+  find "$BUILD_PATH" -maxdepth 1 -mindepth 1 -type f ! \( -name "*.so" -o -name "*.so.*" -o -name "*.a" \) -exec rm -rf '{}' +
+  find "$BUILD_PATH" -maxdepth 1 -mindepth 1 -type d -exec rm -rf '{}' \;
+
+  mkdir -p "$BUILD_PATH"/include/unstdlib
+  cp -v "$HEADER_FILES_SOURCE_PATH"/*unstd*.h "$BUILD_PATH"/include/unstdlib
+
+  echo "Build finished."
+
+  exit 0
+  ;;
+-cleanup)
+  rm -rf ./cmake-build-release
+  rm -rf ./cmake-build-debug
+  rm -rf ./build
+
+  echo "Cleanup finished."
+  exit 0
   ;;
 -uninstall)
   if [[ ! "$LIB_PATH_SPECIFIED" && "$2" ]]; then
@@ -153,7 +214,8 @@ case $1 in
     echo "No headers found within $HEADER_FILES_DESTINATION_PATH to remove."
   fi
 
-  shift
+  echo "Uninstall finished."
+
   exit 0
   ;;
 *)
@@ -161,14 +223,6 @@ case $1 in
   exit 0
   ;;
 esac
-
-invalid_path() {
-  if [[ "$1" == */ ]]; then
-    return 0
-  else
-    return 1
-  fi
-}
 
 if invalid_path "$HEADER_FILES_DESTINATION_PATH"; then
   last_copy=$HEADER_FILES_DESTINATION_PATH
@@ -225,12 +279,13 @@ cmake --build "$BUILD_DIR"
 
 # If test mode is enabled, run the executables and exit
 if [ "$TEST_MODE" == "true" ]; then
-  for file in "$BUILD_DIR"/test*unstd*; do
-    if [ -x "$file" ] && [[ "$file" == *"unstd"* ]]; then
-      echo "Running $file..."
-      "$file"
-    fi
-  done
+  #  for file in "$BUILD_DIR"/test*unstd*; do
+  #    if [ -x "$file" ] && [[ "$file" == *"unstd"* ]]; then
+  #      echo "Running $file..."
+  #      "$file"
+  #    fi
+  #  done
+  "$BUILD_DIR"/test_all
   exit 0
 fi
 
@@ -247,7 +302,7 @@ fi
 
 # Function to prompt the user to replace existing files
 prompt_replace() {
-  read -p "Seems like unstdlib $2 was already built in $1. Do you wish to replace it with the current build? [y/N]: " choice
+  read -p "Seems like unstdlib $2 were already built in $1. Do you wish to replace it with the current build? [y/N]: " choice
   choice=${choice:-N}
   case "$choice" in
   y | Y) return 0 ;;
@@ -304,7 +359,7 @@ fi
 if [ "$INSTALL_HEADERS_FLAG" == "true" ]; then
   # Move headers to the specified path
   echo "Moving headers to $HEADER_FILES_DESTINATION_PATH..."
-  if sudo cp -rv "$HEADER_FILES_SOURCE_PATH"/*unstd*.h "$HEADER_FILES_DESTINATION_PATH"; then
+  if sudo cp -v "$HEADER_FILES_SOURCE_PATH"/*unstd*.h "$HEADER_FILES_DESTINATION_PATH"; then
     echo "Headers moved successfully."
   else
     echo "Failed to move headers. Please check permissions or run the script with sudo."
