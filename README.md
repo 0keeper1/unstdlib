@@ -33,7 +33,7 @@ To build unstdlib, follow these steps:
 2. **Open your terminal and navigate to the project directory.**
 3. **Run the following command:**
    ```shell
-   chmod +x ./build.sh && ./build.sh -build
+   chmod +x ./unstdlib.sh && ./unstdlib.sh -build
    ```
 
 This only builds the project as Release and moves libraries **(&ast;.so&ast; | &ast;.a)** and headers **(&ast;.h)** to
@@ -42,7 +42,7 @@ the `build` directory per default.
 ## Install
 
 ```shell
-./build -install
+./unstdlib.sh -install
 ```
 
 Builds the project as Release and moves libraries **(&ast;.so&ast; | &ast;.a)** and headers **(&ast;.h)** to
@@ -65,7 +65,7 @@ For detailed information on each function, please refer to the corresponding hea
 manually by executing the following command:
 
 ```shell
-./build -test
+./unstdlib.sh -test
 ```
 
 ## More
@@ -73,7 +73,7 @@ manually by executing the following command:
 For more information on available options, execute:
 
 ```shell
-./build -h
+./unstdlib.sh -h
 ```
 
 ## Uninstall
@@ -81,7 +81,7 @@ For more information on available options, execute:
 Changed your mind? Simply run:
 
 ```shell
-./build -uninstall
+./unstdlib.sh -uninstall
 ```
 
 ## Compatibility
