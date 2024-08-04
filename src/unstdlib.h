@@ -19,5 +19,6 @@
 #include "unstdpair.h"
 #include "unstdstring.h"
 #include "unstdvector.h"
+#include "unstdsocket.h"
 
 #endif /* UNSTDLIB_H */

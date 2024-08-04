@@ -11,6 +11,7 @@
 #include "test_headers/unstdpair/test_unstdpair.h"
 #include "test_headers/unstdio/test_unstdio.h"
 #include "test_headers/unstdvector/test_unstdvector.h"
+#include "test_headers/unstdsocket/test_unstdsocket.h"
 
 
 void test_unstdlib_all(void) {
@@ -23,6 +24,7 @@ void test_unstdlib_all(void) {
     test_unstdpair();
     test_unstdio();
     test_unstdvector();
+    test_unstdsocket();
 }
 
 #endif /* UNSTDLIB_TEST_UNSTDLIB_H */
