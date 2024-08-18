@@ -11,6 +11,7 @@
 
 #include "unstdinttypes.h"
 #include "unstdbool.h"
+#include "unstddescriptor.h"
 
 
 #ifndef unstdio_freadlinesM
@@ -77,12 +78,8 @@ u8t unstdio_openfile(const char *const filepath_arg, const char *const mod_arg, 
     return 1;
 }
 
-bool unstdio_isfdvalid(const s32t filedescriptor_arg) {
-    return fcntl(filedescriptor_arg, F_GETFD) != -1 || errno != EBADF;
-}
-
 bool unstdio_isfilestreamvalid(const FILE *const fileptr_arg) {
-    return unstdio_isfdvalid(fileptr_arg->_fileno);
+    return unstddescriptor_isvalidfd(fileptr_arg->_fileno);
 }
 
 u8t unstdio_closefile(FILE *const fileptr_arg) {
@@ -90,7 +87,7 @@ u8t unstdio_closefile(FILE *const fileptr_arg) {
         return 2;
     }
 
-    if (!unstdio_isfdvalid(fileptr_arg->_fileno)) {
+    if (!unstddescriptor_isvalidfd(fileptr_arg->_fileno)) {
         return 3;
     }
 
@@ -167,7 +164,7 @@ s64t unstdio_getfilesize(FILE *const fileptr_arg) {
         return -1;
     }
 
-    if (!unstdio_isfdvalid(fileptr_arg->_fileno)) {
+    if (!unstddescriptor_isvalidfd(fileptr_arg->_fileno)) {
         return -2;
     }
 

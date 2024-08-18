@@ -51,19 +51,4 @@ extern s32t unstdsocket_opentcpfd4(
         const u16t destination_port_number_arg
 );
 
-
-/**
- * @brief Sets the file descriptor to non-blocking mode.
- * @param fd_arg Should be a non-negative integer representing a valid file descriptor.
- * @returns A number (u8t) indicating the result of the operation.
- * @retval [1] Success. The file descriptor is now set to non-blocking mode.
- * @retval [2] Insufficient parameter. `fd_arg` is not a valid file descriptor. See `fd_arg`.
- * @retval [3] Failure. <code>fcntl()</code> failed while getting the file descriptor flags.
- * @retval [4] Failure. <code>fcntl()</code> failed while setting the file descriptor to non-blocking mode.
- */
-extern u8t unstdsocket_setfdtononblock(
-        const s32t fd_arg
-);
-
-
 #endif //UNSTDLIB_UNSTDSOCKET_H

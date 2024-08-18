@@ -29,25 +29,6 @@ void test_unstdio_openfile(void) {
     _notify("[+]", "`unstdio_openfile()` passed");
 }
 
-//! [isfdvalid]
-void test_unstdio_isfdvalid(void) {
-    FILE *fileptr = NULL;
-
-    // [Succeeds]
-    // Creating a new file.
-    assert(unstdio_openfile("test_stringliteral.txt", "w", &fileptr) == 1);
-
-    // Trying to check the previously created/opened file.
-    assert(unstdio_isfdvalid(fileptr->_fileno));
-
-    // [Fails]
-    // Trying to check on a closed file.
-    fclose(fileptr);
-    assert(!unstdio_isfdvalid(fileptr->_fileno));
-
-    _notify("[+]", "`unstdio_isfdvalid()` passed");
-}
-
 //! [isfilestreamvalid]
 void test_unstdio_isfilestreamvalid(void) {
     FILE *fileptr = NULL;
@@ -231,7 +212,6 @@ void test__unstdio_clean_up(void) {
 
 void test_unstdio(void) {
     test_unstdio_openfile();
-    test_unstdio_isfdvalid();
     test_unstdio_isfilestreamvalid();
     test_unstdio_closefile();
     test_unstdio_removefile();

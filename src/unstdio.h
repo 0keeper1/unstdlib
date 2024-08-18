@@ -70,13 +70,6 @@ extern u8t unstdio_openfile(
 );
 
 /**
- * @brief Checks if a file descriptor is open/valid.
- * @param filedescriptor_arg Should be a non-negative integer.
- * @returns True if `filedescriptor_arg` is open/valid otherwise False.
- */
-extern bool unstdio_isfdvalid(const s32t filedescriptor_arg);
-
-/**
  * @brief Checks if a file stream is open/valid.
  * @param fileptr_arg Should be a valid pointer to a FILE handle.
  * @returns True if `fileptr_arg` is open/valid otherwise False.
@@ -114,7 +107,7 @@ extern u8t unstdio_removefile(const char *const filepath_arg);
  * @param fileptr_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array buffer
  *                     containing a path to the desired file.
  * @returns A number (u8t) indicating the state of the operation.
- * @retval [0] False
+ * @retval [0] False.
  * @retval [1] True.
  * @retval [2] Insufficient parameter. `filepath_arg` is NULL. See `filepath_arg`.
  * @retval [3] Insufficient parameter. `filepath_arg` is an empty string. See `filepath_arg`.
@@ -127,7 +120,7 @@ extern u8t unstdio_doesfileexist(const char *const filepath_arg);
  * @param fileptr_arg Should be a pointer to a valid, null-terminated heap-allocated / c-array buffer
  *                     containing a path to the desired file.
  * @returns A number (u8t) indicating the state of the operation.
- * @retval [0] False
+ * @retval [0] False.
  * @retval [1] True.
  * @retval [2] Insufficient parameter. `filepath_arg` is NULL. See `filepath_arg`.
  * @retval [3] Insufficient parameter. `filepath_arg` is an empty string. See `filepath_arg`.

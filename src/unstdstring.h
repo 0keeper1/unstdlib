@@ -641,7 +641,6 @@ extern u8t unstdstring_pushbackstr8(
  * @OutParamValue [4] Failure. `start_arg` out_of_range.
  * @OutParamValue [5] Failure. <code>calloc()</code> failed.
  * @OutParamValue [6] Failure. <code>malloc()<code> failed.
- *
  */
 extern char *unstdstring_substrcopy8(
         char *const buffer_arg,

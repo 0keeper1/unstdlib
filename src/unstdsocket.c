@@ -64,20 +64,3 @@ s32t unstdsocket_opentcpfd4(const char *destination_ip_address_arg, const u16t d
 
     return socket_fd;
 }
-
-u8t unstdsocket_setfdtononblock(const s32t fd_arg) {
-    if (fd_arg < 0) {
-        return 2;
-    }
-
-    s32t flags;
-    if ((flags = fcntl(fd_arg, F_GETFL, 0)) == -1) {
-        return 3;
-    }
-
-    if (fcntl(fd_arg, F_SETFL, flags | O_NONBLOCK) == -1) {
-        return 4;
-    }
-
-    return 1;
-}
