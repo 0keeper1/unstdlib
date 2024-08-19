@@ -5,7 +5,7 @@
 #include "../../../src/unstdpair.h"
 
 //! [pair_onstackM]
-void test_unstdpair_pairinit_onstackM(void) {
+void test_unstdpair_pairM(void) {
     unstdpair_pairM(int, int) test_pair_1 = {.first=1, .second=2};
 
     // [Succeeds]
@@ -17,7 +17,7 @@ void test_unstdpair_pairinit_onstackM(void) {
 
 
 void test_unstdpair(void) {
-    test_unstdpair_pairinit_onstackM();
+    test_unstdpair_pairM();
 
     _notify("[+]", "`unstdpair` passed");
 }

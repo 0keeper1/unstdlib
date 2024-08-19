@@ -4,6 +4,7 @@
 #include "unstdinttypes.h"
 #include "unstdbool.h"
 
+#ifndef unstditertools_foreach_rangeM
 /**
  * @brief Create a for loop iteration within a specified range.
  * @attention Always use boundaries like:
@@ -26,17 +27,17 @@
  *                  <strong>Minimum step size</strong>: 0.<br>
  *                  You are allowed to put any number for start or end as long as it can fit trough `type_arg`.
  */
-#define unstdlib_foreach_rangeM(type_arg, iterator_arg, ...)                     \
-for (type_arg iterator_arg = ((type_arg[3])__VA_ARGS__)[0];                      \
-      ((type_arg[3])__VA_ARGS__)[0] < ((type_arg[3])__VA_ARGS__)[1]              \
-      ? iterator_arg <= ((type_arg[3])__VA_ARGS__)[1]                            \
-      : iterator_arg >= ((type_arg[3])__VA_ARGS__)[1];                           \
-     iterator_arg += (((sizeof((type_arg[3])__VA_ARGS__) / sizeof(type_arg) == 3)\
-     && ((s32t[3])__VA_ARGS__)[2] > 0)                                           \
-     ? ((type_arg[3])__VA_ARGS__)[0] < ((type_arg[3])__VA_ARGS__)[1]             \
-        ? ((s32t[3])__VA_ARGS__)[2]                                              \
-        : -((s32t[3])__VA_ARGS__)[2]                                             \
-     : ((type_arg[3])__VA_ARGS__)[0] < ((type_arg[3])__VA_ARGS__)[1] ? 1 : -1))
-
+#define unstditertools_foreach_rangeM(type_arg, iterator_arg, ...)                    \
+    for (type_arg iterator_arg = ((type_arg[3])__VA_ARGS__)[0];                       \
+          ((type_arg[3])__VA_ARGS__)[0] < ((type_arg[3])__VA_ARGS__)[1]               \
+          ? iterator_arg <= ((type_arg[3])__VA_ARGS__)[1]                             \
+          : iterator_arg >= ((type_arg[3])__VA_ARGS__)[1];                            \
+         iterator_arg += (((sizeof((type_arg[3])__VA_ARGS__) / sizeof(type_arg) == 3) \
+         && ((s32t[3])__VA_ARGS__)[2] > 0)                                            \
+         ? ((type_arg[3])__VA_ARGS__)[0] < ((type_arg[3])__VA_ARGS__)[1]              \
+            ? ((s32t[3])__VA_ARGS__)[2]                                               \
+            : -((s32t[3])__VA_ARGS__)[2]                                              \
+         : ((type_arg[3])__VA_ARGS__)[0] < ((type_arg[3])__VA_ARGS__)[1] ? 1 : -1))
+#endif
 
 #endif /* UNSTDLIB_UNSTDITERTOOLS_H */
