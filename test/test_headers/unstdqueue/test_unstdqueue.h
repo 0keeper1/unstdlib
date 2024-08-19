@@ -11,7 +11,6 @@ void test_unstdqueue_init(void) {
     queue = unstdqueue_init(10, 100, &error_code);
     assert(queue != NULL);
     assert(error_code == 1);
-    assert(queue->allocated_size == 10);
     unstdqueue_free(queue);
 
     queue = unstdqueue_init(0, -1, &error_code);
@@ -23,7 +22,6 @@ void test_unstdqueue_init(void) {
     queue = unstdqueue_init(100, 10, &error_code);
     assert(queue != NULL);
     assert(error_code == 1);
-    assert(queue->allocated_size == 10);
     assert(queue->max_capacity == 10);
     assert(queue->current_size == 0);
     unstdqueue_free(queue);
@@ -44,23 +42,46 @@ void test_unstdqueue_enqueue(void) {
     u8t error_code;
 
     // [Succeeds]
-    queue = unstdqueue_init(10, 5, &error_code);
+    queue = unstdqueue_init(1, 7, &error_code);
     assert(queue != NULL);
 
-    assert(unstdqueue_enqueue(queue, (void *) 1) == 1);
-    assert(unstdqueue_size(queue, NULL) == 1);
+    assert(unstdqueue_enqueue(queue, (void *) (uintptr_t) 0) == 1);
+    assert(unstdqueue_enqueue(queue, (void *) (uintptr_t) 1) == 1);
+    assert(unstdqueue_size(queue, NULL) == 2);
     assert(!unstdqueue_isfull(queue));
 
     // [Fails]
     assert(unstdqueue_enqueue(NULL, (void *) 1) == 2);
-    assert(unstdqueue_enqueue(queue, NULL) == 3);
+    assert(unstdqueue_enqueue(queue, NULL) == 1);
+
+    // Enqueue when full
+    assert(unstdqueue_enqueue(queue, (void *) 2) == 1);
+    assert(unstdqueue_enqueue(queue, (void *) 3) == 1);
+    assert(unstdqueue_enqueue(queue, (void *) 4) == 1);
+    assert(unstdqueue_enqueue(queue, (void *) 5) == 1);
+    assert(unstdqueue_enqueue(queue, (void *) 6) == 5);
+
+    unstdqueue_free(queue);
+
+    // [Succeeds]
+    queue = unstdqueue_init(5, 10, &error_code);
+    assert(queue != NULL);
+
+    assert(unstdqueue_enqueue(queue, (void *) (uintptr_t) 0) == 1);
+    assert(unstdqueue_enqueue(queue, (void *) (uintptr_t) 1) == 1);
+    assert(unstdqueue_size(queue, NULL) == 2);
+    assert(!unstdqueue_isfull(queue));
+
+    // [Fails]
+    assert(unstdqueue_enqueue(NULL, (void *) 1) == 2);
+    assert(unstdqueue_enqueue(queue, NULL) == 1);
 
     // Enqueue when full
     unstdqueue_enqueue(queue, (void *) 2);
     unstdqueue_enqueue(queue, (void *) 3);
     unstdqueue_enqueue(queue, (void *) 4);
     unstdqueue_enqueue(queue, (void *) 5);
-    assert(unstdqueue_enqueue(queue, (void *) 6) == 5);
+    assert(unstdqueue_enqueue(queue, (void *) 6) == 1);
 
     unstdqueue_free(queue);
     _notify("[+]", "`unstdqueue_enqueue()` passed");
@@ -72,7 +93,7 @@ void test_unstdqueue_dequeue(void) {
     u8t error_code;
 
     // [Succeeds]
-    queue = unstdqueue_init(10, 5, &error_code);
+    queue = unstdqueue_init(1, 10, &error_code);
     assert(queue != NULL);
 
     unstdqueue_enqueue(queue, (void *) 1);
@@ -94,21 +115,27 @@ void test_unstdqueue_dequeue(void) {
 
     // Test with negative integer
     int neg_int = -123;
-    assert(unstdqueue_enqueue(queue, (void *)(uintptr_t)neg_int) == 1);
-    int dequeued_neg_int = (int)(uintptr_t)unstdqueue_dequeue(queue, NULL);
+    assert(unstdqueue_enqueue(queue, (void *) (uintptr_t) neg_int) == 1);
+    int dequeued_neg_int = (int) (uintptr_t) unstdqueue_dequeue(queue, NULL);
     assert(dequeued_neg_int == neg_int);
 
     // Test with positive float
     float pos_float = 3.14f;
-    assert(unstdqueue_enqueue(queue, (void *)&pos_float) == 1);
-    float *dequeued_pos_float = (float *)unstdqueue_dequeue(queue, NULL);
+    assert(unstdqueue_enqueue(queue, (void *) &pos_float) == 1);
+    float *dequeued_pos_float = (float *) unstdqueue_dequeue(queue, NULL);
     assert(*dequeued_pos_float == pos_float);
 
     // Test with negative float
     float neg_float = -2.71f;
-    assert(unstdqueue_enqueue(queue, (void *)&neg_float) == 1);
-    float *dequeued_neg_float = (float *)unstdqueue_dequeue(queue, NULL);
+    assert(unstdqueue_enqueue(queue, (void *) &neg_float) == 1);
+    float neg_float_2 = -99.91f;
+    assert(unstdqueue_enqueue(queue, (void *) &neg_float_2) == 1);
+
+    float *dequeued_neg_float = (float *) unstdqueue_dequeue(queue, NULL);
     assert(*dequeued_neg_float == neg_float);
+
+    float *dequeued_neg_float_2 = (float *) unstdqueue_dequeue(queue, NULL);
+    assert(*dequeued_neg_float_2 == neg_float_2);
 
     unstdqueue_free(queue);
     _notify("[+]", "`unstdqueue_dequeue()` passed");
@@ -223,22 +250,22 @@ void test_unstdqueue_with_various_data_types(void) {
 
     // Test with a negative integer
     int neg_int = -456;
-    assert(unstdqueue_enqueue(queue, (void *)(uintptr_t)neg_int) == 1);
-    int dequeued_neg_int = (int)(uintptr_t)unstdqueue_dequeue(queue, NULL);
+    assert(unstdqueue_enqueue(queue, (void *) (uintptr_t) neg_int) == 1);
+    int dequeued_neg_int = (int) (uintptr_t) unstdqueue_dequeue(queue, NULL);
     assert(dequeued_neg_int == neg_int);
 
     // Test with a pointer to an integer
-    int *int_ptr = (int *)malloc(sizeof(int));
+    int *int_ptr = (int *) malloc(sizeof(int));
     *int_ptr = 1234;
     assert(unstdqueue_enqueue(queue, int_ptr) == 1);
-    int *dequeued_int_ptr = (int *)unstdqueue_dequeue(queue, NULL);
+    int *dequeued_int_ptr = (int *) unstdqueue_dequeue(queue, NULL);
     assert(*dequeued_int_ptr == 1234);
     free(dequeued_int_ptr);
 
     // Test with a floating-point number
     double pos_double = 9.81;
-    assert(unstdqueue_enqueue(queue, (void *)&pos_double) == 1);
-    double *dequeued_pos_double = (double *)unstdqueue_dequeue(queue, NULL);
+    assert(unstdqueue_enqueue(queue, (void *) &pos_double) == 1);
+    double *dequeued_pos_double = (double *) unstdqueue_dequeue(queue, NULL);
     assert(*dequeued_pos_double == pos_double);
 
     // Test with a struct
@@ -250,27 +277,27 @@ void test_unstdqueue_with_various_data_types(void) {
 
     Person p1 = {1, "John Doe"};
     assert(unstdqueue_enqueue(queue, &p1) == 1);
-    Person *dequeued_person = (Person *)unstdqueue_dequeue(queue, NULL);
+    Person *dequeued_person = (Person *) unstdqueue_dequeue(queue, NULL);
     assert(dequeued_person->id == p1.id);
     assert(strcmp(dequeued_person->name, p1.name) == 0);
 
     // Test with a pointer to a struct
-    Person *p2 = (Person *)malloc(sizeof(Person));
+    Person *p2 = (Person *) malloc(sizeof(Person));
     p2->id = 2;
     strcpy(p2->name, "Jane Doe");
     assert(unstdqueue_enqueue(queue, p2) == 1);
-    Person *dequeued_person_ptr = (Person *)unstdqueue_dequeue(queue, NULL);
+    Person *dequeued_person_ptr = (Person *) unstdqueue_dequeue(queue, NULL);
     assert(dequeued_person_ptr->id == p2->id);
     assert(strcmp(dequeued_person_ptr->name, p2->name) == 0);
     free(dequeued_person_ptr);
 
     // Test with a dynamically allocated array
-    int *dynamic_array = (int *)malloc(3 * sizeof(int));
+    int *dynamic_array = (int *) malloc(3 * sizeof(int));
     dynamic_array[0] = 1;
     dynamic_array[1] = 2;
     dynamic_array[2] = 3;
     assert(unstdqueue_enqueue(queue, dynamic_array) == 1);
-    int *dequeued_array = (int *)unstdqueue_dequeue(queue, NULL);
+    int *dequeued_array = (int *) unstdqueue_dequeue(queue, NULL);
     assert(dequeued_array[0] == 1);
     assert(dequeued_array[1] == 2);
     assert(dequeued_array[2] == 3);
@@ -279,7 +306,7 @@ void test_unstdqueue_with_various_data_types(void) {
     // Test with a string literal
     char *string_literal = "Hello, Queue!";
     assert(unstdqueue_enqueue(queue, string_literal) == 1);
-    char *dequeued_string = (char *)unstdqueue_dequeue(queue, NULL);
+    char *dequeued_string = (char *) unstdqueue_dequeue(queue, NULL);
     assert(strcmp(dequeued_string, string_literal) == 0);
 
     // Clean up

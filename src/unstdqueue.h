@@ -1,3 +1,6 @@
+#ifndef UNSTDLIB_UNSTDQUEUE_H
+#define UNSTDLIB_UNSTDQUEUE_H
+
 #include "_unstdcommon.h"
 #include <stdatomic.h>
 
@@ -7,11 +10,9 @@ typedef struct unstdqueue_node unstdqueue_node;
 /* Structure representing the queue itself */
 typedef struct unstdqueue_t {
     atomic_ulong current_size;        // Current number of items in the queue
-    atomic_ulong allocated_size;      // Number of nodes allocated (used for pre-allocation)
     u64t max_capacity;                // Maximum number of items the queue can hold
     unstdqueue_node *head;            // Pointer to the first node in the queue
     unstdqueue_node *tail;            // Pointer to the last node in the queue
-    unstdqueue_node *free_list;       // Pointer to the list of free (unused) nodes
 } unstdqueue_t;
 
 /**
@@ -34,6 +35,25 @@ extern unstdqueue_t *unstdqueue_init(
 );
 
 /**
+ * @internal This function should not be called directly (don't play around with it if you have no idea what you are doing).
+ * @brief Allocates a new node for the queue.
+ * @details This function creates a new node for the queue. The node's `data` field is initialized to
+ *          point to the buffer passed in `buffer_arg`. The `next` pointer is set to `NULL`.
+ *          This function is used internally to manage nodes within the queue structure.
+ *          Be aware that this function assumes `buffer_arg` is a valid pointer.
+ *          It does not perform checks on the validity of the data pointed to by `buffer_arg`.
+ * @param buffer_arg Should be a pointer to the data that the new node will hold.<br><br>
+ *                   <strong>Minimum buffer_arg length</strong>: N/A (any non-null pointer is acceptable
+ *                   as this is a pointer to the data, not the data itself).
+ * @returns A pointer to the newly allocated `unstdqueue_node` on success, or `NULL` if allocation fails.
+ * @retval [valid pointer] Success. A pointer to the newly allocated `unstdqueue_node`.
+ * @retval [NULL] Failure. <code>malloc()</code> failed.
+ */
+unstdqueue_node *_unstdqueue_allocate_node(
+        void *const buffer_arg
+);
+
+/**
  * @brief Enqueues an item into the queue.
  * @param queue_arg Pointer to the queue structure.
  * @param buffer_arg Pointer to the data to enqueue.
@@ -41,7 +61,7 @@ extern unstdqueue_t *unstdqueue_init(
  * @retval [1] Success.
  * @retval [2] Insufficient parameter. `queue_arg` is NULL. See `queue_arg`.
  * @retval [3] Insufficient parameter. `buffer_arg` is NULL. See `buffer_arg`.
- * @retval [4] Failure. <code>memset()</code> failed.
+ * @retval [4] Failure. <code>_unstdqueue_allocate_node()</code> failed.
  * @retval [5] Error. Queue is full (max_capacity reached).
  */
 extern u8t unstdqueue_enqueue(
@@ -127,3 +147,5 @@ void *unstdqueue_peek(
 u8t unstdqueue_free(
         unstdqueue_t *const queue_arg
 );
+
+#endif /* UNSTDLIB_UNSTDQUEUE_H */

@@ -19,15 +19,15 @@ unstdqueue_t *unstdqueue_init(u64t preallocate_size_arg, const u64t max_capacity
     }
 
     atomic_init(&queue->current_size, 0);
-    atomic_init(&queue->allocated_size, 0);
     queue->max_capacity = max_capacity_arg;
     queue->head = NULL;
     queue->tail = NULL;
-    queue->free_list = NULL;
 
     if (max_capacity_arg > 0 && preallocate_size_arg > max_capacity_arg) {
         preallocate_size_arg = max_capacity_arg;
     }
+
+    unstdqueue_node *current_node = NULL;
 
     for (u64t i = 0; i < preallocate_size_arg; ++i) {
         unstdqueue_node *node = (unstdqueue_node *) malloc(sizeof(unstdqueue_node));
@@ -39,10 +39,17 @@ unstdqueue_t *unstdqueue_init(u64t preallocate_size_arg, const u64t max_capacity
             return NULL;
         }
         node->data = NULL;
-        node->next = queue->free_list;
-        queue->free_list = node;
-        atomic_fetch_add(&queue->allocated_size, 1);
+        node->next = NULL;
+
+        if (current_node) {
+            current_node->next = node;
+        } else {
+            queue->head = node;
+        }
+        current_node = node;
     }
+
+    queue->tail = queue->head;
 
     if (out_error_arg) {
         *out_error_arg = 1;
@@ -51,42 +58,75 @@ unstdqueue_t *unstdqueue_init(u64t preallocate_size_arg, const u64t max_capacity
     return queue;
 }
 
+unstdqueue_node *_unstdqueue_allocate_node(void *const buffer_arg) {
+    unstdqueue_node *node = (unstdqueue_node *) malloc(sizeof(unstdqueue_node));
+    if (!node) {
+        return NULL;
+    }
+
+    node->data = (void *) buffer_arg;
+    node->next = NULL;
+
+    return node;
+}
 
 u8t unstdqueue_enqueue(unstdqueue_t *const queue_arg, void *const buffer_arg) {
     if (!queue_arg) {
         return 2;
     }
 
-    if (!buffer_arg) {
-        return 3;
-    }
-
     if (queue_arg->max_capacity > 0 && atomic_load(&queue_arg->current_size) >= queue_arg->max_capacity) {
         return 5;
     }
 
-    unstdqueue_node *node;
-    if (queue_arg->free_list) {
-        node = queue_arg->free_list;
-        queue_arg->free_list = queue_arg->free_list->next;
+    // Pre-allocate
+    if (queue_arg->tail) {
+        if (atomic_load(&queue_arg->current_size) <= 0) {
+            queue_arg->tail->data = buffer_arg;
+        } else {
+            if (queue_arg->tail->next) {
+                queue_arg->tail->data = buffer_arg;
+            } else {
+                unstdqueue_node *node = _unstdqueue_allocate_node(buffer_arg);
+                if (!node) {
+                    return 4;
+                }
+                queue_arg->tail->next = node;
+            }
+            queue_arg->tail = queue_arg->tail->next;
+        }
     } else {
-        node = (unstdqueue_node *) malloc(sizeof(unstdqueue_node));
+        unstdqueue_node *node = _unstdqueue_allocate_node(buffer_arg);
         if (!node) {
             return 4;
         }
-        atomic_fetch_add(&queue_arg->allocated_size, 1);
+        queue_arg->tail = node;
+        if (!queue_arg->head) {
+            queue_arg->head = node;
+        }
     }
 
-    node->data = buffer_arg;
-    node->next = NULL;
-
-    unstdqueue_node *prev_tail = queue_arg->tail;
-    if (prev_tail) {
-        prev_tail->next = node;
-    } else {
-        queue_arg->head = node;
-    }
-    queue_arg->tail = node;
+    //! Post-allocate
+//    if (queue_arg->tail) {
+//        queue_arg->tail->data = buffer_arg;
+//        if (!queue_arg->tail->next) {
+//            unstdqueue_node *node_empty = _unstdqueue_allocate_node(NULL);
+//            if (!node_empty) {
+//                return 4;
+//            }
+//            queue_arg->tail->next = node_empty;
+//        }
+//        queue_arg->tail = queue_arg->tail->next;
+//    } else {
+//        unstdqueue_node *node = _unstdqueue_allocate_node(buffer_arg);
+//        if (!node) {
+//            return 4;
+//        }
+//        queue_arg->tail = node;
+//        if (!queue_arg->head) {
+//            queue_arg->head = node;
+//        }
+//    }
 
     atomic_fetch_add(&queue_arg->current_size, 1);
 
@@ -117,13 +157,14 @@ void *unstdqueue_dequeue(unstdqueue_t *queue_arg, u8t *const out_error_arg) {
         queue_arg->tail = NULL;
     }
 
-    node->data = NULL;
-    node->next = queue_arg->free_list;
-    queue_arg->free_list = node;
+    free(node);
 
     atomic_fetch_sub(&queue_arg->current_size, 1);
 
-    if (out_error_arg) *out_error_arg = 1;
+    if (out_error_arg) {
+        *out_error_arg = 1;
+    }
+
     return data;
 }
 
@@ -188,13 +229,6 @@ u8t unstdqueue_free(unstdqueue_t *const queue_arg) {
     }
 
     unstdqueue_node *current = queue_arg->head;
-    while (current) {
-        unstdqueue_node *next = current->next;
-        free(current);
-        current = next;
-    }
-
-    current = queue_arg->free_list;
     while (current) {
         unstdqueue_node *next = current->next;
         free(current);
